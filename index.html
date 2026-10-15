@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- ========================================================================= -->
+  <!-- SEO & META TAGS AVANÇADOS                                                -->
+  <!-- ========================================================================= -->
+  <title>SunEco • Sua Energia. Seu Controle. Seu Futuro Limpo.</title>
+  <meta name="description" content="Reduza até 95% da sua conta de luz com a SunEco. Soluções inteligentes em energia solar fotovoltaica residencial, comercial e rural. Simulação gratuita em 1 minuto." />
+  <meta name="keywords" content="energia solar, suneco, placas solares, economia conta de luz, painel solar fotovoltaico, inversor solar, instalador solar homologado, financiamento energia solar" />
+  <meta name="author" content="SunEco Engenharia Solar" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#16A34A" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://suneco.eng.br/" />
+  <meta property="og:title" content="SunEco • Sua Energia. Seu Controle. Seu Futuro Limpo." />
+  <meta property="og:description" content="Simule sua economia de até 95% na conta de luz. Mais de 10.000 instalações concluídas com 25 anos de garantia." />
+  <meta property="og:image" content="assets/solar-island-transparent.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SunEco • Engenharia Fotovoltaica Inteligente" />
+  <meta name="twitter:description" content="Zere sua conta de luz com energia solar fotovoltaica homologada." />
+  <meta name="twitter:image" content="assets/solar-island-transparent.png" />
+
+  <!-- Schema.org JSON-LD para SEO Local & Empresa de Engenharia -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "SunEco Energia Solar",
+    "image": "assets/solar-island-transparent.png",
+    "telephone": "+5532999292311",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Barão do Rio Branco, 2500",
+      "addressLocality": "Juiz de Fora",
+      "addressRegion": "MG",
+      "postalCode": "36010-000",
+      "addressCountry": "BR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -21.758456,
+      "longitude": -43.351234
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "10000"
+    }
+  }
+  </script>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Three.js & OrbitControls for Real 3D WebGL Diorama -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind Configuração SunEco (Cores e Estilos Exatos do Design) -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            suneco: {
+              green: '#16A34A',
+              greenDark: '#15803D',
+              greenLight: '#22C55E',
+              greenSoft: '#DCFCE7',
+              dark: '#0F172A',
+              darker: '#0A0F1D',
+              cardDark: '#111C2E',
+              forestDark: '#051814',
+              forestCard: '#0A261F',
+              forestCardHover: '#133D32',
+              grayBg: '#F8FAFC',
+              borderLight: '#E2E8F0',
+              sun: '#FBBF24',
+              gold: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            outfit: ['"Outfit"', 'sans-serif']
+          },
+          boxShadow: {
+            'suneco-card': '0 20px 45px -15px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(0, 0, 0, 0.04)',
+            'suneco-glow': '0 10px 30px -5px rgba(22, 163, 74, 0.3)',
+            'floating-badge': '0 20px 35px -10px rgba(0, 0, 0, 0.12), 0 0 1px 1px rgba(0, 0, 0, 0.06)',
+            'forest-card': '0 20px 40px -15px rgba(5, 24, 20, 0.6)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* CSS Base & Reset */
+    html, body {
+      background-color: #F8FAFC;
+      color: #0F172A;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1F5F9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #16A34A;
+    }
+
+    /* Gradient Texts */
+    .text-suneco-gradient {
+      color: #16A34A;
+    }
+
+    /* Range Slider Styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+    input[type=range]:focus {
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      background: #E2E8F0;
+      border-radius: 9999px;
+      border: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      background: #16A34A;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -8px;
+      box-shadow: 0 0 15px rgba(22, 163, 74, 0.6), 0 2px 5px rgba(0,0,0,0.2);
+      border: 3px solid #FFFFFF;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 22px rgba(22, 163, 74, 0.9);
+    }
+
+    /* Floating Animation for Metric Card */
+    @keyframes float-badge {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
+    }
+    .animate-float {
+      animation: float-badge 3.5s ease-in-out infinite;
+    }
+
+    /* Poweris Expandable Pillars Microinteraction */
+    .pillar-card {
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pillar-card.active, .pillar-card:hover {
+      background-color: #15803D !important;
+      transform: translateY(-4px);
+      box-shadow: 0 20px 35px -10px rgba(22, 163, 74, 0.4);
+    }
+    .pillar-card.active .pillar-desc, .pillar-card:hover .pillar-desc {
+      opacity: 1 !important;
+      max-height: 180px !important;
+      margin-top: 10px !important;
+    }
+    .pillar-card.active .pillar-link, .pillar-card:hover .pillar-link {
+      opacity: 1 !important;
+      max-height: 35px !important;
+      margin-top: 12px !important;
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/css/motion-core.css">
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+
+  <style>
+    /* Cult UI Shimmer Microinteraction */
+    .shimmer-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    .shimmer-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(60deg, rgba(255,255,255,0) 20%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 80%);
+      transform: rotate(25deg);
+      animation: shimmerSweep 4s infinite ease-in-out;
+    }
+    @keyframes shimmerSweep {
+      0% { left: -60%; }
+      30% { left: 140%; }
+      100% { left: 140%; }
+    }
+  </style>
+
+</head>
+<body class="bg-[#F8FAFC] text-slate-900 antialiased selection:bg-green-600 selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- TOP ANNOUNCEMENT BAR (URGÊNCIA & VALOR)                                   -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#0F172A] text-white py-2 px-4 text-center text-xs sm:text-sm font-semibold tracking-wide flex items-center justify-center gap-2">
+    <span class="inline-flex items-center justify-center bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider">
+      <i class="fa-solid fa-bolt-lightning mr-1"></i> AVISO TARIFÁRIO 2026
+    </span>
+    <span>A conta de luz vai subir! Congele seus custos e <strong>economize até 95%</strong> com a SunEco.</span>
+    <a href="#simulador" class="hidden sm:inline-flex items-center gap-1 text-green-400 hover:text-green-300 font-bold ml-1 underline">
+      Simule Agora <i class="fa-solid fa-arrow-right text-xs"></i>
+    </a>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- HEADER / NAVBAR (ESTILO SUNECO 100% FIEL AO DESIGN)                       -->
+  <!-- ========================================================================= -->
+  <header id="main-header" class="sticky top-0 z-50 bg-[#F8FAFC]/95 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo SunEco (Símbolo Verde de Sol + Tipografia SunEco) -->
+        <a href="#inicio" class="flex items-center gap-2.5 group">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-green-600 group-hover:scale-105 transition-transform duration-300">
+            <svg class="w-8 h-8 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4" fill="#16A34A" stroke="none" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke="#16A34A" />
+            </svg>
+          </div>
+          <span class="company-name font-outfit font-extrabold text-2xl tracking-tight text-slate-900 block leading-none">
+            Sun<span class="text-green-600 font-black">Eco</span>
+          </span>
+        </a>
+
+        <!-- Desktop Navigation Links (Home, Solutions, Services, How we work, Contact) -->
+        <nav class="hidden lg:flex items-center gap-9 text-sm font-semibold text-slate-600">
+          <a href="#inicio" class="text-slate-900 font-bold hover:text-green-600 transition-colors">Início</a>
+          <a href="#simulador" class="hover:text-green-600 transition-colors flex items-center gap-1">
+            <span>Simulador</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+          </a>
+          <a href="#segmentos" class="hover:text-green-600 transition-colors">Soluções</a>
+          <a href="#poweris-pillars" class="hover:text-green-600 transition-colors">Como Funciona</a>
+          <a href="#objecoes" class="hover:text-green-600 transition-colors">Mitos & Fatos</a>
+          <a href="#contato" class="hover:text-green-600 transition-colors">Contato</a>
+        </nav>
+
+        <!-- Right Button: Black Pill with Arrow (Get Started ↗) -->
+        <div class="hidden sm:flex items-center gap-4">
+          <a href="#simulador" class="bg-[#0F172A] hover:bg-black text-white font-outfit font-bold text-sm px-6 py-2.5 rounded-full shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2">
+            <span>Começar Agora</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-green-400"></i>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="lg:hidden text-slate-700 hover:text-slate-900 p-2 text-xl focus:outline-none" aria-label="Abrir Menu">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-6 py-6 space-y-4 shadow-xl">
+      <a href="#inicio" class="mobile-link block text-base font-bold text-slate-900 hover:text-green-600">Início</a>
+      <a href="#simulador" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Simulador de Economia</a>
+      <a href="#segmentos" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Soluções (Residencial, Comercial, Agro)</a>
+      <a href="#poweris-pillars" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Como Funciona & Pilares</a>
+      <a href="#objecoes" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Mitos vs Fatos</a>
+      <a href="#contato" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Contato & Showroom</a>
+      
+      <div class="pt-4 border-t border-slate-100">
+        <a href="#simulador" class="w-full text-center bg-[#0F172A] hover:bg-black text-white font-outfit font-extrabold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2">
+          <span>Começar Agora</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-xs text-green-400"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- HERO SECTION (3D INTERATIVO: DIORAMA COM PARALLAX, TURBINAS E MÉTRICAS)  -->
+  <!-- ========================================================================= -->
+  <section id="inicio" class="relative pt-8 pb-16 lg:pt-12 lg:pb-24 overflow-hidden bg-[#F8FAFC]">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Left Column: Headline, Copy, Action Buttons & Ratings -->
+        <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+          
+          <!-- Badge Verde: 🟢 10K+ Installations Completed -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E2F7E9] border border-green-200 text-green-800 text-xs sm:text-sm font-bold tracking-wide">
+            <span class="w-2.5 h-2.5 rounded-full bg-green-600 animate-pulse"></span>
+            <span>+10.000 Instalações Concluídas com Sucesso</span>
+          </div>
+
+          <!-- Main Title: Your Energy. Your Control. Your Clean Future. -->
+          <h1 class="font-outfit font-black text-4xl sm:text-5xl xl:text-[3.5rem] text-slate-900 tracking-tight leading-[1.08]">
+            Sua Energia.<br />
+            Seu Controle.<br />
+            <span class="text-green-600">Seu Futuro Limpo.</span>
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0 font-normal">
+            Mude para soluções de energia sustentável e inteligente que reduzem até 95% da sua conta de luz, protegem o planeta e garantem o futuro da sua casa ou empresa.
+          </p>
+
+          <!-- CTAs: Começar Agora ↗ & Como Funciona -->
+          <div class="flex flex-col sm:flex-row items-center gap-4 pt-2 justify-center lg:justify-start">
+            <a href="#simulador" class="w-full sm:w-auto text-center bg-[#0F172A] hover:bg-black text-white font-outfit font-bold text-base px-8 py-3.5 rounded-full shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+              <span>Começar Agora</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs text-green-400"></i>
+            </a>
+
+            <a href="#poweris-pillars" class="w-full sm:w-auto text-center bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-outfit font-bold text-base px-6 py-3.5 rounded-full transition-all duration-300 flex items-center justify-center gap-2.5 shadow-sm">
+              <i class="fa-solid fa-circle-play text-slate-900 text-lg"></i>
+              <span>Ver Demonstração</span>
+            </a>
+          </div>
+
+          <!-- Rating Stars & Trust Proof -->
+          <div class="flex items-center gap-3 pt-3 justify-center lg:justify-start">
+            <div class="flex items-center gap-1 text-yellow-400 text-sm">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <span class="font-outfit font-black text-slate-900 text-base">4.9</span>
+            <span class="text-xs text-slate-500 border-l border-slate-300 pl-3">
+              Confiado por mais de <strong>10.000 proprietários</strong>
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Right Column: CLEAN STATIC 3D SOLAR HOUSE DIORAMA WITH GENTLE AMBIENT SUN -->
+        <div class="lg:col-span-6 relative flex justify-center items-center">
+          
+          <!-- Stage Wrapper (100% natural transparent blend) -->
+          <div id="hero-solar-stage" class="relative w-full max-w-[560px] flex items-center justify-center select-none">
+            
+            <!-- Animated Gentle Sun Aura & Soft Solar Beams Canvas (Placed behind and around house) -->
+            <canvas id="solar-sun-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+            <!-- Floating Top-Left Status Badge -->
+            <div class="absolute top-2 left-2 sm:left-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-200/80 shadow-sm flex items-center gap-2 z-30 pointer-events-none">
+              <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
+              <span class="text-xs font-bold text-slate-800 font-outfit tracking-wide">Placas 580W N-Type • Ativas</span>
+            </div>
+
+            <!-- Floating Top-Right Metric Card (Energia Gerada 1.4 MW) -->
+            <div id="floating-metric-card" class="absolute top-2 right-2 sm:-right-2 bg-white/95 backdrop-blur-md text-slate-900 rounded-2xl p-3.5 sm:p-4 shadow-floating-badge border border-slate-200/80 animate-float z-30 pointer-events-none">
+              <div class="flex items-center gap-3">
+                <div class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#E2F7E9] flex items-center justify-center text-green-600 text-lg sm:text-xl font-bold">
+                  <i class="fa-solid fa-bolt"></i>
+                  <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-green-500 animate-ping"></span>
+                  <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-white"></span>
+                </div>
+                <div>
+                  <span class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Geração em Tempo Real</span>
+                  <div class="flex items-baseline gap-2">
+                    <span id="live-power-watts" class="font-outfit font-extrabold text-lg sm:text-xl text-slate-900">1.4 MW</span>
+                    <span class="text-[10px] sm:text-[11px] font-bold text-green-600 flex items-center">
+                      <i class="fa-solid fa-arrow-trend-up mr-0.5 text-[10px]"></i> +18% este mês
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Completely Static 3D Solar House Diorama (Zero Tilt / Zero Floating Animation / Pure Base) -->
+            <div id="hero-solar-card" class="relative z-10 w-full flex items-center justify-center">
+              <img 
+                id="hero-solar-img"
+                src="assets/solar-house-diorama.png" 
+                alt="Casa Sustentável SunEco com Placas Solares e Vegetação" 
+                class="w-full max-w-[540px] h-auto object-contain pointer-events-none select-none"
+              />
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Brand Logos Bar (TESLA, SolarEdge, LG, Schneider, LONGi, Growatt) -->
+      <div class="mt-16 pt-8 border-t border-slate-200 flex flex-wrap items-center justify-center sm:justify-between gap-6 opacity-75 grayscale hover:grayscale-0 transition-all duration-500">
+        <div class="font-outfit font-black text-sm tracking-widest text-slate-800 flex items-center gap-1.5">
+          <i class="fa-solid fa-bolt text-xs"></i> TESLA
+        </div>
+        <div class="font-outfit font-bold text-sm tracking-widest text-slate-800">solar<span class="font-black">edge</span></div>
+        <div class="font-outfit font-black text-sm tracking-widest text-slate-800">LG SOLAR</div>
+        <div class="font-outfit font-bold text-sm tracking-widest text-slate-800">Schneider Electric</div>
+        <div class="font-outfit font-black text-sm tracking-widest text-slate-800">LONGi</div>
+        <div class="font-outfit font-bold text-sm tracking-widest text-slate-800">GROWATT</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION: POWERIS INTERACTIVE EXPANDABLE PILLARS ("O QUE É A SUNECO?")     -->
+  <!-- ========================================================================= -->
+  <section id="poweris-pillars" class="py-24 bg-[#051814] text-white relative border-y border-emerald-900/40 overflow-hidden">
+    
+    <!-- Ambient Forest Orbs -->
+    <div class="absolute top-10 right-10 w-96 h-96 bg-green-500/10 blur-[140px] rounded-full pointer-events-none"></div>
+    <div class="absolute bottom-10 left-10 w-96 h-96 bg-emerald-600/10 blur-[140px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Section Title & Arrows -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16">
+        <div class="lg:col-span-8 space-y-3">
+          <span class="text-green-400 font-bold text-xs uppercase tracking-widest bg-green-500/20 border border-green-500/30 px-3.5 py-1.5 rounded-full inline-block">
+            Tecnologia Sustentável
+          </span>
+          <h2 class="font-outfit font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+            O que é a Plataforma SunEco?
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+            A SunEco é uma solução revolucionária de produção e gestão ecológica de energia fotovoltaica. Baseada em um sistema descentralizado e inteligente, adaptado para máxima economia e autonomia da sua comunidade ou empresa.
+          </p>
+        </div>
+
+        <div class="lg:col-span-4 flex justify-start lg:justify-end gap-2">
+          <button id="pillar-prev-btn" class="w-10 h-10 rounded-full bg-white/10 hover:bg-green-600 text-white flex items-center justify-center transition border border-white/10" aria-label="Anterior">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+          </button>
+          <button id="pillar-next-btn" class="w-10 h-10 rounded-full bg-white/10 hover:bg-green-600 text-white flex items-center justify-center transition border border-white/10" aria-label="Próximo">
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3 Expandable Cards + Lateral Keypoints Panel Grid (Poweris Motion UI) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- 3 Interactive Cards Container -->
+        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-5">
+          
+          <!-- Pillar 1: Energy Decentralization -->
+          <div class="pillar-card active bg-[#0A261F] border border-emerald-800/40 rounded-3xl p-6 cursor-pointer flex flex-col justify-between min-h-[290px]" data-pillar="1">
+            <div>
+              <div class="card-lift w-14 h-14 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-yellow-400 text-2xl mb-6 shadow-inner">
+                <i class="fa-solid fa-diagram-project"></i>
+              </div>
+              <h3 class="font-outfit font-bold text-xl text-white">Descentralização Energética</h3>
+              <p class="pillar-desc text-slate-200 text-xs sm:text-sm leading-relaxed transition-all duration-300">
+                Uma abordagem inovadora de produção no próprio imóvel, armazenamento e independência da rede convencional da concessionária.
+              </p>
+            </div>
+            <div class="pillar-link text-xs font-black uppercase tracking-wider text-yellow-300 flex items-center gap-1.5 pt-2">
+              <span>Saiba mais</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </div>
+          </div>
+
+          <!-- Pillar 2: Eco-Friendly Sustainability -->
+          <div class="pillar-card bg-[#0A261F] border border-emerald-800/40 rounded-3xl p-6 cursor-pointer flex flex-col justify-between min-h-[290px]" data-pillar="2">
+            <div>
+              <div class="card-lift w-14 h-14 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-green-400 text-2xl mb-6 shadow-inner">
+                <i class="fa-solid fa-seedling"></i>
+              </div>
+              <h3 class="font-outfit font-bold text-xl text-white">Sustentabilidade Eco-Friendly</h3>
+              <p class="pillar-desc text-slate-200 text-xs sm:text-sm leading-relaxed transition-all duration-300 max-h-0 opacity-0 overflow-hidden">
+                100% livre de emissões de carbono. Produza eletricidade limpa por mais de 25 anos preservando o meio ambiente e valorizando seu imóvel.
+              </p>
+            </div>
+            <div class="pillar-link text-xs font-black uppercase tracking-wider text-yellow-300 flex items-center gap-1.5 pt-2 max-h-0 opacity-0 overflow-hidden">
+              <span>Saiba mais</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </div>
+          </div>
+
+          <!-- Pillar 3: Power Exchange -->
+          <div class="pillar-card bg-[#0A261F] border border-emerald-800/40 rounded-3xl p-6 cursor-pointer flex flex-col justify-between min-h-[290px]" data-pillar="3">
+            <div>
+              <div class="card-lift w-14 h-14 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-yellow-400 text-2xl mb-6 shadow-inner">
+                <i class="fa-solid fa-arrows-rotate"></i>
+              </div>
+              <h3 class="font-outfit font-bold text-xl text-white">Compensação de Energia</h3>
+              <p class="pillar-desc text-slate-200 text-xs sm:text-sm leading-relaxed transition-all duration-300 max-h-0 opacity-0 overflow-hidden">
+                O excedente solar gerado durante o dia é injetado na rede e vira créditos automáticos para você usar à noite ou em meses chuvosos.
+              </p>
+            </div>
+            <div class="pillar-link text-xs font-black uppercase tracking-wider text-yellow-300 flex items-center gap-1.5 pt-2 max-h-0 opacity-0 overflow-hidden">
+              <span>Saiba mais</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Lateral Keypoints Panel (Estilo Poweris) -->
+        <div class="lg:col-span-4 bg-[#0A261F] border border-emerald-800/40 rounded-3xl p-8 space-y-6 shadow-forest-card">
+          <h4 class="font-outfit font-black text-2xl text-white">
+            Destaques da Plataforma
+          </h4>
+          
+          <ul class="space-y-3.5 text-sm text-slate-300">
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-green-400"></span>
+              <span>Monitoramento digital via app no celular</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-green-400"></span>
+              <span>Homologação 100% aprovada na concessionária</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-green-400"></span>
+              <span>Equipamentos Tier-1 com 25 anos de garantia</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-green-400"></span>
+              <span>Financiamento sem entrada em até 84 parcelas</span>
+            </li>
+          </ul>
+
+          <div class="pt-4 border-t border-white/10">
+            <a href="#simulador" class="w-full block text-center border-2 border-white/20 hover:border-green-400 hover:bg-green-600/20 text-white font-outfit font-bold text-sm py-3.5 rounded-full transition-all duration-300">
+              <i class="fa-solid fa-calculator mr-2 text-green-400"></i> Simular Minha Economia
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SIMULADOR SOLAR INTELIGENTE (LIGHT MODERN CARD UI)                         -->
+  <!-- ========================================================================= -->
+  <section id="simulador" class="py-24 bg-[#F8FAFC] relative border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="text-green-700 font-bold text-xs uppercase tracking-widest bg-green-100 border border-green-200 px-3.5 py-1.5 rounded-full inline-block mb-3">
+          Estudo Financeiro Instantâneo
+        </span>
+        <h2 class="font-outfit font-black text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight">
+          Simule a Economia do Seu Imóvel
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base mt-3">
+          Selecione o valor médio da sua conta de luz mensal e veja a potência sugerida, número de painéis e estimativa de economia em 25 anos:
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-suneco-card relative overflow-hidden">
+        
+        <!-- Slider Section -->
+        <div class="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-200/80 mb-8">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-baseline gap-2">
+            <label for="bill-range-input" class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+              Sua conta de luz mensal atual:
+            </label>
+            <div class="text-left sm:text-right">
+              <span id="bill-display-val" class="font-outfit font-black text-3xl sm:text-4xl text-green-600">
+                R$ 800
+              </span>
+              <span class="text-xs text-slate-500">/mês</span>
+            </div>
+          </div>
+
+          <input id="bill-range-input" type="range" min="250" max="8000" step="50" value="800" class="w-full cursor-pointer py-2" />
+
+          <!-- Quick Preset Pills -->
+          <div class="flex flex-wrap gap-2 pt-2">
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-white hover:bg-green-50 border border-slate-200 text-slate-700 font-semibold" data-val="350">R$ 350</button>
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-green-100 border border-green-500 text-green-900 font-bold active" data-val="800">R$ 800</button>
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-white hover:bg-green-50 border border-slate-200 text-slate-700 font-semibold" data-val="1500">R$ 1.500</button>
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-white hover:bg-green-50 border border-slate-200 text-slate-700 font-semibold" data-val="3000">R$ 3.000</button>
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-white hover:bg-green-50 border border-slate-200 text-slate-700 font-semibold" data-val="6000">R$ 6.000+</button>
+          </div>
+        </div>
+
+        <!-- 4 Metrics Dashboard Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
+            <span class="text-xs font-bold text-slate-500 block mb-1">
+              <i class="fa-solid fa-piggy-bank text-green-600 mr-1"></i> Economia em 1 Ano
+            </span>
+            <span id="res-annual-save" class="font-outfit font-black text-2xl text-green-600 block">R$ 9.120</span>
+          </div>
+
+          <div class="bg-green-50 border border-green-300 rounded-2xl p-4 text-center">
+            <span class="text-xs font-bold text-green-800 block mb-1">
+              <i class="fa-solid fa-coins text-amber-500 mr-1"></i> Economia em 25 Anos
+            </span>
+            <span id="res-25y-save" class="font-outfit font-black text-2xl text-green-700 block">R$ 228.000</span>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
+            <span class="text-xs font-semibold text-slate-500 block mb-1">Potência Estimada</span>
+            <span id="res-power-kwp" class="font-outfit font-bold text-xl text-slate-900 block">5.8 kWp</span>
+            <span id="res-panels-count" class="text-[10px] text-slate-500 block mt-0.5">~10 painéis</span>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
+            <span class="text-xs font-semibold text-slate-500 block mb-1">Payback Estimado</span>
+            <span id="res-payback" class="font-outfit font-bold text-xl text-amber-600 block">~3.2 Anos</span>
+            <span class="text-[10px] text-green-600 block mt-0.5 font-bold">Após isso, 100% lucro</span>
+          </div>
+
+        </div>
+
+        <!-- WhatsApp Instant CTA Button -->
+        <button id="sim-whatsapp-btn" type="button" onclick="openSolarBookingModal()" class="w-full text-center bg-green-600 hover:bg-green-500 text-white font-outfit font-extrabold text-base sm:text-lg py-4 rounded-2xl shadow-suneco-glow hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer">
+          <i class="fa-solid fa-calendar-check text-2xl"></i>
+          <span>AGENDAR ESTUDO DO MEU TELHADO & ECONOMIA NO WHATSAPP</span>
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION: SOLUÇÕES POR SEGMENTO (RESIDENCIAL / COMERCIAL / AGRO / IND)     -->
+  <!-- ========================================================================= -->
+  <section id="segmentos" class="py-24 bg-white relative border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="text-green-700 font-bold text-xs uppercase tracking-widest bg-green-100 border border-green-200 px-3.5 py-1.5 rounded-full inline-block mb-3">
+          Projetos Especializados
+        </span>
+        <h2 class="font-outfit font-black text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight">
+          Soluções para Cada Tipo de Imóvel
+        </h2>
+      </div>
+
+      <!-- Segment Tabs Selector -->
+      <div class="flex flex-wrap justify-center gap-3 mb-12">
+        <button type="button" class="seg-tab active px-6 py-3 rounded-full font-outfit font-bold text-sm bg-green-600 text-white shadow-md transition-all flex items-center gap-2" data-target="seg-res">
+          <i class="fa-solid fa-house"></i> Residencial
+        </button>
+        <button type="button" class="seg-tab px-6 py-3 rounded-full font-outfit font-bold text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all flex items-center gap-2" data-target="seg-com">
+          <i class="fa-solid fa-store"></i> Comercial & Serviços
+        </button>
+        <button type="button" class="seg-tab px-6 py-3 rounded-full font-outfit font-bold text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all flex items-center gap-2" data-target="seg-agro">
+          <i class="fa-solid fa-wheat-awn"></i> Agro & Rural
+        </button>
+        <button type="button" class="seg-tab px-6 py-3 rounded-full font-outfit font-bold text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all flex items-center gap-2" data-target="seg-ind">
+          <i class="fa-solid fa-industry"></i> Indústria & Usinas
+        </button>
+      </div>
+
+      <!-- Tab Content Containers -->
+      <div class="relative">
+        
+        <!-- Tab 1: Residencial -->
+        <div id="seg-res" class="seg-content block">
+          <div class="bg-[#F8FAFC] border border-slate-200 rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-suneco-card">
+            <div class="lg:col-span-6 relative h-64 lg:h-auto min-h-[350px]">
+              <img src="assets/solar-modern-house.jpg" alt="Energia Solar Residencial" class="w-full h-full object-cover" loading="lazy" decoding="async">
+              <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 text-xs text-green-700 font-bold shadow-sm">
+                <i class="fa-solid fa-location-dot mr-1"></i> Casas, Sobrados & Condomínios
+              </div>
+            </div>
+            <div class="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-center space-y-6">
+              <span class="text-green-700 font-bold text-xs uppercase tracking-wider">Conforto sem medo do ar-condicionado</span>
+              <h3 class="font-outfit font-black text-2xl sm:text-3xl text-slate-900">Energia Solar Residencial</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Use ar-condicionado, piscina aquecida, chuveiros e eletrodomésticos com tranquilidade. Proteja o orçamento da sua família das bandeiras tarifárias e valorize seu imóvel.
+              </p>
+              
+              <div class="grid grid-cols-2 gap-3 text-xs text-slate-700 font-semibold">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Instalação limpa em 1 dia</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> App no celular em tempo real</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Payback de 2,5 a 3,5 anos</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Valorização de até 30%</div>
+              </div>
+
+              <div class="pt-4">
+                <a href="#simulador" class="inline-flex items-center gap-2 bg-[#0F172A] hover:bg-black text-white font-outfit font-bold text-sm px-6 py-3.5 rounded-xl shadow-md transition-transform hover:scale-105">
+                  <span>Simular Projeto Residencial</span>
+                  <i class="fa-solid fa-arrow-right text-green-400"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Comercial -->
+        <div id="seg-com" class="seg-content hidden">
+          <div class="bg-[#F8FAFC] border border-slate-200 rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-suneco-card">
+            <div class="lg:col-span-6 relative h-64 lg:h-auto min-h-[350px]">
+              <img src="assets/solar-inverter-tech.jpg" alt="Energia Solar Comercial" class="w-full h-full object-cover" loading="lazy" decoding="async">
+              <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 text-xs text-green-700 font-bold shadow-sm">
+                <i class="fa-solid fa-location-dot mr-1"></i> Padarias, Mercados, Clínicas & Lojas
+              </div>
+            </div>
+            <div class="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-center space-y-6">
+              <span class="text-green-700 font-bold text-xs uppercase tracking-wider">Aumente sua margem de lucro</span>
+              <h3 class="font-outfit font-black text-2xl sm:text-3xl text-slate-900">Energia Solar Comercial</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                A energia elétrica é um dos maiores custos operacionais do comércio. Reduza esse custo a quase zero e invista a economia em expansão, marketing e estoque.
+              </p>
+              
+              <div class="grid grid-cols-2 gap-3 text-xs text-slate-700 font-semibold">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Redução imediata de custos</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Selo de Empresa Sustentável ESG</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Financiamento com carência</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Abatimento tributário</div>
+              </div>
+
+              <div class="pt-4">
+                <a href="#simulador" class="inline-flex items-center gap-2 bg-[#0F172A] hover:bg-black text-white font-outfit font-bold text-sm px-6 py-3.5 rounded-xl shadow-md transition-transform hover:scale-105">
+                  <span>Simular Projeto Comercial</span>
+                  <i class="fa-solid fa-arrow-right text-green-400"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Agro -->
+        <div id="seg-agro" class="seg-content hidden">
+          <div class="bg-[#F8FAFC] border border-slate-200 rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-suneco-card">
+            <div class="lg:col-span-6 relative h-64 lg:h-auto min-h-[350px]">
+              <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=1200&q=80" alt="Energia Solar Agropecuária" class="w-full h-full object-cover" loading="lazy" / decoding="async">
+              <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 text-xs text-green-700 font-bold shadow-sm">
+                <i class="fa-solid fa-location-dot mr-1"></i> Fazendas, Aviários, Pivôs & Laticínios
+              </div>
+            </div>
+            <div class="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-center space-y-6">
+              <span class="text-green-700 font-bold text-xs uppercase tracking-wider">Força máxima para o campo</span>
+              <h3 class="font-outfit font-black text-2xl sm:text-3xl text-slate-900">Energia Solar Rural & Agro</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Alimente bombas de irrigação, ordenhadeiras, climatizadores de granja e maquinários sem estourar o orçamento da safra. Linhas de crédito rurais com taxas subsidiadas (Pronaf/Pronamp/FCO).
+              </p>
+              
+              <div class="grid grid-cols-2 gap-3 text-xs text-slate-700 font-semibold">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Sistemas de Solo e Telhado</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Crédito Rural Facilitado</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Imunidade a picos de tarifa</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Suporte a Bombeamento Solar</div>
+              </div>
+
+              <div class="pt-4">
+                <a href="#simulador" class="inline-flex items-center gap-2 bg-[#0F172A] hover:bg-black text-white font-outfit font-bold text-sm px-6 py-3.5 rounded-xl shadow-md transition-transform hover:scale-105">
+                  <span>Simular Projeto Agro</span>
+                  <i class="fa-solid fa-arrow-right text-green-400"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Indústria -->
+        <div id="seg-ind" class="seg-content hidden">
+          <div class="bg-[#F8FAFC] border border-slate-200 rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-suneco-card">
+            <div class="lg:col-span-6 relative h-64 lg:h-auto min-h-[350px]">
+              <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?auto=format&fit=crop&w=1200&q=80" alt="Energia Solar Industrial" class="w-full h-full object-cover" loading="lazy" / decoding="async">
+              <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 text-xs text-green-700 font-bold shadow-sm">
+                <i class="fa-solid fa-location-dot mr-1"></i> Fábricas, Galpões & Usinas de Solo
+              </div>
+            </div>
+            <div class="lg:col-span-6 p-8 lg:p-12 flex flex-col justify-center space-y-6">
+              <span class="text-green-700 font-bold text-xs uppercase tracking-wider">Alta Tensão & Mercado Livre</span>
+              <h3 class="font-outfit font-black text-2xl sm:text-3xl text-slate-900">Energia Solar Industrial & Usinas</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Projetos de engenharia pesada em Média e Alta Tensão. Usinas dedicadas para autoconsumo remoto e redução de demanda contratada para grandes indústrias.
+              </p>
+              
+              <div class="grid grid-cols-2 gap-3 text-xs text-slate-700 font-semibold">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Projetos de Alta Potência (MWp)</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Gestão de Demanda e Fator de Potência</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Relatórios de Compliance ESG</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Monitoramento 24/7 com IA</div>
+              </div>
+
+              <div class="pt-4">
+                <a href="#simulador" class="inline-flex items-center gap-2 bg-[#0F172A] hover:bg-black text-white font-outfit font-bold text-sm px-6 py-3.5 rounded-xl shadow-md transition-transform hover:scale-105">
+                  <span>Simular Projeto Industrial</span>
+                  <i class="fa-solid fa-arrow-right text-green-400"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION: ENGENHARIA & VISTORIA TÉCNICA CERTIFICADA (PROMPT FLOW REAL ASSET) -->
+  <!-- ========================================================================= -->
+  <section class="reveal py-16 bg-[#051814] text-white relative overflow-hidden border-b border-emerald-900/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="bg-gradient-to-r from-[#0A261F] to-[#061713] border border-emerald-500/30 rounded-3xl p-8 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-2xl">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-xs font-bold uppercase tracking-wider">
+            <i class="fa-solid fa-clipboard-check"></i> Corpo Técnico Próprio & Certificado
+          </div>
+          <h2 class="font-outfit font-black text-3xl sm:text-4xl text-white tracking-tight">
+            Engenharia de Precisão e Vistoria com Tecnologia de Ponta
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            Nada de instalações amadoras ou risco estrutural no seu telhado. Cada projeto SunEco é assinado por engenheiros eletricistas credenciados pelo CREA, com cálculo milimétrico de incidência solar, inclinação e telemetria remota.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+            <div class="p-4 rounded-2xl bg-black/30 border border-white/10">
+              <div class="text-green-400 font-black text-2xl font-outfit counter-up" data-target="100%" class="counter-up" data-target="100%">100%</div>
+              <div class="text-xs text-slate-300 font-semibold mt-1">Homologação Garantida na Concessionária</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-yellow-400/10 border border-yellow-500/30">
+              <div class="text-yellow-400 font-black text-2xl font-outfit counter-up" data-target="25" class="counter-up" data-target="25 Anos">25 Anos</div>
+              <div class="text-xs text-slate-300 font-semibold mt-1">Garantia Linear de Eficiência</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
+              <div class="text-emerald-400 font-black text-2xl font-outfit">R$ 0</div>
+              <div class="text-xs text-slate-300 font-semibold mt-1">Custo para Vistoria Prévia no Local</div>
+            </div>
+          </div>
+          <div class="pt-2">
+            <button onclick="openVistoriaModal()" class="shimmer-btn card-lift inline-flex items-center gap-2.5 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-slate-950 font-outfit font-bold text-sm px-7 py-4 rounded-xl shadow-lg shadow-green-900/30 transition transform hover:scale-105">
+              <i class="fa-solid fa-calendar-check"></i>
+              <span>Solicitar Vistoria Técnica no Meu Imóvel</span>
+            </button>
+          </div>
+        </div>
+        <div class="lg:col-span-5 relative">
+          <div class="card-lift relative rounded-2xl overflow-hidden border border-emerald-500/40 shadow-2xl group">
+            <img src="assets/solar-engineer-tablet.jpg" alt="Engenheiro Eletricista SunEco inspecionando usina solar com tablet" class="w-full h-[380px] object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" decoding="async">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-emerald-200 text-slate-900 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] uppercase font-bold text-emerald-700 block">Vistoria e Diagnóstico</span>
+                <span class="text-xs font-bold font-outfit">Eng. Lucas Silveira • CREA 219.840-D</span>
+              </div>
+              <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-bold">Certificado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION: QUEBRA DE OBJEÇÕES (6 MITOS VS FATOS)                           -->
+  <!-- ========================================================================= -->
+  <section id="objecoes" class="py-24 bg-[#F8FAFC] relative border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-green-700 font-bold text-xs uppercase tracking-widest bg-green-100 border border-green-200 px-3.5 py-1.5 rounded-full inline-block mb-3">
+          Tire Todas as Suas Dúvidas
+        </span>
+        <h2 class="font-outfit font-black text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight">
+          Mitos vs. Fatos da Energia Solar
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Mito 1 -->
+        <div class="card-lift card-lift-emerald reveal bg-white border border-slate-200 rounded-3xl p-6 hover:border-green-500 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="w-12 h-12 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center text-green-600 text-xl mb-4">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+          <span class="text-rose-500 text-xs font-bold uppercase tracking-wider block mb-1">Mito 01</span>
+          <h3 class="font-outfit font-bold text-lg text-slate-900 mb-2">"Preciso ter muito dinheiro guardado"</h3>
+          <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            <strong class="text-green-600">FATO:</strong> 85% dos nossos clientes instalam <strong>sem entrada</strong>. O financiamento bancário tem parcelas menores ou iguais ao valor que você já gasta na conta de luz.
+          </p>
+        </div>
+
+        <!-- Mito 2 -->
+        <div class="card-lift card-lift-emerald reveal bg-white border border-slate-200 rounded-3xl p-6 hover:border-green-500 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="w-12 h-12 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center text-green-600 text-xl mb-4">
+            <i class="fa-solid fa-cloud-sun-rain"></i>
+          </div>
+          <span class="text-rose-500 text-xs font-bold uppercase tracking-wider block mb-1">Mito 02</span>
+          <h3 class="font-outfit font-bold text-lg text-slate-900 mb-2">"Em dias de chuva eu fico sem energia"</h3>
+          <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            <strong class="text-green-600">FATO:</strong> A tecnologia capta radiação difusa. Além disso, pelo sistema On-Grid, toda sobra de dias ensolarados vira crédito para usar à noite ou no inverno.
+          </p>
+        </div>
+
+        <!-- Mito 3 -->
+        <div class="card-lift card-lift-emerald reveal bg-white border border-slate-200 rounded-3xl p-6 hover:border-green-500 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="w-12 h-12 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center text-green-600 text-xl mb-4">
+            <i class="fa-solid fa-scale-balanced"></i>
+          </div>
+          <span class="text-rose-500 text-xs font-bold uppercase tracking-wider block mb-1">Mito 03</span>
+          <h3 class="font-outfit font-bold text-lg text-slate-900 mb-2">"Com a nova Lei 14.300 não compensa"</h3>
+          <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            <strong class="text-green-600">FATO:</strong> O retorno anual continua entre <strong>25% e 35% ao ano</strong> (muito acima do CDI e Poupança). O tempo de retorno aumentou apenas poucos meses.
+          </p>
+        </div>
+
+        <!-- Mito 4 -->
+        <div class="card-lift card-lift-emerald reveal bg-white border border-slate-200 rounded-3xl p-6 hover:border-green-500 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="w-12 h-12 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center text-green-600 text-xl mb-4">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+          </div>
+          <span class="text-rose-500 text-xs font-bold uppercase tracking-wider block mb-1">Mito 04</span>
+          <h3 class="font-outfit font-bold text-lg text-slate-900 mb-2">"Dá muita manutenção e quebra fácil"</h3>
+          <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            <strong class="text-green-600">FATO:</strong> Painéis não têm peças móveis e resistem a granizo pesado. A manutenção consiste em apenas uma simples lavagem com água uma vez ao ano.
+          </p>
+        </div>
+
+        <!-- Mito 5 -->
+        <div class="card-lift card-lift-emerald reveal bg-white border border-slate-200 rounded-3xl p-6 hover:border-green-500 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="w-12 h-12 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center text-green-600 text-xl mb-4">
+            <i class="fa-solid fa-house-chimney"></i>
+          </div>
+          <span class="text-rose-500 text-xs font-bold uppercase tracking-wider block mb-1">Mito 05</span>
+          <h3 class="font-outfit font-bold text-lg text-slate-900 mb-2">"Se eu me mudar, perco o investimento"</h3>
+          <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            <strong class="text-green-600">FATO:</strong> O sistema valoriza o imóvel em até 30%. Você também pode transferir a usina ou transferir os créditos de energia para a sua nova casa.
+          </p>
+        </div>
+
+        <!-- Mito 6 -->
+        <div class="card-lift card-lift-emerald reveal bg-white border border-slate-200 rounded-3xl p-6 hover:border-green-500 transition-all duration-300 shadow-sm hover:shadow-md">
+          <div class="w-12 h-12 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center text-green-600 text-xl mb-4">
+            <i class="fa-solid fa-stamp"></i>
+          </div>
+          <span class="text-rose-500 text-xs font-bold uppercase tracking-wider block mb-1">Mito 06</span>
+          <h3 class="font-outfit font-bold text-lg text-slate-900 mb-2">"A burocracia para aprovar demora"</h3>
+          <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            <strong class="text-green-600">FATO:</strong> Nossa equipe de engenheiros cuida de 100% da homologação, ART no CREA e vistorias na distribuidora com aprovação garantida.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- FAQ ACCORDION                                                             -->
+  <!-- ========================================================================= -->
+  <section id="faq" class="py-24 bg-white relative border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-16">
+        <span class="text-green-700 font-bold text-xs uppercase tracking-widest bg-green-100 border border-green-200 px-3.5 py-1.5 rounded-full inline-block mb-3">
+          Dúvidas Comuns
+        </span>
+        <h2 class="font-outfit font-black text-3xl sm:text-4xl text-slate-900 tracking-tight">
+          Perguntas Frequentes
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden">
+          <button class="faq-toggle w-full text-left p-5 flex items-center justify-between font-outfit font-bold text-base text-slate-900 hover:text-green-600 transition-colors">
+            <span>Como funciona a compensação de energia à noite ou em dias de chuva?</span>
+            <i class="fa-solid fa-chevron-down text-green-600 text-sm transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-200 pt-3">
+            O excedente solar gerado durante o dia é injetado na rede elétrica da distribuidora e vira créditos de energia válidos por até 60 meses. Você consome esses créditos automaticamente à noite sem custo adicional.
+          </div>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden">
+          <button class="faq-toggle w-full text-left p-5 flex items-center justify-between font-outfit font-bold text-base text-slate-900 hover:text-green-600 transition-colors">
+            <span>Qual é a garantia dos módulos e inversores?</span>
+            <i class="fa-solid fa-chevron-down text-green-600 text-sm transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-200 pt-3">
+            Os módulos solares contam com 25 a 30 anos de garantia linear de geração de energia (mínimo 84% de eficiência ao final do período). Os inversores contam com garantias de 5 a 10 anos com suporte nacional.
+          </div>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden">
+          <button class="faq-toggle w-full text-left p-5 flex items-center justify-between font-outfit font-bold text-base text-slate-900 hover:text-green-600 transition-colors">
+            <span>Posso abater a conta de outros imóveis?</span>
+            <i class="fa-solid fa-chevron-down text-green-600 text-sm transition-transform duration-300"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-200 pt-3">
+            Sim! Pela modalidade de Autoconsumo Remoto da ANEEL, você pode gerar energia no telhado da sua casa ou empresa e abater as faturas de outros imóveis no mesmo CPF ou CNPJ dentro do mesmo estado.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  
+  <!-- ========================================================================= -->
+  <!-- LOCALIZAÇÃO / MAPA DA CAPITAL DE SÃO PAULO                                -->
+  <!-- ========================================================================= -->
+  
+  <!-- ========================================================================= -->
+  <!-- SEÇÃO COMPARATIVA: ORIGINKIT MATRIX (POR QUE NOS ESCOLHER)                -->
+  <!-- ========================================================================= -->
+  <section id="comparativo-originkit" class="py-20 bg-[#060913] text-white border-t border-slate-800/80 relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
+          <i class="fa-solid fa-shield-check"></i> Transparência & Rigor Técnico
+        </span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+          Por Que Instalar Energia Solar com a SunEco?
+        </h2>
+        <p class="text-slate-400 text-xs sm:text-sm mt-3 leading-relaxed">
+          Economize até 95% na sua conta de luz com garantia de 25 anos de geração.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+        
+        <!-- Opções Comuns do Mercado -->
+        <div class="p-8 rounded-3xl bg-slate-900/60 border border-slate-800 shadow-lg flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-lg">
+                ✕
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-slate-300">Instaladores Amadores</h3>
+                <span class="text-[11px] text-slate-500 font-medium">Práticas comuns que geram dor de cabeça</span>
+              </div>
+            </div>
+            <ul class="space-y-4 text-slate-400 text-xs sm:text-sm leading-relaxed">
+            <li class="flex items-start gap-3"><span class="text-rose-500 font-bold">✕</span> <span>Inversores e placas solares de marcas genéricas sem assistência técnica local</span></li>
+            <li class="flex items-start gap-3"><span class="text-rose-500 font-bold">✕</span> <span>Erros de projeto e fiação que geram risco de curto-circuito e infiltração no telhado</span></li>
+            <li class="flex items-start gap-3"><span class="text-rose-500 font-bold">✕</span> <span>Demora de meses para homologação junto à concessionária de energia</span></li>
+            <li class="flex items-start gap-3"><span class="text-rose-500 font-bold">✕</span> <span>Falta de monitoramento em tempo real da produção de energia</span></li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-slate-800/80 text-[11px] text-slate-500 flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Risco de prejuízos e retrabalho para o cliente.
+          </div>
+        </div>
+
+        <!-- Nosso Padrão de Excelência -->
+        <div class="p-8 rounded-3xl bg-gradient-to-b from-slate-900 via-[#0D1527] to-slate-900 border-2 border-emerald-500/60 shadow-2xl relative flex flex-col justify-between ring-4 ring-emerald-500/10">
+          <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-black text-[10px] uppercase tracking-wider px-3.5 py-1 rounded-full shadow-lg">
+            Engenharia Certificada
+          </div>
+          <div>
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center font-bold text-lg shadow-sm">
+                ✓
+              </div>
+              <div>
+                <h3 class="text-lg font-black text-white">SunEco Solar OS</h3>
+                <span class="text-[11px] text-emerald-400 font-semibold">Compromisso formal com o seu resultado</span>
+              </div>
+            </div>
+            <ul class="space-y-4 text-xs sm:text-sm leading-relaxed">
+            <li class="flex items-start gap-3 text-emerald-400 font-medium"><span class="font-black text-emerald-400">✓</span> <span>Módulos solares tier-1 de alta eficiência com garantia de geração de 25 anos</span></li>
+            <li class="flex items-start gap-3 text-emerald-400 font-medium"><span class="font-black text-emerald-400">✓</span> <span>Engenheiros eletricistas próprios e equipe técnica com NR-10 e NR-35</span></li>
+            <li class="flex items-start gap-3 text-emerald-400 font-medium"><span class="font-black text-emerald-400">✓</span> <span>Homologação completa junto à Cemig/Enel sem burocracia para você</span></li>
+            <li class="flex items-start gap-3 text-emerald-400 font-medium"><span class="font-black text-emerald-400">✓</span> <span>Aplicativo no celular para monitorar sua economia e geração em tempo real</span></li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+            <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-check"></i> Garantia Contratual
+            </span>
+            <a href="https://wa.me/5532999292311?text=Olá!%20Gostaria%20de%20solicitar%20um%20estudo%20de%20economia%20para%20o%20meu%20imóvel." target="_blank" class="text-white hover:text-emerald-400 font-bold transition flex items-center gap-1">
+              <span>Saber Mais</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section id="localizacao" class="py-16 sm:py-20 bg-white border-t border-slate-100 text-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold mb-3">
+          <i class="fa-solid fa-location-dot text-rose-500"></i>
+          <span>Fácil Acesso na Capital de São Paulo</span>
+        </div>
+        <h2 class="font-bold text-2xl sm:text-3xl lg:text-4xl text-slate-900 tracking-tight">
+          Onde estamos localizados
+        </h2>
+        <p class="text-slate-500 text-xs sm:text-sm mt-2 leading-relaxed">
+          Centro de engenharia e atendimento para projetos de geração própria solar com até 95% de economia na sua fatura de energia.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        <!-- Info Card -->
+        <div class="lg:col-span-5 bg-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow border border-white/10">
+                <i class="fa-solid fa-solar-panel"></i>
+              </div>
+              <div>
+                <span class="font-bold text-lg text-white block">SunEco Engenharia</span>
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block">Energia Solar Fotovoltaica & Sustentabilidade</span>
+              </div>
+            </div>
+
+            <div class="space-y-3.5 pt-2 text-xs">
+              <div class="flex items-start gap-3">
+                <i class="fa-solid fa-map-pin text-rose-400 text-sm mt-0.5 shrink-0"></i>
+                <div>
+                  <strong class="text-white block font-bold">Endereço Principal:</strong>
+                  <span class="text-slate-300">Av. Paulista, 1000 - Bela Vista / Jardins, São Paulo - SP, CEP 01310-100</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <i class="fa-solid fa-train-subway text-emerald-400 text-sm mt-0.5 shrink-0"></i>
+                <div>
+                  <strong class="text-white block font-bold">Acesso por Metrô:</strong>
+                  <span class="text-slate-300">Apenas 250 metros da Estação Trianon-Masp (Linha 2 - Verde).</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <i class="fa-solid fa-square-parking text-blue-400 text-sm mt-0.5 shrink-0"></i>
+                <div>
+                  <strong class="text-white block font-bold">Estacionamento Conveniado:</strong>
+                  <span class="text-slate-300">Vaga coberta e manobrista no próprio edifício com comodidade.</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <i class="fa-solid fa-wheelchair text-amber-400 text-sm mt-0.5 shrink-0"></i>
+                <div>
+                  <strong class="text-white block font-bold">Acessibilidade Total:</strong>
+                  <span class="text-slate-300">Rampas e elevadores modernos adaptados para idosos e mobilidade reduzida.</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <i class="fa-regular fa-clock text-slate-300 text-sm mt-0.5 shrink-0"></i>
+                <div>
+                  <strong class="text-white block font-bold">Horário de Funcionamento:</strong>
+                  <span class="text-slate-300">Segunda a Sexta: 08h às 19h | Sábados: 08h às 14h</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row gap-3">
+            <a href="https://maps.google.com/?q=Av.+Paulista,+1000+-+Bela+Vista,+S%C3%A3o+Paulo+-+SP" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-center font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shadow">
+              <i class="fa-solid fa-route"></i>
+              <span>Como Chegar</span>
+            </a>
+            <a href="https://wa.me/5532999292311?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20a%20localiza%C3%A7%C3%A3o%20em%20S%C3%A3o%20Paulo%20(SunEco Engenharia)." target="_blank" rel="noopener noreferrer" class="py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-center font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition border border-white/15">
+              <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Google Maps Iframe -->
+        <div class="lg:col-span-7 rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-slate-100 min-h-[380px] lg:min-h-[440px] relative">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.098485293405!2d-46.6549887237894!3d-23.564903378796857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" 
+            width="100%" 
+            height="100%" 
+            style="border:0; min-height: 420px;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Localização SunEco Engenharia em São Paulo - SP"
+            class="w-full h-full"
+          ></iframe>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <footer id="contato" class="bg-[#0F172A] text-slate-400 py-16 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+        
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-7 h-7 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="4" fill="#16A34A" stroke="none" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke="#16A34A" />
+            </svg>
+            <span class="company-name font-outfit font-black text-2xl text-white tracking-tight">Sun<span class="text-green-500">Eco</span></span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
+            Engenharia de precisão em energia solar fotovoltaica. Economia sustentável, garantia estendida e homologação completa para sua casa e empresa.
+          </p>
+          <div class="flex items-center gap-3 pt-2">
+            <a href="https://instagram.com" target="_blank" class="company-instagram-link w-9 h-9 rounded-xl bg-white/5 border border-white/10 hover:border-pink-500 flex items-center justify-center text-gray-300 hover:text-pink-400 transition-colors" rel="noopener noreferrer">
+              <i class="fa-brands fa-instagram text-base"></i>
+            </a>
+            <a href="https://wa.me/5532999292311" target="_blank" class="wpp-contact-link w-9 h-9 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500 flex items-center justify-center text-gray-300 hover:text-emerald-400 transition-colors" rel="noopener noreferrer">
+              <i class="fa-brands fa-whatsapp text-base"></i>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-outfit font-bold text-white text-sm mb-4">Navegação</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="#inicio" class="hover:text-green-400 transition-colors">Início</a></li>
+            <li><a href="#simulador" class="hover:text-green-400 transition-colors">Simulador Solar</a></li>
+            <li><a href="#poweris-pillars" class="hover:text-green-400 transition-colors">Como Funciona</a></li>
+            <li><a href="#segmentos" class="hover:text-green-400 transition-colors">Soluções</a></li>
+            <li><a href="#objecoes" class="hover:text-green-400 transition-colors">Mitos & Fatos</a></li>
+            <li><a href="#faq" class="hover:text-green-400 transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-outfit font-bold text-white text-sm mb-4">Soluções</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="#segmentos" class="hover:text-green-400 transition-colors">Solar Residencial</a></li>
+            <li><a href="#segmentos" class="hover:text-green-400 transition-colors">Solar Comercial</a></li>
+            <li><a href="#segmentos" class="hover:text-green-400 transition-colors">Solar Rural & Agro</a></li>
+            <li><a href="#segmentos" class="hover:text-green-400 transition-colors">Usinas Industriais</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-outfit font-bold text-white text-sm mb-4">Contato</h4>
+          <ul class="space-y-2.5 text-xs text-gray-400">
+            <li class="flex items-center gap-2"><i class="fa-solid fa-phone text-green-400"></i> <span class="company-phone-display">(32) 99929-2311</span></li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-green-400"></i> contato@suneco.eng.br</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-green-400"></i> <span class="company-address-display">Juiz de Fora - MG</span></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+        <p>© <span id="current-year">2026</span> <strong class="text-white company-name">SUNECO ENERGIA SOLAR</strong>. Todos os direitos reservados.</p>
+        <p class="flex items-center gap-2">
+          <span>Tecnologia Solar Fotovoltaica de Alta Performance.</span>
+          <span>•</span>
+          <a href="admin/index.html" class="text-green-500 hover:text-green-400 font-bold transition flex items-center gap-1.5" title="Acesso Administrativo ao CRM">
+            <i class="fa-solid fa-lock text-[10px]"></i>
+            <span>Painel SunEco OS</span>
+          </a>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- FLOATING CTA BUTTONS (WHATSAPP & INSTAGRAM)                                -->
+  <!-- ========================================================================= -->
+  <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+    <a href="https://instagram.com" target="_blank" class="company-instagram-link w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-500 via-pink-600 to-purple-700 text-white flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all duration-300" rel="noopener noreferrer">
+      <i class="fa-brands fa-instagram text-xl"></i>
+    </a>
+    <a href="https://wa.me/5532999292311?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20simula%C3%A7%C3%A3o%20de%20energia%20solar." target="_blank" class="wpp-contact-link relative group w-14 h-14 rounded-full bg-green-600 hover:bg-green-500 text-white flex items-center justify-center shadow-2xl shadow-green-600/50 hover:scale-110 active:scale-95 transition-all duration-300" rel="noopener noreferrer">
+      <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-yellow-400 animate-ping"></span>
+      <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-yellow-400 border-2 border-white"></span>
+      <i class="fa-brands fa-whatsapp text-2xl"></i>
+    </a>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT MASTER                                                         -->
+  <!-- ========================================================================= -->
+  <script>
+    // ⚙️ Configuração Central da Empresa (Troca Rápida de Cliente)
+    const CONFIG_EMPRESA = {
+      nome: "SunEco Energia Solar",
+      slogan: "Sua Energia. Seu Controle. Seu Futuro Limpo.",
+      whatsappNumero: "5532999292311",
+      whatsappExibicao: "(32) 99929-2311",
+      instagramUrl: "https://instagram.com/sunecosolar",
+      instagramUsuario: "@sunecosolar",
+      endereco: "Av. Barão do Rio Branco, 2500 - Centro, Juiz de Fora - MG"
+    };
+
+    function aplicarConfiguracaoEmpresa() {
+      document.querySelectorAll('.company-name').forEach(el => {
+        if (!el.innerHTML.includes('span')) el.textContent = CONFIG_EMPRESA.nome;
+      });
+      document.querySelectorAll('.company-phone-display').forEach(el => el.textContent = CONFIG_EMPRESA.whatsappExibicao);
+      document.querySelectorAll('.company-address-display').forEach(el => el.textContent = CONFIG_EMPRESA.endereco);
+      document.querySelectorAll('.company-phone-link').forEach(el => el.href = `tel:${CONFIG_EMPRESA.whatsappNumero}`);
+      document.querySelectorAll('.company-instagram-link').forEach(el => el.href = CONFIG_EMPRESA.instagramUrl);
+      
+      const yr = document.getElementById('current-year');
+      if (yr) yr.textContent = new Date().getFullYear();
+    }
+
+    // Fórmulas de Engenharia Fotovoltaica do Simulador
+    const KWH_TARIFA = 0.95;
+    const HSP_SOL = 4.7;
+    const TAXA_MIN = 50;
+    const W_PAINEL = 580;
+
+    function calcularMetricas(contaVal) {
+      const conta = Math.max(150, parseFloat(contaVal) || 800);
+      const econMes = Math.max(0, conta - TAXA_MIN);
+      const econAno = econMes * 12;
+      const econ25 = econMes * 12 * 25;
+      const kwh = conta / KWH_TARIFA;
+      const kwp = (kwh / (HSP_SOL * 30 * 0.78));
+      const paineis = Math.max(4, Math.ceil((kwp * 1000) / W_PAINEL));
+
+      let payback = "~3.2 Anos";
+      if (conta < 400) payback = "~3.6 Anos";
+      else if (conta < 1200) payback = "~3.1 Anos";
+      else if (conta < 3000) payback = "~2.7 Anos";
+      else payback = "~2.3 Anos";
+
+      return { conta, econAno, econ25, kwp: kwp.toFixed(1), paineis, payback };
+    }
+
+    function formatMoeda(num) {
+      return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+    }
+
+    function atualizarSimulador(val) {
+      const d = calcularMetricas(val);
+      
+      const billDisp = document.getElementById('bill-display-val');
+      const saveAno = document.getElementById('res-annual-save');
+      const save25 = document.getElementById('res-25y-save');
+      const kwpDisp = document.getElementById('res-power-kwp');
+      const countDisp = document.getElementById('res-panels-count');
+      const paybackDisp = document.getElementById('res-payback');
+
+      if (billDisp) billDisp.textContent = formatMoeda(d.conta);
+      if (saveAno) saveAno.textContent = formatMoeda(d.econAno);
+      if (save25) save25.textContent = formatMoeda(d.econ25);
+      if (kwpDisp) kwpDisp.textContent = `${d.kwp} kWp`;
+      if (countDisp) countDisp.textContent = `~${d.paineis} painéis`;
+      if (paybackDisp) paybackDisp.textContent = d.payback;
+
+      const msg = encodeURIComponent(
+        `Olá! Fiz uma simulação na ${CONFIG_EMPRESA.nome} para uma conta de luz de ${formatMoeda(d.conta)}/mês.\n\n` +
+        `• Economia em 1 Ano: ${formatMoeda(d.econAno)}\n` +
+        `• Economia em 25 Anos: ${formatMoeda(d.econ25)}\n` +
+        `• Potência Estimada: ${d.kwp} kWp (~${d.paineis} placas)\n\n` +
+        `Gostaria de receber uma proposta formal para o meu imóvel!`
+      );
+
+      const wppBtn = document.getElementById('sim-whatsapp-btn');
+      if (wppBtn) wppBtn.href = `https://wa.me/${CONFIG_EMPRESA.whatsappNumero}?text=${msg}`;
+    }
+
+    // Poweris Interactive Pillars Microinteraction
+    function setupPowerisPillars() {
+      const cards = document.querySelectorAll('.pillar-card');
+      if (!cards.length) return;
+
+      let currentIndex = 0;
+
+      function setActivePillar(index) {
+        cards.forEach((c, idx) => {
+          const desc = c.querySelector('.pillar-desc');
+          const link = c.querySelector('.pillar-link');
+          if (idx === index) {
+            c.classList.add('active');
+            if (desc) { desc.style.maxHeight = '180px'; desc.style.opacity = '1'; }
+            if (link) { link.style.maxHeight = '35px'; link.style.opacity = '1'; }
+          } else {
+            c.classList.remove('active');
+            if (desc) { desc.style.maxHeight = '0px'; desc.style.opacity = '0'; }
+            if (link) { link.style.maxHeight = '0px'; link.style.opacity = '0'; }
+          }
+        });
+        currentIndex = index;
+      }
+
+      cards.forEach((card, idx) => {
+        card.addEventListener('mouseenter', () => setActivePillar(idx));
+        card.addEventListener('click', () => setActivePillar(idx));
+      });
+
+      const prevBtn = document.getElementById('pillar-prev-btn');
+      const nextBtn = document.getElementById('pillar-next-btn');
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          const prev = (currentIndex - 1 + cards.length) % cards.length;
+          setActivePillar(prev);
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          const next = (currentIndex + 1) % cards.length;
+          setActivePillar(next);
+        });
+      }
+    }
+
+    // =======================================================================
+    // ☀️ GENTLE AMBIENT SUN & SOFT SOLAR BEAMS (CONFORTÁVEL AOS OLHOS)
+    // =======================================================================
+    function initGentleSunCanvas() {
+      const canvas = document.getElementById('solar-sun-canvas');
+      const stage = document.getElementById('hero-solar-stage');
+      if (!canvas || !stage) return;
+
+      const ctx = canvas.getContext('2d');
+      let width = 0;
+      let height = 0;
+      let animationFrameId = null;
+
+      function resize() {
+        const rect = stage.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = rect.width;
+        height = rect.height;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.scale(dpr, dpr);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      // Sun Position (Warm source positioned at the upper right above the solar roof)
+      let time = 0;
+      const RAY_COUNT = 10;
+      const rays = [];
+      for (let i = 0; i < RAY_COUNT; i++) {
+        rays.push({
+          baseAngle: (i * (Math.PI * 2 / RAY_COUNT)),
+          width: 0.18 + Math.random() * 0.14,
+          speed: 0.0006 + Math.random() * 0.0004,
+          lengthMultiplier: 1.2 + Math.random() * 0.5,
+          pulseOffset: Math.random() * Math.PI * 2,
+          maxAlpha: 0.08 + Math.random() * 0.06
+        });
+      }
+
+      // Gentle floating golden solar dust motes
+      const motes = [];
+      const MOTE_COUNT = 16;
+      for (let i = 0; i < MOTE_COUNT; i++) {
+        motes.push({
+          x: Math.random() * (width || 500),
+          y: Math.random() * (height || 450),
+          radius: 1.0 + Math.random() * 1.8,
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: -0.25 - Math.random() * 0.45,
+          alpha: 0.12 + Math.random() * 0.35,
+          pulseSpeed: 0.02 + Math.random() * 0.03,
+          pulsePhase: Math.random() * Math.PI * 2
+        });
+      }
+
+      function render() {
+        time += 0.015;
+        ctx.clearRect(0, 0, width, height);
+
+        const sunX = width * 0.78;
+        const sunY = height * 0.15;
+        const sunMaxRadius = Math.max(width, height) * 0.75;
+
+        // 1. Soft Translucent God-Rays / Sunbeams (Gentle and Non-Aggressive)
+        rays.forEach((ray) => {
+          const currentAngle = ray.baseAngle + time * ray.speed;
+          const currentAlpha = ray.maxAlpha * (0.75 + 0.25 * Math.sin(time * 0.8 + ray.pulseOffset));
+          const rayLen = sunMaxRadius * ray.lengthMultiplier;
+
+          const leftAngle = currentAngle - ray.width * 0.5;
+          const rightAngle = currentAngle + ray.width * 0.5;
+
+          const p1x = sunX + Math.cos(leftAngle) * rayLen;
+          const p1y = sunY + Math.sin(leftAngle) * rayLen;
+          const p2x = sunX + Math.cos(rightAngle) * rayLen;
+          const p2y = sunY + Math.sin(rightAngle) * rayLen;
+
+          const rayGrad = ctx.createRadialGradient(sunX, sunY, 15, sunX, sunY, rayLen);
+          rayGrad.addColorStop(0, `rgba(254, 240, 138, ${currentAlpha * 0.9})`);
+          rayGrad.addColorStop(0.35, `rgba(251, 191, 36, ${currentAlpha * 0.5})`);
+          rayGrad.addColorStop(0.75, `rgba(245, 158, 11, ${currentAlpha * 0.15})`);
+          rayGrad.addColorStop(1, 'rgba(254, 240, 138, 0)');
+
+          ctx.fillStyle = rayGrad;
+          ctx.beginPath();
+          ctx.moveTo(sunX, sunY);
+          ctx.lineTo(p1x, p1y);
+          ctx.lineTo(p2x, p2y);
+          ctx.closePath();
+          ctx.fill();
+        });
+
+        // 2. Multi-Layered Soft Sun Core & Ambient Halo (Warm, Eye-Pleasing Glow)
+        const pulse = Math.sin(time * 0.6) * 6;
+        const coreRadius = 75 + pulse;
+        const auraGrad = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, coreRadius * 2.2);
+        auraGrad.addColorStop(0, 'rgba(254, 240, 138, 0.45)');
+        auraGrad.addColorStop(0.25, 'rgba(251, 191, 36, 0.22)');
+        auraGrad.addColorStop(0.6, 'rgba(245, 158, 11, 0.07)');
+        auraGrad.addColorStop(1, 'rgba(254, 240, 138, 0)');
+
+        ctx.fillStyle = auraGrad;
+        ctx.beginPath();
+        ctx.arc(sunX, sunY, coreRadius * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Inner soft sun disc
+        const innerSunGrad = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, 32);
+        innerSunGrad.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+        innerSunGrad.addColorStop(0.4, 'rgba(254, 240, 138, 0.65)');
+        innerSunGrad.addColorStop(0.85, 'rgba(251, 191, 36, 0.25)');
+        innerSunGrad.addColorStop(1, 'rgba(251, 191, 36, 0)');
+
+        ctx.fillStyle = innerSunGrad;
+        ctx.beginPath();
+        ctx.arc(sunX, sunY, 32, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 3. Delicate Floating Golden Sunlight Motes
+        motes.forEach(m => {
+          m.x += m.speedX;
+          m.y += m.speedY;
+          m.pulsePhase += m.pulseSpeed;
+
+          if (m.y < -10) {
+            m.y = height + 10;
+            m.x = Math.random() * width;
+          }
+          if (m.x < -10) m.x = width + 10;
+          if (m.x > width + 10) m.x = -10;
+
+          const currentAlpha = m.alpha * (0.6 + 0.4 * Math.sin(m.pulsePhase));
+          ctx.fillStyle = `rgba(251, 191, 36, ${currentAlpha})`;
+          ctx.beginPath();
+          ctx.arc(m.x, m.y, m.radius, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        animationFrameId = requestAnimationFrame(render);
+      }
+
+      render();
+
+      // Live Pulse Wattage Simulation
+      const wattsEl = document.getElementById('live-power-watts');
+      if (wattsEl) {
+        setInterval(() => {
+          const base = 1.4;
+          const delta = (Math.sin(Date.now() / 1400) * 0.04).toFixed(2);
+          const current = (base + parseFloat(delta)).toFixed(2);
+          wattsEl.textContent = `${current} MW`;
+        }, 1600);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      aplicarConfiguracaoEmpresa();
+      atualizarSimulador(800);
+      setupPowerisPillars();
+      initGentleSunCanvas();
+
+      // Range Input
+      const slider = document.getElementById('bill-range-input');
+      if (slider) {
+        slider.addEventListener('input', (e) => {
+          atualizarSimulador(e.target.value);
+          document.querySelectorAll('.sim-pill').forEach(b => {
+            b.classList.remove('active', 'bg-green-100', 'border-green-500', 'text-green-900', 'font-bold');
+            b.classList.add('bg-white', 'border-slate-200', 'text-slate-700', 'font-semibold');
+          });
+        });
+      }
+
+      // Preset Pills
+      document.querySelectorAll('.sim-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.sim-pill').forEach(b => {
+            b.classList.remove('active', 'bg-green-100', 'border-green-500', 'text-green-900', 'font-bold');
+            b.classList.add('bg-white', 'border-slate-200', 'text-slate-700', 'font-semibold');
+          });
+          btn.classList.add('active', 'bg-green-100', 'border-green-500', 'text-green-900', 'font-bold');
+          btn.classList.remove('bg-white', 'border-slate-200', 'text-slate-700');
+          const val = parseFloat(btn.getAttribute('data-val'));
+          if (slider) slider.value = val;
+          atualizarSimulador(val);
+        });
+      });
+
+      // Segment Tabs
+      const tabs = document.querySelectorAll('.seg-tab');
+      const contents = document.querySelectorAll('.seg-content');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => {
+            t.classList.remove('active', 'bg-green-600', 'text-white', 'shadow-md');
+            t.classList.add('bg-slate-100', 'text-slate-700', 'border', 'border-slate-200');
+          });
+          tab.classList.add('active', 'bg-green-600', 'text-white', 'shadow-md');
+          tab.classList.remove('bg-slate-100', 'text-slate-700', 'border', 'border-slate-200');
+
+          const target = tab.getAttribute('data-target');
+          contents.forEach(c => {
+            if (c.id === target) {
+              c.classList.remove('hidden');
+              c.classList.add('block');
+            } else {
+              c.classList.add('hidden');
+              c.classList.remove('block');
+            }
+          });
+        });
+      });
+
+      // FAQ Accordion
+      document.querySelectorAll('.faq-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const content = btn.nextElementSibling;
+          const icon = btn.querySelector('i');
+          const isHidden = content.classList.contains('hidden');
+
+          document.querySelectorAll('.faq-content').forEach(c => c.classList.add('hidden'));
+          document.querySelectorAll('.faq-toggle i').forEach(i => i.classList.remove('rotate-180'));
+
+          if (isHidden) {
+            content.classList.remove('hidden');
+            icon.classList.add('rotate-180');
+          }
+        });
+      });
+
+      // Mobile Menu
+      const mobBtn = document.getElementById('mobile-menu-btn');
+      const mobMenu = document.getElementById('mobile-menu');
+      if (mobBtn && mobMenu) {
+        mobBtn.addEventListener('click', () => mobMenu.classList.toggle('hidden'));
+        document.querySelectorAll('.mobile-link').forEach(link => {
+          link.addEventListener('click', () => mobMenu.classList.add('hidden'));
+        });
+      }
+    });
+  </script>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE AGENDAMENTO INTELIGENTE COM QUEBRA DE OBJEÇÕES & ANTI-SPAM (IP)  -->
+  <!-- ========================================================================= -->
+  <div id="solar-booking-modal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl relative my-8 border border-slate-100">
+      
+      <button onclick="closeSolarBookingModal()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-600 text-lg transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <span class="text-green-700 font-bold text-xs uppercase tracking-widest bg-green-100 border border-green-200 px-3.5 py-1 rounded-full inline-block mb-2">
+          Estudo Gratuito de Engenharia
+        </span>
+        <h3 class="font-outfit font-black text-2xl text-slate-900">Agendar Estudo & Vistoria Técnica</h3>
+        <p class="text-xs text-slate-500 mt-1">Preencha seus dados para receber o dimensionamento oficial e a garantia de economia.</p>
+      </div>
+
+      <!-- 3 Objection Breakers (Quebra de Objeções) -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-6 text-left">
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px]">
+          <span class="font-bold text-slate-900 block mb-0.5">
+            <i class="fa-solid fa-shield-halved text-green-600 mr-1"></i> 25 Anos Garantia
+          </span>
+          <span class="text-slate-500">Módulos Tier-1 de altíssima durabilidade.</span>
+        </div>
+
+        <div class="p-3 rounded-xl bg-green-50 border border-green-200 text-[11px]">
+          <span class="font-bold text-green-900 block mb-0.5">
+            <i class="fa-solid fa-hand-holding-dollar text-green-600 mr-1"></i> R$ 0 de Entrada
+          </span>
+          <span class="text-green-700">Parcela menor do que sua conta atual de luz.</span>
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px]">
+          <span class="font-bold text-slate-900 block mb-0.5">
+            <i class="fa-solid fa-bolt text-amber-500 mr-1"></i> 100% Homologado
+          </span>
+          <span class="text-slate-500">Cuidamos de todo o processo com a concessionária.</span>
+        </div>
+      </div>
+
+      <!-- Booking Form -->
+      <form id="solar-booking-form" onsubmit="handleSolarBookingSubmit(event)" class="space-y-4 text-xs">
+        
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Seu Nome Completo:</label>
+          <input type="text" id="lead-name" required placeholder="Ex: Rogério Castro" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-green-600 font-semibold" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">WhatsApp / Telefone:</label>
+            <input type="tel" id="lead-phone" required placeholder="(32) 99929-2311" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-green-600 font-semibold" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Data Preferida para Vistoria:</label>
+            <input type="date" id="lead-date" required class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-green-600 font-semibold" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Tipo de Telhado / Imóvel:</label>
+          <select id="lead-roof" class="w-full p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-green-600 font-semibold">
+            <option value="Telha Cerâmica (Colonial)">Telhado Cerâmico (Colonial)</option>
+            <option value="Telha Metálica / Zinco">Telhado Metálico / Zinco</option>
+            <option value="Fibrocimento">Telhado Fibrocimento</option>
+            <option value="Laje Plana">Laje de Concreto Plana</option>
+            <option value="Solo / Rural">Instalação no Solo / Rural</option>
+          </select>
+        </div>
+
+        <!-- Anti-Spam Rate Limit Alert Container -->
+        <div id="booking-spam-alert" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs text-center font-semibold"></div>
+
+        <button type="submit" id="btn-submit-booking" class="w-full py-4 rounded-xl bg-green-600 hover:bg-green-500 text-white font-outfit font-black text-sm uppercase tracking-wider shadow-lg shadow-green-600/30 hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center gap-2">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>Confirmar Agendamento & Abrir WhatsApp</span>
+        </button>
+
+        <div class="flex items-center justify-center gap-2 text-[10px] text-slate-400 text-center pt-1">
+          <i class="fa-solid fa-lock text-green-600"></i>
+          <span>Proteção Ativa: 1 Agendamento por IP a cada 30 minutos contra ataques automatizados.</span>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // --- GESTÃO DE AGENDAMENTO COM RATE LIMITING POR IP / CLIENTE ---
+    function openSolarBookingModal() {
+      // Define a data padrão de amanhã
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const dateInput = document.getElementById('lead-date');
+      if (dateInput && !dateInput.value) {
+        dateInput.value = tomorrow.toISOString().split('T')[0];
+      }
+      document.getElementById('solar-booking-modal').classList.remove('hidden');
+    }
+
+    function closeSolarBookingModal() {
+      document.getElementById('solar-booking-modal').classList.add('hidden');
+    }
+
+    function handleSolarBookingSubmit(e) {
+      e.preventDefault();
+
+      // 1. CHECAGEM DE RATE LIMIT / ANTI-SPAM (1 envio a cada 30 minutos)
+      const lastBookingTime = localStorage.getItem('suneco_last_booking_timestamp');
+      const now = Date.now();
+      const COOLDOWN_MS = 30 * 60 * 1000; // 30 minutos
+
+      const spamAlert = document.getElementById('booking-spam-alert');
+
+      if (lastBookingTime && (now - Number(lastBookingTime)) < COOLDOWN_MS) {
+        const remainingMinutes = Math.ceil((COOLDOWN_MS - (now - Number(lastBookingTime))) / 60000);
+        if (spamAlert) {
+          spamAlert.textContent = `Aviso de Segurança: Um agendamento já foi registrado neste IP. Aguarde ${remainingMinutes} minutos para evitar requisições duplicadas.`;
+          spamAlert.classList.remove('hidden');
+        }
+        return;
+      }
+
+      const name = document.getElementById('lead-name').value.trim();
+      const phone = document.getElementById('lead-phone').value.trim();
+      const date = document.getElementById('lead-date').value;
+      const roof = document.getElementById('lead-roof').value;
+      const bill = document.getElementById('bill-display-val') ? document.getElementById('bill-display-val').textContent.trim() : 'R$ 800';
+
+      // 2. SINCRONIZAÇÃO DIRETA COM O SUNECO OS (CRM)
+      const estimatedContractValue = (document.getElementById('bill-range-input') ? Number(document.getElementById('bill-range-input').value) * 22 : 18000);
+      
+      const newLead = {
+        id: 'lead-' + Date.now(),
+        name: name,
+        phone: phone,
+        proc: `Sistema Solar (${roof})`,
+        day: 'Hoje',
+        date: date,
+        time: '10:00',
+        val: 'R$ ' + estimatedContractValue.toLocaleString('pt-BR'),
+        stage: 'new',
+        origin: 'Site SunEco 24h',
+        createdAt: new Date().toLocaleDateString('pt-BR')
+      };
+
+      try {
+        let existingLeads = JSON.parse(localStorage.getItem('solar_crm_leads')) || [];
+        existingLeads.unshift(newLead);
+        localStorage.setItem('solar_crm_leads', JSON.stringify(existingLeads));
+        // Grava timestamp para proteção de rate-limit
+        localStorage.setItem('solar_last_booking_timestamp', now.toString());
+      } catch (err) {
+        console.error('Erro ao sincronizar com CRM local:', err);
+      }
+
+      // 3. REDIRECIONAMENTO COM WHATSAPP PRÉ-FORMATADO
+      const msg = `*SOLICITAÇÃO DE ESTUDO SOLAR - SUNECO*\n\n*Nome:* ${name}\n*WhatsApp:* ${phone}\n*Conta de Luz Média:* ${bill}/mês\n*Tipo de Telhado:* ${roof}\n*Data Preferida para Vistoria:* ${date}\n\nOlá! Realizei o agendamento no site e gostaria de receber o projeto de engenharia com os 25 anos de garantia!`;
+      
+      const encoded = encodeURIComponent(msg);
+      closeSolarBookingModal();
+
+      // Dispara WhatsApp
+      window.open(`https://wa.me/5532999292311?text=${encoded}`, '_blank', 'noopener,noreferrer');
+    }
+  </script>
+
+  <script src="../assets/js/motion-core.js"></script>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: VÍDEO & QUALIDADE DE VIDA                                          -->
+  <!-- ========================================================================= -->
+  <div id="video-qv-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="bg-white text-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative animate-fade-in max-h-[90vh] overflow-y-auto">
+      <button onclick="closeVideoQvModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition shadow-sm z-10" title="Fechar">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-3">
+        <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+          <i class="fa-solid fa-heart-pulse"></i> Qualidade de Vida & Bem-Estar
+        </span>
+        <span class="text-xs text-slate-400">• Vídeo Exclusivo</span>
+      </div>
+
+      <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2 leading-tight">
+        Adeus Conta de Luz Abusiva: Liberdade Financeira e Qualidade de Vida
+      </h3>
+      <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+        Veja no vídeo como uma instalação solar de alta eficiência valoriza seu imóvel, zera custos e traz previsibilidade financeira para sempre.
+      </p>
+      
+      <!-- Video Player Preview -->
+      <div class="aspect-video w-full rounded-2xl overflow-hidden relative bg-slate-950 shadow-inner group mb-5">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-between p-5 z-10">
+          <div class="self-end px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-md text-white text-[11px] font-mono font-semibold">
+            <i class="fa-solid fa-clock mr-1 text-emerald-400"></i> 01:45 min • Full HD
+          </div>
+          <div class="flex items-center gap-4">
+            <a href="https://wa.me/5532999292311?text=Ol%C3%A1%2C%20assisti%20ao%20v%C3%ADdeo%20sobre%20qualidade%20de%20vida%20e%20quero%20mais%20informa%C3%A7%C3%B5es%20(SunEco Engenharia)." target="_blank" rel="noopener noreferrer" class="w-14 h-14 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-xl shadow-xl hover:scale-110 active:scale-95 transition-all shrink-0">
+              <i class="fa-solid fa-play ml-1"></i>
+            </a>
+            <div>
+              <p class="text-white font-bold text-sm sm:text-base leading-snug">Metodologia Focada no seu Bem-Estar</p>
+              <p class="text-emerald-300 text-xs">Engenharia certificada com garantia de 25 anos em inversores e painéis de silício</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Pilares de Qualidade de Vida -->
+      <div class="grid grid-cols-3 gap-2 sm:gap-3 py-3 border-y border-slate-100 mb-5 text-center text-xs">
+        <div class="p-2.5 rounded-xl bg-slate-50">
+          <i class="fa-solid fa-clock-rotate-left text-emerald-600 block text-base mb-1"></i>
+          <strong class="block text-slate-800 text-[11px] font-bold">Sem Fila e Sem Espera</strong>
+          <span class="text-[10px] text-slate-500">Respeito ao seu tempo</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-slate-50">
+          <i class="fa-solid fa-shield-halved text-emerald-600 block text-base mb-1"></i>
+          <strong class="block text-slate-800 text-[11px] font-bold">Segurança & Conforto</strong>
+          <span class="text-[10px] text-slate-500">Ambiente acolhedor</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-slate-50">
+          <i class="fa-solid fa-bolt text-emerald-600 block text-base mb-1"></i>
+          <strong class="block text-slate-800 text-[11px] font-bold">Fechamento em 1 Clique</strong>
+          <span class="text-[10px] text-slate-500">Sem burocracia</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="https://wa.me/5532999292311?text=Ol%C3%A1%2C%20quero%20fechar%20meu%20atendimento%20com%20prioridade%20e%20foco%20em%20qualidade%20de%20vida%20(SunEco Engenharia)." target="_blank" rel="noopener noreferrer" class="flex-1 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-lg transition">
+          <i class="fa-brands fa-whatsapp text-base"></i> Fechar no WhatsApp com Prioridade
+        </a>
+        <button onclick="closeVideoQvModal(); scrollToFormFast();" class="py-3.5 px-5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs uppercase tracking-wider text-center transition">
+          Preencher Formulário Online
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MOBILE BOTTOM STICKY BAR (CONVERSÃO EM 1 CLIQUE)                          -->
+  <!-- ========================================================================= -->
+  
+
+
+  <!-- JS HELPERS: VÍDEO QUALIDADE DE VIDA & 1-CLICK CONVERSION -->
+  <script>
+    function openVideoQvModal() {
+      const m = document.getElementById('video-qv-modal');
+      if (m) m.classList.remove('hidden');
+    }
+
+    function closeVideoQvModal() {
+      const m = document.getElementById('video-qv-modal');
+      if (m) m.classList.add('hidden');
+    }
+
+    function scrollToFormFast(serviceName) {
+      let target = document.getElementById('simulador') || document.getElementById('agendamento') || document.getElementById('contato') || document.getElementById('simulador') || document.querySelector('form');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+        target.classList.add('ring-4', 'ring-emerald-400/50');
+        setTimeout(() => target.classList.remove('ring-4', 'ring-emerald-400/50'), 1500);
+
+        setTimeout(() => {
+          const input = target.querySelector('input:not([type="hidden"])') || document.querySelector('input[type="text"], input[type="tel"]');
+          if (input) input.focus();
+        }, 600);
+      } else {
+        window.location.href = "https://wa.me/5532999292311?text=Ol%C3%A1%2C%20gostaria%20de%20fechar%20com%20poucos%20cliques%20(SunEco Engenharia).";
+      }
+    }
+  </script>
+
+
+  <!-- ========================================================================= -->
+  <!-- ADR-002: MOBILE CONVERSION DOCK (1-TOQUE NO WHATSAPP)                     -->
+  <!-- ========================================================================= -->
+  <aside class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#070A12]/95 backdrop-blur-md border-t border-slate-800 p-2.5 px-4 shadow-[0_-4px_25px_rgba(0,0,0,0.5)]">
+    <div class="flex items-center justify-between gap-3 max-w-lg mx-auto">
+      <div class="flex flex-col">
+        <span class="text-[10px] uppercase font-bold text-slate-400 leading-tight tracking-wider">SunEco Energia Solar</span>
+        <span class="text-xs text-emerald-400 font-bold flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Online agora</span>
+        </span>
+      </div>
+      <a href="https://wa.me/5532999292311?text=Olá!%20Gostaria%20de%20solicitar%20um%20estudo%20de%20economia%20para%20o%20meu%20imóvel." target="_blank" class="shimmer-btn flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/50 transition-transform active:scale-95" rel="noopener noreferrer">
+        <i class="fa-brands fa-whatsapp text-base"></i>
+        <span>Atendimento</span>
+      </a>
+    </div>
+  </aside>
+
+</body>
+</html>
