@@ -50,33 +50,42 @@ def build_scene():
     clean_scene()
     
     # -------------------------------------------------------------
-    # MATERIAIS EXTRAÍDOS DA REFERÊNCIA
+    # MATERIAIS HIPER VIBRANTES E CONTRASTADOS (ESTÚDIO NINTENDO / PIXAR 3D)
     # -------------------------------------------------------------
-    mat_podium = create_mat("Mat_Podium", (0.95, 0.94, 0.92, 1.0), roughness=0.5)
-    mat_wood_light = create_mat("Mat_WoodLight", (0.90, 0.68, 0.46, 1.0), roughness=0.4) # Madeira pinus
-    mat_wood_mid = create_mat("Mat_WoodMid", (0.84, 0.60, 0.38, 1.0), roughness=0.45) # Carvalho mel
-    mat_wood_trim = create_mat("Mat_WoodTrim", (0.76, 0.50, 0.30, 1.0), roughness=0.45)
-    mat_wall = create_mat("Mat_Wall", (0.97, 0.96, 0.93, 1.0), roughness=0.55) # Off-white quente
-    mat_roof_terracotta = create_mat("Mat_RoofTerra", (0.86, 0.52, 0.42, 1.0), roughness=0.45) # Terracota suave
-    mat_roof_trim = create_mat("Mat_RoofTrim", (0.90, 0.70, 0.50, 1.0), roughness=0.4)
-    mat_glass = create_mat("Mat_Glass", (0.75, 0.88, 0.96, 1.0), roughness=0.08, metallic=0.1)
-    mat_glass_warm = create_mat("Mat_GlassWarm", (1.0, 0.92, 0.70, 1.0), roughness=0.1, emission_color=(1.0, 0.92, 0.70, 1.0), emission_strength=1.5)
-    mat_grass = create_mat("Mat_Grass", (0.58, 0.80, 0.48, 1.0), roughness=0.6) # Verde pastel
-    mat_terracotta = create_mat("Mat_Pot", (0.88, 0.46, 0.34, 1.0), roughness=0.5)
-    mat_leaf = create_mat("Mat_Leaf", (0.35, 0.68, 0.38, 1.0), roughness=0.4)
-    mat_stone = create_mat("Mat_Stone", (0.85, 0.86, 0.88, 1.0), roughness=0.6)
-    mat_brass = create_mat("Mat_Brass", (0.95, 0.75, 0.35, 1.0), roughness=0.25, metallic=0.85)
+    mat_podium = create_mat("Mat_Podium", (0.97, 0.97, 0.98, 1.0), roughness=0.35)
+    mat_wood_light = create_mat("Mat_WoodLight", (0.88, 0.48, 0.12, 1.0), roughness=0.35) # Teca / Carvalho Quente Envernizado
+    mat_wood_mid = create_mat("Mat_WoodMid", (0.75, 0.36, 0.08, 1.0), roughness=0.35) # Madeira âmbar saturada
+    mat_wood_trim = create_mat("Mat_WoodTrim", (0.60, 0.25, 0.05, 1.0), roughness=0.38) # Cedro escuro contrastado
+    mat_wall = create_mat("Mat_Wall", (0.98, 0.98, 0.96, 1.0), roughness=0.45) # Branco marfim limpo
+    
+    # Telhado: Vermelho Cerâmica / Telha Terracota Quente e Vívida (Contraste Máximo!)
+    mat_roof_terracotta = create_mat("Mat_RoofTerra", (0.84, 0.18, 0.05, 1.0), roughness=0.35) # Telha Cerâmica Vermelha Vibrante
+    mat_roof_trim = create_mat("Mat_RoofTrim", (0.92, 0.45, 0.12, 1.0), roughness=0.3)
+    
+    mat_glass = create_mat("Mat_Glass", (0.35, 0.70, 0.95, 1.0), roughness=0.04, metallic=0.3) # Vidro azul celeste cristalino
+    mat_glass_warm = create_mat("Mat_GlassWarm", (1.0, 0.82, 0.20, 1.0), roughness=0.05, emission_color=(1.0, 0.82, 0.20, 1.0), emission_strength=3.0)
+    
+    # Jardim: Verde Esmeralda Tropical Rico (zero tons lavados)
+    mat_grass = create_mat("Mat_Grass", (0.06, 0.62, 0.15, 1.0), roughness=0.45) # Grama esmeralda rica e viva
+    mat_terracotta = create_mat("Mat_Pot", (0.90, 0.22, 0.06, 1.0), roughness=0.4)
+    mat_leaf = create_mat("Mat_Leaf", (0.04, 0.45, 0.12, 1.0), roughness=0.3) # Folhas verde-bosque densas
+    mat_stone = create_mat("Mat_Stone", (0.90, 0.92, 0.94, 1.0), roughness=0.4)
+    mat_brass = create_mat("Mat_Brass", (1.0, 0.78, 0.10, 1.0), roughness=0.15, metallic=0.95)
 
-    # Painel Solar Fotovoltaico Estilizado
-    mat_solar_frame = create_mat("Mat_SolarFrame", (0.82, 0.84, 0.88, 1.0), roughness=0.2, metallic=0.7)
-    mat_solar_cells = create_mat("Mat_SolarCells", (0.09, 0.16, 0.34, 1.0), roughness=0.12, metallic=0.35)
-    mat_solar_lines = create_mat("Mat_SolarLines", (0.70, 0.80, 0.95, 1.0), roughness=0.2, metallic=0.5)
-    mat_solar_rails = create_mat("Mat_SolarRails", (0.65, 0.68, 0.72, 1.0), roughness=0.25, metallic=0.8)
+    # Painel Solar: Azul Safira Fotovoltaico Puro e Luminoso
+    mat_solar_frame = create_mat("Mat_SolarFrame", (0.92, 0.94, 0.98, 1.0), roughness=0.12, metallic=0.9)
+    mat_solar_cells = create_mat("Mat_SolarCells", (0.01, 0.28, 0.88, 1.0), roughness=0.08, metallic=0.45) # Azul elétrico intenso
+    mat_solar_lines = create_mat("Mat_SolarLines", (0.90, 0.96, 1.0, 1.0), roughness=0.1, metallic=0.7)
+    mat_solar_rails = create_mat("Mat_SolarRails", (0.80, 0.82, 0.88, 1.0), roughness=0.15, metallic=0.9)
+
+    # Cores vivas para flores no jardim
+    mat_flower_red = create_mat("Mat_FlowerRed", (0.95, 0.08, 0.12, 1.0), roughness=0.3)
+    mat_flower_yellow = create_mat("Mat_FlowerYellow", (1.0, 0.85, 0.05, 1.0), roughness=0.3)
 
     # Inversor
-    mat_inverter_body = create_mat("Mat_InverterBody", (0.94, 0.95, 0.97, 1.0), roughness=0.3)
-    mat_inverter_screen = create_mat("Mat_InverterScreen", (0.12, 0.14, 0.18, 1.0), roughness=0.2)
-    mat_led_green = create_mat("Mat_LedGreen", (0.2, 0.95, 0.3, 1.0), roughness=0.2, emission_color=(0.2, 0.95, 0.3, 1.0), emission_strength=3.0)
+    mat_inverter_body = create_mat("Mat_InverterBody", (0.96, 0.97, 0.99, 1.0), roughness=0.2)
+    mat_inverter_screen = create_mat("Mat_InverterScreen", (0.05, 0.07, 0.10, 1.0), roughness=0.1)
+    mat_led_green = create_mat("Mat_LedGreen", (0.05, 1.0, 0.2, 1.0), roughness=0.1, emission_color=(0.05, 1.0, 0.2, 1.0), emission_strength=5.0)
 
     # -------------------------------------------------------------
     # 1. BASE DIORAMA (PODIUM REDONDO/CHANFRADO)
@@ -374,32 +383,46 @@ def build_scene():
         stone.scale = (1.0, 0.85, 0.45)
         stone.data.materials.append(mat_stone)
 
+    # Flores vibrantes estilizadas no gramado
+    for fl_x, fl_y, fl_col in [
+        (-0.9, -1.2, mat_flower_red),
+        (-0.75, -1.0, mat_flower_yellow),
+        (-1.1, -1.4, mat_flower_yellow),
+        (-1.4, -0.8, mat_flower_red),
+        (-1.6, -0.1, mat_flower_yellow),
+        (-0.8, 0.4, mat_flower_red),
+    ]:
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=0.065, location=(fl_x, fl_y, 0.14))
+        fl = bpy.context.active_object
+        fl.scale = (1.0, 1.0, 0.8)
+        fl.data.materials.append(fl_col)
+
     # -------------------------------------------------------------
-    # 9. ILUMINAÇÃO DE ESTÚDIO ISOMÉTRICO (QUENTE & ACONCHEGANTE)
+    # 9. ILUMINAÇÃO DE ESTÚDIO ISOMÉTRICO (CORES VIBRANTES & CONTRASTE)
     # -------------------------------------------------------------
-    # Sol Quente da Tarde (Key Light)
+    # Sol Quente Dourado (Key Light)
     sun = bpy.data.lights.new(name="Sun_GoldenHour", type='SUN')
-    sun.energy = 5.2
-    sun.color = (1.0, 0.94, 0.86) # Tom dourado suave
-    sun.angle = math.radians(18) # Sombras macias e volumosas
+    sun.energy = 5.8
+    sun.color = (1.0, 0.92, 0.82) # Luz solar intensa e rica
+    sun.angle = math.radians(12) # Sombras bem definidas e nítidas
     sun_obj = bpy.data.objects.new(name="Sun_GoldenHour", object_data=sun)
     bpy.context.collection.objects.link(sun_obj)
     sun_obj.rotation_euler = (math.radians(52), math.radians(12), math.radians(-38))
 
-    # Luz de Preenchimento Difusa (Fill Light)
+    # Luz de Preenchimento Azul Vibrante (Fill Light)
     fill = bpy.data.lights.new(name="Fill_Sky", type='SUN')
-    fill.energy = 1.4
-    fill.color = (0.78, 0.86, 1.0) # Céu suave
-    fill.angle = math.radians(30)
+    fill.energy = 1.6
+    fill.color = (0.70, 0.84, 1.0)
+    fill.angle = math.radians(25)
     fill_obj = bpy.data.objects.new(name="Fill_Sky", object_data=fill)
     bpy.context.collection.objects.link(fill_obj)
     fill_obj.rotation_euler = (math.radians(35), math.radians(-25), math.radians(145))
 
-    # Luz de Borda Traseira (Rim Light para separar a silhueta)
+    # Luz de Borda Traseira (Rim Light quente para fazer as cores saltarem)
     rim = bpy.data.lights.new(name="Rim_Light", type='SUN')
-    rim.energy = 1.8
-    rim.color = (1.0, 0.96, 0.90)
-    rim.angle = math.radians(20)
+    rim.energy = 2.4
+    rim.color = (1.0, 0.95, 0.85)
+    rim.angle = math.radians(15)
     rim_obj = bpy.data.objects.new(name="Rim_Light", object_data=rim)
     bpy.context.collection.objects.link(rim_obj)
     rim_obj.rotation_euler = (math.radians(-40), 0, math.radians(180))
@@ -409,21 +432,20 @@ def build_scene():
     # -------------------------------------------------------------
     cam_data = bpy.data.cameras.new(name="Isometric_Camera")
     cam_data.type = 'ORTHO'
-    cam_data.ortho_scale = 8.4 # Enquadramento com respiração ao redor da base
+    cam_data.ortho_scale = 8.4
     cam_obj = bpy.data.objects.new(name="Isometric_Camera", object_data=cam_data)
     bpy.context.collection.objects.link(cam_obj)
     
-    # Posição calculada com centro focal exato em (0.2, 0.0, 1.2)
     cam_dist = 16.0
     cam_obj.location = (cam_dist + 0.2, -cam_dist, cam_dist * 0.95 + 1.2)
     cam_obj.rotation_euler = (math.radians(54.736), 0, math.radians(45))
     bpy.context.scene.camera = cam_obj
 
-    # Fundo Slate Escuro (#282b33) exatamente como na referência
+    # Fundo Slate Escuro (#20232a) com alto contraste para valorizar as cores
     world = bpy.data.worlds.new("Cozy_World")
     bg_node = world.node_tree.nodes.get("Background")
     if bg_node:
-        bg_node.inputs['Color'].default_value = (0.165, 0.175, 0.205, 1.0)
+        bg_node.inputs['Color'].default_value = (0.125, 0.135, 0.165, 1.0)
         bg_node.inputs['Strength'].default_value = 1.0
     bpy.context.scene.world = world
 
@@ -432,9 +454,9 @@ def build_scene():
     bpy.context.scene.render.resolution_y = 1600
     bpy.context.scene.render.resolution_percentage = 100
 
-    # Color Management aconchegante
+    # Color Management com contraste muito alto para cores vibrantes
     bpy.context.scene.view_settings.view_transform = 'AgX' if 'AgX' in [i.name for i in bpy.context.scene.view_settings.bl_rna.properties['view_transform'].enum_items] else 'Filmic'
-    bpy.context.scene.view_settings.look = 'Medium High Contrast'
+    bpy.context.scene.view_settings.look = 'Very High Contrast'
 
     print("[+] Nova Casa Isométrica Estilizada construída com sucesso!")
 
@@ -463,3 +485,4 @@ if __name__ == "__main__":
     out_dir = r"f:\Nova pasta\site\energia-solar\assets\3d"
     build_scene()
     export_assets(out_dir)
+
