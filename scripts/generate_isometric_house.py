@@ -323,42 +323,69 @@ def build_scene():
     add_bevel_and_uv(chimney_cap, width=0.015, segments=2)
 
     # -------------------------------------------------------------
-    # 6. TRILHOS E PAINÉIS SOLARES COM TEXTURA PBR FOTOVOLTAICA
+    # 6. TRILHOS E PAINÉIS SOLARES COLADOS COM PRECISÃO NO TELHADO
     # -------------------------------------------------------------
+    # Cálculo geométrico perpendicular à inclinação de 28° do telhado:
+    # Superfície superior do telhado:
+    sin_a = math.sin(roof_angle)
+    cos_a = math.cos(roof_angle)
+    
+    # Trilhos apoiados diretamente sobre a telha
+    rail_offset = 0.06 + 0.02 # meia-espessura do telhado + meia-espessura do trilho
+    rail_y = -0.38 - rail_offset * sin_a
+    rail_z = 2.80 + rail_offset * cos_a
+
     for tx in [-0.4, 0.4, 1.2]:
-        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(tx, -0.38, 2.90))
+        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(tx, rail_y, rail_z))
         rail = bpy.context.active_object
         rail.name = f"Solar_Rail_{tx}"
         rail.rotation_euler = (roof_angle, 0, 0)
         rail.scale = (0.05, 1.8, 0.04)
         rail.data.materials.append(mat_solar_rails)
 
-    # Assembly do Painel Solar para a animação em espiral
-    bpy.ops.object.empty_add(type='PLAIN_AXES', location=(0.4, -0.38, 2.97))
+    # Painel Solar Assembly apoiado exatamente sobre os trilhos de alumínio
+    panel_offset = 0.06 + 0.04 + 0.025 # telhado + trilho + meia-espessura do painel
+    panel_y = -0.38 - panel_offset * sin_a
+    panel_z = 2.80 + panel_offset * cos_a
+
+    bpy.ops.object.empty_add(type='PLAIN_AXES', location=(0.4, panel_y, panel_z))
     solar_assembly = bpy.context.active_object
     solar_assembly.name = "Solar_Panel_Assembly"
     solar_assembly.rotation_euler = (roof_angle, 0, 0)
 
+    # Atualiza a matriz de mundo do pai para calcular o parent_inverse correto
+    bpy.context.view_layer.update()
+    inv_parent = solar_assembly.matrix_world.inverted()
+
     for p_idx, px_offset in enumerate([-0.55, 0.55]):
-        # Moldura metálica chanfrada
-        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0.4 + px_offset, -0.38, 2.97))
+        # Moldura metálica chanfrada apoiada no trilho
+        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0.4 + px_offset, panel_y, panel_z))
         p_frame = bpy.context.active_object
         p_frame.name = f"Panel_Frame_{p_idx}"
         p_frame.rotation_euler = (roof_angle, 0, 0)
         p_frame.scale = (1.05, 1.5, 0.05)
         p_frame.data.materials.append(mat_solar_frame)
         add_bevel_and_uv(p_frame, width=0.012, segments=2)
+        
+        # Parentesco perfeito mantendo a transformação global intacta
         p_frame.parent = solar_assembly
+        p_frame.matrix_parent_inverse = inv_parent
 
-        # Células Solares com textura PBR (Wafers de silício + barramentos prateados)
-        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0.4 + px_offset, -0.38, 2.99))
+        # Células fotovoltaicas monocristalinas assentadas milimetricamente na moldura
+        cell_offset = panel_offset + 0.015
+        cell_y = -0.38 - cell_offset * sin_a
+        cell_z = 2.80 + cell_offset * cos_a
+        
+        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0.4 + px_offset, cell_y, cell_z))
         p_cells = bpy.context.active_object
         p_cells.name = f"Panel_Cells_{p_idx}"
         p_cells.rotation_euler = (roof_angle, 0, 0)
         p_cells.scale = (0.98, 1.42, 0.02)
         p_cells.data.materials.append(mat_solar_pbr)
         add_bevel_and_uv(p_cells, width=0.005, segments=1)
+        
         p_cells.parent = solar_assembly
+        p_cells.matrix_parent_inverse = inv_parent
 
     # -------------------------------------------------------------
     # 7. INVERSOR SOLAR DE PAREDE

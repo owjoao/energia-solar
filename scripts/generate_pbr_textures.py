@@ -251,3 +251,4 @@ if __name__ == "__main__":
     generate_grass_textures(out)
     generate_stucco_textures(out)
     print("\n[+] TODAS AS TEXTURAS PBR FORAM GERADAS COM SUCESSO EM:", out)
+

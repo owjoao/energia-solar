@@ -305,11 +305,8 @@
     const loader = new GLTFLoader();
     let houseScene = null;
     let solarPanelAssembly = null;
-
-    // Posições e rotações da animação em espiral
-    // Posição final travada no telhado (Target):
-    const targetPos = new THREE.Vector3(0.4, 2.97, -0.38);
-    const roofAngleRad = THREE.MathUtils.degToRad(28); // 28 graus do telhado
+    let targetPos = new THREE.Vector3();
+    let targetRot = new THREE.Euler();
 
     // Carrega o GLB gerado pelo Blender
     loader.load('assets/3d/casa_isometrica.glb', (gltf) => {
@@ -347,6 +344,10 @@
         solarPanelAssembly = group;
       }
 
+      // Captura a posição e rotação reais e nativas do Blender (COLADO NO TELHADO)
+      targetPos.copy(solarPanelAssembly.position);
+      targetRot.copy(solarPanelAssembly.rotation);
+
       scene.add(houseScene);
 
       // Desaparece tela de loading
@@ -356,37 +357,44 @@
         setTimeout(() => overlay.style.display = 'none', 500);
       }
 
-      // Inicializa na posição do slider (0 = flutuando no ar)
-      updateSpiralAnimation(0);
+      // INICIALIZA 100% COLADO NO TELHADO
+      const slider = document.getElementById('spiral-slider');
+      if (slider) slider.value = 100;
+      updateSpiralAnimation(1.0);
     }, undefined, (err) => {
       console.error('Erro ao carregar GLB:', err);
     });
 
     // 4. MATEMÁTICA DA DESCIDA EM ESPIRAL
-    // t varia de 0 (topo, flutuando alto no ar) até 1 (100% encaixado no telhado)
+    // t varia de 0 (topo, flutuando no ar) até 1 (100% COLADO no telhado)
     function calculateSpiralTransform(t) {
-      // Invertemos para que t=0 seja no ar e t=1 seja no telhado
       const progress = Math.min(Math.max(t, 0), 1);
-      const remaining = 1 - progress; // 1 no ar, 0 no telhado
+      const remaining = 1 - progress; // 0 quando encaixado no telhado, 1 quando no ar
 
-      // Raio da espiral: começa em 2.8 metros e vai a 0 no encaixe
-      const radius = 2.8 * Math.pow(remaining, 1.2);
+      // Quando 100%, fica exatamente na posição original do Blender (COLADO NO TELHADO)
+      if (remaining <= 0.0001) {
+        return {
+          pos: targetPos.clone(),
+          rot: targetRot.clone()
+        };
+      }
+
+      // Raio da espiral decrescendo suavemente
+      const radius = 2.0 * Math.pow(remaining, 1.4);
       
-      // Ângulo de rotação na espiral: 3 voltas completas (6 * PI) durante a descida
-      const spiralAngle = remaining * (Math.PI * 4.5);
+      // 2 voltas em espiral
+      const spiralAngle = remaining * (Math.PI * 3.5);
 
-      // Altura: flutua até +4.5m acima do telhado
-      const heightOffset = remaining * 4.8;
+      // Altura acima do telhado
+      const heightOffset = remaining * 3.6;
 
-      // Deslocamento helicoidal
       const currentX = targetPos.x + Math.cos(spiralAngle) * radius;
       const currentZ = targetPos.z + Math.sin(spiralAngle) * radius;
       const currentY = targetPos.y + heightOffset;
 
-      // Rotação: inclina livremente enquanto voa e alinha exatamente aos 28° do telhado no final
-      const rotX = roofAngleRad + (remaining * Math.sin(spiralAngle * 0.5) * 0.8);
-      const rotY = remaining * spiralAngle * 0.6;
-      const rotZ = remaining * Math.cos(spiralAngle * 0.5) * 0.5;
+      const rotX = targetRot.x + (remaining * Math.sin(spiralAngle * 0.5) * 0.5);
+      const rotY = targetRot.y + remaining * spiralAngle * 0.4;
+      const rotZ = targetRot.z + remaining * Math.cos(spiralAngle * 0.5) * 0.3;
 
       return {
         pos: new THREE.Vector3(currentX, currentY, currentZ),
@@ -405,10 +413,10 @@
       const percent = Math.round(progressNormalized * 100);
       const textElem = document.getElementById('spiral-progress-text');
       if (textElem) {
-        if (percent === 100) {
-          textElem.textContent = '100% (Encaixado no Telhado)';
+        if (percent >= 99) {
+          textElem.textContent = '100% (Colado no Telhado)';
           textElem.className = 'text-xs font-mono font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-0.5 rounded-full';
-        } else if (percent === 0) {
+        } else if (percent <= 1) {
           textElem.textContent = '0% (Flutuando no Ar)';
           textElem.className = 'text-xs font-mono font-bold text-sky-400 bg-sky-950/60 border border-sky-500/30 px-2.5 py-0.5 rounded-full';
         } else {
