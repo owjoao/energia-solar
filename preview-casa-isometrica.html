@@ -427,7 +427,8 @@
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 2048;
     sunLight.shadow.mapSize.height = 2048;
-    sunLight.shadow.bias = -0.0004;
+    sunLight.shadow.bias = -0.00008;
+    sunLight.shadow.normalBias = 0.03;
     sunLight.shadow.camera.near = 0.5;
     sunLight.shadow.camera.far = 45;
     sunLight.shadow.camera.left = -6;
@@ -689,19 +690,18 @@
         audio.playWhoosh(Math.min(1.0, delta * 30 + transform.speedRatio));
       }
 
-      // Atualiza Guia Holográfico no telhado
+      // Atualiza Guia Holográfico no telhado (oculta quando encaixado)
       const remaining = 1.0 - progressNormalized;
-      if (holoMat) {
-        if (remaining <= 0.01) {
-          // Bloqueado em verde esmeralda
-          holoMat.color.setHex(0x10b981);
-          cornerMat.color.setHex(0x10b981);
-          holoMat.opacity = 0.85;
+      if (holographicTargetGroup) {
+        if (remaining <= 0.015) {
+          holographicTargetGroup.visible = false;
         } else {
-          // Aproximação em azul ciano pulsante
-          holoMat.color.setHex(0x38bdf8);
-          cornerMat.color.setHex(0x38bdf8);
-          holoMat.opacity = Math.max(0.2, 0.7 - remaining * 0.5);
+          holographicTargetGroup.visible = true;
+          if (holoMat) {
+            holoMat.color.setHex(0x38bdf8);
+            cornerMat.color.setHex(0x38bdf8);
+            holoMat.opacity = Math.max(0.15, 0.7 - remaining * 0.5);
+          }
         }
       }
 

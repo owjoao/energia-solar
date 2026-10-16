@@ -344,7 +344,7 @@ def build_scene():
         rail.data.materials.append(mat_solar_rails)
 
     # Painel Solar Assembly apoiado exatamente sobre os trilhos de alumínio
-    panel_offset = 0.06 + 0.04 + 0.025 # telhado + trilho + meia-espessura do painel
+    panel_offset = 0.06 + 0.04 + 0.0175 # telhado + trilho + meia-espessura da moldura (0.035/2)
     panel_y = -0.38 - panel_offset * sin_a
     panel_z = 2.80 + panel_offset * cos_a
 
@@ -353,26 +353,27 @@ def build_scene():
     solar_assembly.name = "Solar_Panel_Assembly"
     solar_assembly.rotation_euler = (roof_angle, 0, 0)
 
-    # Atualiza a matriz de mundo do pai para calcular o parent_inverse correto
     bpy.context.view_layer.update()
     inv_parent = solar_assembly.matrix_world.inverted()
 
     for p_idx, px_offset in enumerate([-0.55, 0.55]):
-        # Moldura metálica chanfrada apoiada no trilho
+        # Moldura metálica de alumínio (espessura 0.035, topo em panel_offset + 0.0175)
         bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0.4 + px_offset, panel_y, panel_z))
         p_frame = bpy.context.active_object
         p_frame.name = f"Panel_Frame_{p_idx}"
         p_frame.rotation_euler = (roof_angle, 0, 0)
-        p_frame.scale = (1.05, 1.5, 0.05)
+        p_frame.scale = (1.05, 1.5, 0.035)
         p_frame.data.materials.append(mat_solar_frame)
-        add_bevel_and_uv(p_frame, width=0.012, segments=2)
+        add_bevel_and_uv(p_frame, width=0.010, segments=2)
         
-        # Parentesco perfeito mantendo a transformação global intacta
         p_frame.parent = solar_assembly
         p_frame.matrix_parent_inverse = inv_parent
 
-        # Células fotovoltaicas monocristalinas assentadas milimetricamente na moldura
-        cell_offset = panel_offset + 0.015
+        # Células fotovoltaicas de silício azul safira assentadas SOBRE a moldura (SEM Z-FIGHTING)
+        # Topo da moldura = panel_offset + 0.0175.
+        # As células têm espessura 0.016, com centro em panel_offset + 0.0175 + 0.008 = +0.0255.
+        # Seu topo fica em +0.0335 (16mm acima da moldura), eliminando 100% de sobreposição coplanar!
+        cell_offset = panel_offset + 0.0255
         cell_y = -0.38 - cell_offset * sin_a
         cell_z = 2.80 + cell_offset * cos_a
         
@@ -380,53 +381,15 @@ def build_scene():
         p_cells = bpy.context.active_object
         p_cells.name = f"Panel_Cells_{p_idx}"
         p_cells.rotation_euler = (roof_angle, 0, 0)
-        p_cells.scale = (0.98, 1.42, 0.02)
+        p_cells.scale = (0.98, 1.42, 0.016)
         p_cells.data.materials.append(mat_solar_pbr)
+        add_bevel_and_uv(p_cells, width=0.004, segments=1)
+        
         p_cells.parent = solar_assembly
         p_cells.matrix_parent_inverse = inv_parent
 
     # -------------------------------------------------------------
-    # 6.1 ANIMAÇÃO NATIVA POR KEYFRAMES: DESCIDA HELICOIDAL AERODINÂMICA
-    # -------------------------------------------------------------
-    bpy.context.scene.frame_start = 1
-    bpy.context.scene.frame_end = 120
-    bpy.context.scene.render.fps = 24
-
-    rest_loc = (0.4, panel_y, panel_z)
-    rest_rot = (roof_angle, 0.0, 0.0)
-
-    # Gera keyframes de aproximação espiral com desaceleração logarítmica
-    for f in range(1, 121, 2):
-        p = (f - 1) / 119.0
-        remaining = 1.0 - p
-        
-        cur_radius = 2.6 * (remaining ** 1.35)
-        spiral_angle = remaining * (2.8 * 2.0 * math.pi)
-        cur_h = remaining * 4.2
-        
-        cur_x = rest_loc[0] + math.cos(spiral_angle) * cur_radius
-        cur_y = rest_loc[1] + math.sin(spiral_angle) * cur_radius
-        cur_z = rest_loc[2] + cur_h
-        
-        # Pitch, Roll e Yaw aerodinâmicos suavizando até zero
-        cur_rot_x = rest_rot[0] + remaining * math.sin(spiral_angle * 0.7) * math.radians(28)
-        cur_rot_y = rest_rot[1] + remaining * spiral_angle * 0.22
-        cur_rot_z = rest_rot[2] + remaining * math.cos(spiral_angle * 0.5) * math.radians(22)
-        
-        solar_assembly.location = (cur_x, cur_y, cur_z)
-        solar_assembly.rotation_euler = (cur_rot_x, cur_rot_y, cur_rot_z)
-        solar_assembly.keyframe_insert("location", frame=f)
-        solar_assembly.keyframe_insert("rotation_euler", frame=f)
-
-    # Frame 120: Garante repouso 100% COLADO no telhado
-    solar_assembly.location = rest_loc
-    solar_assembly.rotation_euler = rest_rot
-    solar_assembly.keyframe_insert("location", frame=120)
-    solar_assembly.keyframe_insert("rotation_euler", frame=120)
-    
-    # Define a cena no frame 120 para o render estático e preview
-    bpy.context.scene.frame_set(120)
-
+    # 7. INVERSOR SOLAR DE PAREDE
     # -------------------------------------------------------------
     bpy.ops.mesh.primitive_cube_add(size=1.0, location=(2.32, 0.6, 1.35))
     inverter = bpy.context.active_object
@@ -435,17 +398,26 @@ def build_scene():
     inverter.data.materials.append(mat_inverter_body)
     add_bevel_and_uv(inverter, width=0.015, segments=2)
 
+    bpy.context.view_layer.update()
+    inv_inverter_mat = inverter.matrix_world.inverted()
+
+    # Tela do inversor acoplada corretamente na face frontal com matrix_parent_inverse
     bpy.ops.mesh.primitive_cube_add(size=1.0, location=(2.37, 0.6, 1.45))
     inv_scr = bpy.context.active_object
+    inv_scr.name = "Inverter_Screen"
     inv_scr.scale = (0.02, 0.35, 0.22)
     inv_scr.data.materials.append(mat_inverter_screen)
     inv_scr.parent = inverter
+    inv_scr.matrix_parent_inverse = inv_inverter_mat
 
+    # LED verde de status acoplado corretamente
     bpy.ops.mesh.primitive_cylinder_add(radius=0.025, depth=0.02, location=(2.37, 0.72, 1.25))
     inv_led = bpy.context.active_object
+    inv_led.name = "Inverter_LED"
     inv_led.rotation_euler = (0, math.radians(90), 0)
     inv_led.data.materials.append(mat_led_green)
     inv_led.parent = inverter
+    inv_led.matrix_parent_inverse = inv_inverter_mat
 
     # -------------------------------------------------------------
     # 8. ELEMENTOS DECORATIVOS: ÁRVORE, ARBUSTOS, SEIXOS & FLORES
