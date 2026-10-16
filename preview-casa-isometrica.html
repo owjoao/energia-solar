@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preview 3D: Casa Isométrica Estilizada & Animação Solar Espiral</title>
+  <title>Preview 3D: Casa Isométrica & Animação Espiral de Alta Precisão</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Font Awesome -->
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- Google Fonts: Inter & Outfit -->
@@ -19,7 +19,7 @@
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #1e2025;
+      background-color: #1a1c22;
       color: #f5f5f7;
       overflow: hidden;
       margin: 0;
@@ -38,35 +38,43 @@
       outline: none;
     }
     .glass-panel {
-      background: rgba(30, 32, 37, 0.78);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(22, 24, 30, 0.82);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
     /* Custom Range Slider */
     input[type=range] {
       -webkit-appearance: none;
-      background: #2d3039;
+      background: #2b2f3a;
       border-radius: 9999px;
       height: 8px;
     }
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      height: 20px;
-      width: 20px;
+      height: 22px;
+      width: 22px;
       border-radius: 50%;
       background: #38bdf8;
       cursor: pointer;
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.7);
       border: 2px solid #ffffff;
-      transition: transform 0.1s;
+      transition: transform 0.15s, background-color 0.2s;
     }
     input[type=range]::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
+      transform: scale(1.18);
+      background: #0284c7;
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2.5s infinite ease-in-out;
     }
   </style>
 
-  <!-- Import Three.js e Addons via ES Module Shims -->
+  <!-- Import Three.js via ES Modules -->
   <script type="importmap">
     {
       "imports": {
@@ -83,174 +91,305 @@
 
   <!-- Top Header Navigation & Status -->
   <header class="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
+    
+    <!-- Left Logo & Info Badge -->
     <div class="glass-panel px-4 py-2.5 rounded-2xl flex items-center gap-3 shadow-2xl pointer-events-auto">
-      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-400 flex items-center justify-center text-white shadow-md">
-        <i class="fa-solid fa-cube text-sm"></i>
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-400 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-amber-500/20">
+        <i class="fa-solid fa-solar-panel text-base"></i>
       </div>
       <div>
-        <h1 class="text-xs sm:text-sm font-outfit font-bold text-white tracking-wide">
-          Casa Isométrica Estilizada <span class="text-amber-400 font-normal">• Estilo Clay / Toy</span>
-        </h1>
-        <p class="text-[10px] text-slate-400">Modelado no Blender 5.2 • Renderizado em tempo real com Three.js PBR</p>
+        <div class="flex items-center gap-2">
+          <h1 class="text-xs sm:text-sm font-outfit font-bold text-white tracking-wide">
+            Casa Isométrica 3D & Efeito Espiral
+          </h1>
+          <span class="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold uppercase tracking-wider">
+            V2 Refinada
+          </span>
+        </div>
+        <p class="text-[10px] text-slate-400">Física aerodinâmica • Amortecimento mecânico • Texturas PBR 1K</p>
       </div>
     </div>
 
-    <!-- Quick Actions -->
+    <!-- Right Controls: Audio, Camera Mode & Back -->
     <div class="glass-panel px-3 py-1.5 rounded-2xl flex items-center gap-2 shadow-2xl pointer-events-auto">
+      
+      <!-- Audio Toggle -->
+      <button id="btn-toggle-sound" title="Alternar Efeitos Sonoros Sci-Fi" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-200 transition flex items-center gap-1.5 border border-white/5">
+        <i id="sound-icon" class="fa-solid fa-volume-high text-sky-400"></i>
+        <span id="sound-text" class="hidden sm:inline">Som Ativo</span>
+      </button>
+
+      <!-- Camera Mode Toggle -->
+      <button id="btn-toggle-cinematic" title="Alternar Câmera Cinemática Dinâmica" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-200 transition flex items-center gap-1.5 border border-white/5">
+        <i class="fa-solid fa-video text-amber-400"></i>
+        <span id="cinematic-text" class="hidden sm:inline">Modo Cinemático: OFF</span>
+      </button>
+
+      <!-- Reset Camera Button -->
       <button id="btn-reset-cam" title="Resetar Câmera Isométrica" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-200 transition flex items-center gap-1.5 border border-white/5">
-        <i class="fa-solid fa-camera-rotate text-sky-400"></i>
-        <span class="hidden sm:inline">Câmera Isométrica</span>
+        <i class="fa-solid fa-camera-rotate text-emerald-400"></i>
+        <span class="hidden md:inline">Resetar Vista</span>
       </button>
-      <button id="btn-toggle-grid" title="Alternar Guias" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-200 transition flex items-center gap-1.5 border border-white/5">
-        <i class="fa-solid fa-border-all text-emerald-400"></i>
-        <span class="hidden sm:inline">Trilhos</span>
-      </button>
-      <a href="index.html" class="px-3 py-1.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition flex items-center gap-1.5 shadow-lg shadow-sky-500/20">
+
+      <a href="index.html" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-slate-950 font-bold text-xs transition flex items-center gap-1.5 shadow-lg shadow-sky-500/25">
         <i class="fa-solid fa-arrow-left"></i>
         <span>Voltar ao Site</span>
       </a>
     </div>
   </header>
 
-  <!-- Interactive Solar Assembly Control Dock (Bottom Center) -->
+  <!-- Interactive Control Dock (Bottom Center) -->
   <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 w-full max-w-xl px-4 pointer-events-auto">
     <div class="glass-panel p-4 sm:p-5 rounded-3xl shadow-2xl border border-white/10 space-y-3.5">
       
-      <!-- Title & Percentage Display -->
+      <!-- Status Bar: Title, Telemetry & Percentage -->
       <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span>
+        <div class="flex items-center gap-2.5">
+          <span id="status-indicator-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
           <span class="text-xs font-outfit font-bold uppercase tracking-wider text-slate-200">
-            Efeito Painel Solar: Descida em Espiral
+            Encaixe Fotovoltaico:
+          </span>
+          <span id="power-telemetry" class="text-[11px] font-mono font-semibold text-emerald-400">
+            1.4 MW (Ativo)
           </span>
         </div>
-        <span id="spiral-progress-text" class="text-xs font-mono font-bold text-sky-400 bg-sky-950/60 border border-sky-500/30 px-2.5 py-0.5 rounded-full">
-          0% (No Ar)
+        <span id="spiral-progress-text" class="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/70 border border-emerald-500/40 px-3 py-0.5 rounded-full">
+          100% (Colado no Telhado)
         </span>
       </div>
 
       <!-- Scroll Simulation Slider -->
       <div class="space-y-1.5">
         <div class="flex justify-between text-[11px] text-slate-400">
-          <span>Topo da Página (Painel Flutuando no Ar)</span>
-          <span>Final do Scroll (Encaixe no Telhado)</span>
+          <span class="flex items-center gap-1.5">
+            <i class="fa-solid fa-cloud text-sky-400 text-[10px]"></i>
+            0% (No Ar • Aproximação)
+          </span>
+          <span class="flex items-center gap-1.5">
+            <i class="fa-solid fa-check-double text-emerald-400 text-[10px]"></i>
+            100% (Contato Físico Colado)
+          </span>
         </div>
-        <input type="range" id="spiral-slider" min="0" max="100" value="0" step="0.1" class="w-full cursor-pointer">
+        <input type="range" id="spiral-slider" min="0" max="100" value="100" step="0.1" class="w-full cursor-pointer">
       </div>
 
-      <!-- Quick Play Buttons -->
-      <div class="flex items-center justify-between gap-3 pt-1">
-        <button id="btn-animate-spiral" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-slate-950 font-outfit font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2">
+      <!-- Action Buttons & Speed Selector -->
+      <div class="flex flex-wrap items-center justify-between gap-2.5 pt-1">
+        
+        <!-- Play Spiral Animation Button -->
+        <button id="btn-animate-spiral" class="flex-1 min-w-[170px] py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-400 via-sky-500 to-blue-600 hover:from-sky-300 hover:to-blue-500 text-slate-950 font-outfit font-black text-xs uppercase tracking-wider transition-all shadow-lg shadow-sky-500/30 flex items-center justify-center gap-2">
           <i class="fa-solid fa-play"></i>
-          <span>Executar Espiral Automática</span>
+          <span>Executar Espiral Suave</span>
         </button>
-        <button id="btn-reset-panel" class="py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-medium text-xs transition border border-white/10 flex items-center gap-1.5">
-          <i class="fa-solid fa-rotate-left"></i>
-          <span>Subir ao Ar</span>
+
+        <!-- Speed Selector -->
+        <div class="flex items-center rounded-xl bg-white/5 border border-white/10 p-0.5 text-[11px]">
+          <button id="speed-05" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition">0.5x</button>
+          <button id="speed-10" class="px-2.5 py-1 rounded-lg bg-sky-500 text-slate-950 font-bold transition">1.0x</button>
+          <button id="speed-20" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition">2.0x</button>
+        </div>
+
+        <!-- Quick Snap Buttons -->
+        <button id="btn-reset-panel" title="Levar painel ao topo no ar" class="py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-medium text-xs transition border border-white/10 flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-up-from-bracket text-sky-400"></i>
+          <span>Subir</span>
         </button>
-        <button id="btn-dock-panel" class="py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-400 font-medium text-xs transition border border-emerald-500/20 flex items-center gap-1.5">
+
+        <button id="btn-dock-panel" title="Encaixar imediatamente com precisão" class="py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-400 font-medium text-xs transition border border-emerald-500/20 flex items-center gap-1.5">
           <i class="fa-solid fa-circle-check"></i>
           <span>Encaixar</span>
         </button>
       </div>
 
-      <div class="text-[10px] text-slate-400 text-center flex items-center justify-center gap-2">
-        <i class="fa-solid fa-mouse text-sky-400"></i>
-        <span>Use o botão esquerdo para girar 360°, botão direito para arrastar e a roda do mouse para zoom.</span>
+      <!-- Bottom Hint -->
+      <div class="text-[10px] text-slate-400 text-center flex items-center justify-center gap-2 pt-0.5">
+        <i class="fa-solid fa-arrows-spin text-sky-400 text-xs"></i>
+        <span>Gire 360° com o botão esquerdo • Arraste com o direito • Roda do mouse para zoom</span>
       </div>
 
     </div>
   </div>
 
-  <!-- Left Info Card: Especificações de Estilo & Referência -->
+  <!-- Left Info Card: Especificações Técnicas & Fórmulas -->
   <aside class="hidden lg:block absolute left-4 top-24 z-20 w-80 pointer-events-auto">
     <div class="glass-panel p-4 rounded-3xl shadow-2xl border border-white/10 space-y-3 text-xs">
       
       <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
         <span class="font-outfit font-bold text-white uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-          <i class="fa-solid fa-palette text-amber-400"></i> Linguagem de Estilo
+          <i class="fa-solid fa-compass-drafting text-sky-400"></i> Física do Efeito Espiral
         </span>
-        <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-          Referência Cozy
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">
+          Cinemática 3D
         </span>
       </div>
 
-      <p class="text-slate-300 text-[11px] leading-relaxed">
-        Criada com os mesmos princípios da referência: cantos arredondados com chanfro (bevel), materiais quentes de madeira natural, acabamento fosco acetinado (matte clay) e iluminação com sombra suave e aconchegante.
-      </p>
+      <div class="space-y-2 text-slate-300 text-[11px] leading-relaxed">
+        <p>
+          <strong class="text-white">1. Curva Helicoidal Suave:</strong> O raio decai exponencialmente ($R = R_0 \cdot \text{rem}^{1.35}$) com $2.8$ voltas concêntricas.
+        </p>
+        <p>
+          <strong class="text-white">2. Atitude Aerodinâmica:</strong> O painel inclina-se na curva (banking de até $26^\circ$) como uma aeronave ou drone de precisão.
+        </p>
+        <p>
+          <strong class="text-white">3. Amortecimento & Snap:</strong> Nos últimos $5\%$ do percurso, ocorre desaceleração com mola amortecida que simula contato mecânico real nos trilhos.
+        </p>
+      </div>
 
-      <!-- Details List -->
-      <div class="space-y-2 pt-1 text-[11px]">
-        <div class="flex items-center justify-between text-slate-400 bg-white/5 px-2.5 py-1.5 rounded-xl">
-          <span>Telhado Escandinavo:</span>
-          <span class="text-slate-200 font-semibold">28° de Inclinação</span>
+      <div class="pt-2 border-t border-white/10 space-y-1.5 text-[11px]">
+        <div class="flex justify-between text-slate-300">
+          <span class="text-slate-400">Inclinação do Telhado:</span>
+          <span class="font-mono text-amber-300 font-bold">28.0°</span>
         </div>
-        <div class="flex items-center justify-between text-slate-400 bg-white/5 px-2.5 py-1.5 rounded-xl">
-          <span>Fixação Fotovoltaica:</span>
-          <span class="text-slate-200 font-semibold">3 Trilhos de Alumínio</span>
+        <div class="flex justify-between text-slate-300">
+          <span class="text-slate-400">Folga de Assentamento:</span>
+          <span class="font-mono text-emerald-400 font-bold">0.00 mm (100% Colado)</span>
         </div>
-        <div class="flex items-center justify-between text-slate-400 bg-white/5 px-2.5 py-1.5 rounded-xl">
-          <span>Módulos Solares:</span>
-          <span class="text-slate-200 font-semibold">2x N-Type TOPCon</span>
-        </div>
-        <div class="flex items-center justify-between text-slate-400 bg-white/5 px-2.5 py-1.5 rounded-xl">
-          <span>Inversor de Parede:</span>
-          <span class="text-emerald-400 font-semibold flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-            LED Ativo
-          </span>
+        <div class="flex justify-between text-slate-300">
+          <span class="text-slate-400">Inversor de Parede:</span>
+          <span class="font-mono text-sky-300 font-bold">LED Ativo + Display PBR</span>
         </div>
       </div>
 
-      <!-- Reference Mini-Thumbnail Toggle -->
-      <div class="pt-2 border-t border-white/10">
-        <button id="btn-show-ref-modal" class="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-medium text-[11px] transition flex items-center justify-center gap-2 border border-white/10">
-          <i class="fa-solid fa-image text-amber-400"></i>
-          <span>Ver Imagem de Referência</span>
-        </button>
-      </div>
+      <button id="btn-show-ref-modal" class="w-full mt-2 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-[11px] font-medium transition border border-white/10 flex items-center justify-center gap-1.5">
+        <i class="fa-solid fa-image text-amber-400"></i>
+        <span>Ver Imagem de Referência (Cozy)</span>
+      </button>
 
     </div>
   </aside>
 
-  <!-- Reference Modal -->
-  <div id="ref-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden pointer-events-auto">
-    <div class="glass-panel p-5 rounded-3xl max-w-lg w-full shadow-2xl border border-white/20 relative space-y-3">
-      <button id="btn-close-ref-modal" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-      <h3 class="font-outfit font-bold text-white text-sm">Imagem de Referência (Quarto Isométrico)</h3>
-      <p class="text-xs text-slate-400">Estilo de modelagem clay/toy com iluminação quente e paleta pastel:</p>
-      <div class="rounded-2xl overflow-hidden border border-white/10 aspect-square max-h-[380px] mx-auto bg-black flex items-center justify-center">
-        <img src="assets/3d/casa_isometrica_preview.png" alt="Render Casa Isométrica" class="w-full h-full object-contain">
+  <!-- Modal da Referência Cozy -->
+  <div id="ref-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="glass-panel p-5 rounded-3xl max-w-lg w-full space-y-3 relative border border-white/20 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <h3 class="font-outfit font-bold text-white text-sm flex items-center gap-2">
+          <i class="fa-solid fa-palette text-amber-400"></i> Imagem de Referência do Usuário
+        </h3>
+        <button id="btn-close-ref-modal" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
+      <div class="rounded-2xl overflow-hidden border border-white/10 bg-black/40 flex items-center justify-center max-h-[70vh]">
+        <img src="assets/3d/referencia_cozy_user.png" alt="Referência Isométrica Cozy" class="w-full h-auto object-contain">
+      </div>
+      <p class="text-[11px] text-slate-300 leading-relaxed text-center">
+        Diorama isométrico aconchegante com cantos chanfrados (bevels), materiais quentes de madeira e telhas terracota, e iluminação de estúdio acolhedora.
+      </p>
     </div>
   </div>
 
   <!-- Loading Overlay -->
-  <div id="loading-overlay" class="absolute inset-0 z-30 bg-[#1e2025] flex flex-col items-center justify-center gap-4 transition-opacity duration-500">
-    <div class="w-12 h-12 rounded-full border-4 border-sky-500/20 border-t-sky-400 animate-spin"></div>
-    <span class="text-xs font-outfit uppercase tracking-widest text-slate-300">Carregando Cena 3D PBR...</span>
+  <div id="loading-overlay" class="absolute inset-0 z-30 bg-[#1a1c22] flex flex-col items-center justify-center gap-4 transition-opacity duration-500">
+    <div class="relative w-14 h-14">
+      <div class="w-14 h-14 rounded-full border-4 border-sky-500/20 border-t-sky-400 animate-spin"></div>
+      <i class="fa-solid fa-solar-panel absolute inset-0 flex items-center justify-center text-sky-400 text-sm animate-pulse"></i>
+    </div>
+    <span class="text-xs font-outfit uppercase tracking-widest text-slate-300">Carregando Modelo 3D & Shaders PBR...</span>
   </div>
 
-  <!-- Three.js Interactive Script -->
+  <!-- Three.js Interactive Engine -->
   <script type="module">
     import * as THREE from 'three';
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-    // 1. SETUP DE CENA, RENDERER E CÂMERA
+    // ─────────────────────────────────────────────────────────────
+    // 1. SÍNTESE DE ÁUDIO PROCEDURAL VIA WEB AUDIO API (Zero Arquivos Externos)
+    // ─────────────────────────────────────────────────────────────
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+        this.lastWhooshTime = 0;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      playWhoosh(intensity = 0.5) {
+        if (!this.enabled || !this.ctx) return;
+        const now = performance.now();
+        if (now - this.lastWhooshTime < 80) return;
+        this.lastWhooshTime = now;
+
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const filter = this.ctx.createBiquadFilter();
+
+          osc.type = 'sine';
+          const freq = 120 + intensity * 260;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(80, this.ctx.currentTime + 0.18);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(400 + intensity * 600, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.04 * intensity, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.18);
+        } catch (e) {}
+      }
+      playDockClick() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          // Latch mecânico metálico com ressonância harmônica
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc1.type = 'triangle';
+          osc1.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
+          osc1.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.08); // A5
+          osc1.frequency.exponentialRampToValueAtTime(1046.5, this.ctx.currentTime + 0.25); // C6
+
+          osc2.type = 'sine';
+          osc2.frequency.setValueAtTime(130.81, this.ctx.currentTime); // C3 (thud de massa mecânica)
+          osc2.frequency.exponentialRampToValueAtTime(65, this.ctx.currentTime + 0.15);
+
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
+
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc1.start();
+          osc2.start();
+          osc1.stop(this.ctx.currentTime + 0.35);
+          osc2.stop(this.ctx.currentTime + 0.35);
+        } catch (e) {}
+      }
+    }
+    const audio = new SoundEngine();
+
+    // ─────────────────────────────────────────────────────────────
+    // 2. SETUP DE CENA, RENDERER E CÂMERAS THREE.JS
+    // ─────────────────────────────────────────────────────────────
     const canvas = document.getElementById('webgl-canvas');
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.25;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x1f232b); // Fundo ardósia profundo com alto contraste
+    scene.background = new THREE.Color(0x1a1c22);
 
     // Câmera Ortográfica Isométrica
     const aspect = window.innerWidth / window.innerHeight;
@@ -261,73 +400,171 @@
       frustumSize / 2,
       frustumSize / -2,
       0.1,
-      100
+      120
     );
 
-    // Posição canônica de câmera isométrica militar (45° yaw, ~35.264° pitch)
     const initialCamPos = new THREE.Vector3(14, 13.5, 14);
+    const cameraLookTarget = new THREE.Vector3(0.2, 1.2, 0);
     camera.position.copy(initialCamPos);
-    camera.lookAt(0.2, 1.2, 0);
+    camera.lookAt(cameraLookTarget);
 
-    // Controles de Órbita
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.target.set(0.2, 1.2, 0);
+    controls.target.copy(cameraLookTarget);
     controls.maxPolarAngle = Math.PI / 2 + 0.1;
     controls.minZoom = 0.5;
-    controls.maxZoom = 2.5;
+    controls.maxZoom = 2.6;
 
-    // 2. ILUMINAÇÃO ESTÚDIO QUENTE DE ALTO CONTRASTE (PBR VIBRANTE)
-    const ambientLight = new THREE.AmbientLight(0xfff8ee, 0.75);
+    // ─────────────────────────────────────────────────────────────
+    // 3. ILUMINAÇÃO ESTÚDIO QUENTE PBR DE ALTO CONTRASTE
+    // ─────────────────────────────────────────────────────────────
+    const ambientLight = new THREE.AmbientLight(0xfff7ed, 0.85);
     scene.add(ambientLight);
 
-    // Luz do Sol Quente Dourado
-    const sunLight = new THREE.DirectionalLight(0xfff1db, 3.4);
+    const sunLight = new THREE.DirectionalLight(0xffedd5, 3.6);
     sunLight.position.set(12, 18, 10);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 2048;
     sunLight.shadow.mapSize.height = 2048;
-    sunLight.shadow.bias = -0.0005;
+    sunLight.shadow.bias = -0.0004;
+    sunLight.shadow.camera.near = 0.5;
+    sunLight.shadow.camera.far = 45;
+    sunLight.shadow.camera.left = -6;
+    sunLight.shadow.camera.right = 6;
+    sunLight.shadow.camera.top = 6;
+    sunLight.shadow.camera.bottom = -6;
     scene.add(sunLight);
 
-    // Luz de preenchimento azul celeste rica
-    const fillLight = new THREE.DirectionalLight(0x93c5fd, 1.3);
+    const fillLight = new THREE.DirectionalLight(0x93c5fd, 1.4);
     fillLight.position.set(-10, 12, -8);
     scene.add(fillLight);
 
-    // Luz de borda quente (rim light)
     const rimLight = new THREE.DirectionalLight(0xfde68a, 1.2);
-    rimLight.position.set(0, -10, -10);
+    rimLight.position.set(0, -8, -10);
     scene.add(rimLight);
 
-    // 3. CARREGAMENTO DO MODELO GLB GERADO NO BLENDER
+    // ─────────────────────────────────────────────────────────────
+    // 4. GUIA HOLOGRÁFICO DE ALINHAMENTO LASER NO TELHADO
+    // ─────────────────────────────────────────────────────────────
+    const holographicTargetGroup = new THREE.Group();
+    holographicTargetGroup.name = "Holographic_Target_Group";
+
+    // Retângulo projetor delimitando a área exata do telhado
+    const holoGeo = new THREE.PlaneGeometry(2.35, 1.6);
+    const holoWireframe = new THREE.WireframeGeometry(holoGeo);
+    const holoMat = new THREE.LineBasicMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.6,
+      linewidth: 2
+    });
+    const holoLines = new THREE.LineSegments(holoWireframe, holoMat);
+    holoLines.position.set(0, 0, 0.01);
+    holographicTargetGroup.add(holoLines);
+
+    // Cantoneiras de alinhamento com brilho
+    const cornerMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.85, side: THREE.DoubleSide });
+    const cornerGeo = new THREE.PlaneGeometry(0.18, 0.18);
+    [
+      [-1.15, -0.78], [1.15, -0.78], [-1.15, 0.78], [1.15, 0.78]
+    ].forEach(([cx, cy]) => {
+      const cMesh = new THREE.Mesh(cornerGeo, cornerMat);
+      cMesh.position.set(cx, cy, 0.02);
+      holographicTargetGroup.add(cMesh);
+    });
+
+    scene.add(holographicTargetGroup);
+
+    // ─────────────────────────────────────────────────────────────
+    // 5. SISTEMA DE PARTÍCULAS: RASTRO DE FÓTONS & POEIRA SOLAR
+    // ─────────────────────────────────────────────────────────────
+    const particleCount = 80;
+    const particleGeo = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+    const particleAlphas = new Float32Array(particleCount);
+    const particleVelocities = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      particlePositions[i * 3 + 0] = 0;
+      particlePositions[i * 3 + 1] = -100; // Oculto inicialmente
+      particlePositions[i * 3 + 2] = 0;
+      particleAlphas[i] = 0.0;
+      particleVelocities.push(new THREE.Vector3(
+        (Math.random() - 0.5) * 0.03,
+        Math.random() * 0.02 + 0.01,
+        (Math.random() - 0.5) * 0.03
+      ));
+    }
+
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    particleGeo.setAttribute('alpha', new THREE.BufferAttribute(particleAlphas, 1));
+
+    const particleMat = new THREE.PointsMaterial({
+      color: 0x38bdf8,
+      size: 0.12,
+      transparent: true,
+      opacity: 0.75,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const particleSystem = new THREE.Points(particleGeo, particleMat);
+    scene.add(particleSystem);
+
+    let particleHead = 0;
+    function emitTrailParticles(origin, speedRatio) {
+      if (speedRatio < 0.05) return;
+      const countToEmit = Math.min(3, Math.ceil(speedRatio * 4));
+      const posAttr = particleGeo.attributes.position;
+      
+      for (let k = 0; k < countToEmit; k++) {
+        const idx = (particleHead + k) % particleCount;
+        posAttr.setXYZ(
+          idx,
+          origin.x + (Math.random() - 0.5) * 0.6,
+          origin.y + (Math.random() - 0.5) * 0.2,
+          origin.z + (Math.random() - 0.5) * 0.6
+        );
+        particleVelocities[idx].set(
+          (Math.random() - 0.5) * 0.02,
+          Math.random() * 0.015,
+          (Math.random() - 0.5) * 0.02
+        );
+      }
+      particleHead = (particleHead + countToEmit) % particleCount;
+      posAttr.needsUpdate = true;
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // 6. CARREGAMENTO DO MODELO GLB GERADO NO BLENDER
+    // ─────────────────────────────────────────────────────────────
     const loader = new GLTFLoader();
     let houseScene = null;
     let solarPanelAssembly = null;
-    let targetPos = new THREE.Vector3();
-    let targetRot = new THREE.Euler();
+    let inverterLed = null;
+    const targetPos = new THREE.Vector3();
+    const targetRot = new THREE.Euler();
 
-    // Carrega o GLB gerado pelo Blender
     loader.load('assets/3d/casa_isometrica.glb', (gltf) => {
       houseScene = gltf.scene;
+
       houseScene.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
           if (child.material) {
-            child.material.roughness = Math.max(child.material.roughness, 0.25);
+            child.material.roughness = Math.max(child.material.roughness, 0.22);
           }
         }
-        // Identifica o grupo do painel solar montado
-        if (child.name.includes('Solar_Panel_Assembly') || child.name.includes('Panel_Frame')) {
-          if (!solarPanelAssembly && child.name.includes('Solar_Panel_Assembly')) {
-            solarPanelAssembly = child;
-          }
+        if (child.name.includes('Solar_Panel_Assembly')) {
+          solarPanelAssembly = child;
+        }
+        if (child.name.includes('LED') || child.name.includes('inv_led')) {
+          inverterLed = child;
         }
       });
 
-      // Se não encontrou o empty pai pelo nome exato, agrupa os painéis
+      // Se o exportador achatar o empty, agrupa dinamicamente
       if (!solarPanelAssembly) {
         const group = new THREE.Group();
         group.name = "Dynamic_Solar_Group";
@@ -344,153 +581,328 @@
         solarPanelAssembly = group;
       }
 
-      // Captura a posição e rotação reais e nativas do Blender (COLADO NO TELHADO)
+      // Captura o repouso original exato (COLADO NO TELHADO)
       targetPos.copy(solarPanelAssembly.position);
       targetRot.copy(solarPanelAssembly.rotation);
 
+      // Posiciona o guia holográfico milimetricamente sobre os trilhos
+      holographicTargetGroup.position.set(targetPos.x, targetPos.y - 0.015, targetPos.z);
+      holographicTargetGroup.rotation.copy(targetRot);
+      holographicTargetGroup.rotateX(Math.PI / 2); // Alinha ao plano do telhado
+
       scene.add(houseScene);
 
-      // Desaparece tela de loading
+      // Oculta tela de loading com transição suave
       const overlay = document.getElementById('loading-overlay');
       if (overlay) {
         overlay.classList.add('opacity-0');
         setTimeout(() => overlay.style.display = 'none', 500);
       }
 
-      // INICIALIZA 100% COLADO NO TELHADO
-      const slider = document.getElementById('spiral-slider');
-      if (slider) slider.value = 100;
-      updateSpiralAnimation(1.0);
+      // Inicia 100% colado no telhado por padrão
+      updateSpiralAnimation(1.0, true);
+
     }, undefined, (err) => {
-      console.error('Erro ao carregar GLB:', err);
+      console.error('Erro ao carregar modelo GLB:', err);
     });
 
-    // 4. MATEMÁTICA DA DESCIDA EM ESPIRAL
-    // t varia de 0 (topo, flutuando no ar) até 1 (100% COLADO no telhado)
+    // ─────────────────────────────────────────────────────────────
+    // 7. FÍSICA AERODINÂMICA DA ESPIRAL & AMORTECIMENTO MECÂNICO
+    // ─────────────────────────────────────────────────────────────
     function calculateSpiralTransform(t) {
       const progress = Math.min(Math.max(t, 0), 1);
-      const remaining = 1 - progress; // 0 quando encaixado no telhado, 1 quando no ar
+      const remaining = 1.0 - progress;
 
-      // Quando 100%, fica exatamente na posição original do Blender (COLADO NO TELHADO)
+      // 100% Colado sem desvios
       if (remaining <= 0.0001) {
         return {
           pos: targetPos.clone(),
-          rot: targetRot.clone()
+          rot: targetRot.clone(),
+          speedRatio: 0
         };
       }
 
-      // Raio da espiral decrescendo suavemente
-      const radius = 2.0 * Math.pow(remaining, 1.4);
+      // Raio helicoidal decrescente com curva exponencial suave
+      const radius = 2.65 * Math.pow(remaining, 1.35);
       
-      // 2 voltas em espiral
-      const spiralAngle = remaining * (Math.PI * 3.5);
+      // 2.8 voltas completas em espiral
+      const turns = 2.8;
+      const spiralAngle = remaining * (Math.PI * 2.0 * turns);
 
-      // Altura acima do telhado
-      const heightOffset = remaining * 3.6;
+      // Altura em queda suave
+      const heightOffset = Math.pow(remaining, 1.1) * 4.3;
 
       const currentX = targetPos.x + Math.cos(spiralAngle) * radius;
       const currentZ = targetPos.z + Math.sin(spiralAngle) * radius;
-      const currentY = targetPos.y + heightOffset;
+      let currentY = targetPos.y + heightOffset;
 
-      const rotX = targetRot.x + (remaining * Math.sin(spiralAngle * 0.5) * 0.5);
-      const rotY = targetRot.y + remaining * spiralAngle * 0.4;
-      const rotZ = targetRot.z + remaining * Math.cos(spiralAngle * 0.5) * 0.3;
+      // Velocidades tangenciais instantâneas para atitude de voo (Pitch & Roll)
+      const dAngle_dt = -(Math.PI * 2.0 * turns);
+      const vx = -Math.sin(spiralAngle) * dAngle_dt * radius;
+      const vz = Math.cos(spiralAngle) * dAngle_dt * radius;
+      const vy = -4.3;
+      const planarSpeed = Math.sqrt(vx * vx + vz * vz);
+
+      // Banking: inclinação lateral proporcional à velocidade na curva
+      const bankAmount = Math.min(0.48, planarSpeed * 0.04) * remaining;
+      const bankRoll = -Math.sin(spiralAngle) * bankAmount;
+
+      // Pitch: mergulho aerodinâmico suave
+      const pitchAmount = Math.min(0.35, remaining * 0.4);
+
+      // Rotações interpoladas com amortecimento nos últimos 8%
+      const lockFactor = Math.min(1.0, remaining / 0.08); // Vai de 1 a 0 quando perto do telhado
+      
+      let rotX = targetRot.x + (pitchAmount * Math.cos(spiralAngle * 0.6) * 0.35) * lockFactor;
+      let rotY = targetRot.y + (remaining * spiralAngle * 0.18) * lockFactor;
+      let rotZ = targetRot.z + (bankRoll) * lockFactor;
+
+      // Amortecimento de mola no contato (Settling Snap entre 96% e 100%)
+      if (remaining < 0.04 && remaining > 0.0001) {
+        const tau = (0.04 - remaining) / 0.04; // 0 a 1
+        // Micro-compressão de 10mm com retorno suave
+        const springDamp = -0.014 * Math.exp(-6.0 * tau) * Math.sin(Math.PI * 2.0 * tau);
+        currentY += springDamp;
+      }
 
       return {
         pos: new THREE.Vector3(currentX, currentY, currentZ),
-        rot: new THREE.Euler(rotX, rotY, rotZ, 'XYZ')
+        rot: new THREE.Euler(rotX, rotY, rotZ, 'XYZ'),
+        speedRatio: planarSpeed / 12.0
       };
     }
 
-    function updateSpiralAnimation(progressNormalized) {
+    let previousProgress = 1.0;
+    function updateSpiralAnimation(progressNormalized, isInstant = false) {
       if (!solarPanelAssembly) return;
 
       const transform = calculateSpiralTransform(progressNormalized);
       solarPanelAssembly.position.copy(transform.pos);
       solarPanelAssembly.rotation.copy(transform.rot);
 
-      // Atualiza textos na interface
+      // Emite partículas de rastro fóton
+      emitTrailParticles(transform.pos, transform.speedRatio);
+
+      // Feedback sonoro de aproximação
+      const delta = Math.abs(progressNormalized - previousProgress);
+      if (delta > 0.005 && !isInstant) {
+        audio.playWhoosh(Math.min(1.0, delta * 30 + transform.speedRatio));
+      }
+
+      // Atualiza Guia Holográfico no telhado
+      const remaining = 1.0 - progressNormalized;
+      if (holoMat) {
+        if (remaining <= 0.01) {
+          // Bloqueado em verde esmeralda
+          holoMat.color.setHex(0x10b981);
+          cornerMat.color.setHex(0x10b981);
+          holoMat.opacity = 0.85;
+        } else {
+          // Aproximação em azul ciano pulsante
+          holoMat.color.setHex(0x38bdf8);
+          cornerMat.color.setHex(0x38bdf8);
+          holoMat.opacity = Math.max(0.2, 0.7 - remaining * 0.5);
+        }
+      }
+
+      // Atualiza Textos e Telemetria da UI
       const percent = Math.round(progressNormalized * 100);
       const textElem = document.getElementById('spiral-progress-text');
+      const powerElem = document.getElementById('power-telemetry');
+      const dotElem = document.getElementById('status-indicator-dot');
+
       if (textElem) {
         if (percent >= 99) {
           textElem.textContent = '100% (Colado no Telhado)';
-          textElem.className = 'text-xs font-mono font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-0.5 rounded-full';
+          textElem.className = 'text-xs font-mono font-bold text-emerald-400 bg-emerald-950/70 border border-emerald-500/40 px-3 py-0.5 rounded-full';
+          if (powerElem) powerElem.textContent = '1.4 MW (Ativo e Gerando)';
+          if (dotElem) dotElem.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+
+          // Toca som de trava física ao encaixar
+          if (previousProgress < 0.98 && !isInstant) {
+            audio.playDockClick();
+          }
         } else if (percent <= 1) {
-          textElem.textContent = '0% (Flutuando no Ar)';
-          textElem.className = 'text-xs font-mono font-bold text-sky-400 bg-sky-950/60 border border-sky-500/30 px-2.5 py-0.5 rounded-full';
+          textElem.textContent = '0% (No Ar • Flutuando)';
+          textElem.className = 'text-xs font-mono font-bold text-sky-400 bg-sky-950/70 border border-sky-500/40 px-3 py-0.5 rounded-full';
+          if (powerElem) powerElem.textContent = '0.0 kW (Standby)';
+          if (dotElem) dotElem.className = 'w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse';
         } else {
           textElem.textContent = `${percent}% (Descendo em Espiral)`;
-          textElem.className = 'text-xs font-mono font-bold text-amber-400 bg-amber-950/60 border border-amber-500/30 px-2.5 py-0.5 rounded-full';
+          textElem.className = 'text-xs font-mono font-bold text-amber-400 bg-amber-950/70 border border-amber-500/40 px-3 py-0.5 rounded-full';
+          const kw = (percent * 14).toFixed(0);
+          if (powerElem) powerElem.textContent = `${kw} kW (Aproximando...)`;
+          if (dotElem) dotElem.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping';
         }
       }
+
+      previousProgress = progressNormalized;
     }
 
-    // 5. INTERATIVIDADE DA UI
+    // ─────────────────────────────────────────────────────────────
+    // 8. CONTROLES DE INTERATIVIDADE, VELOCIDADE & CÂMERA
+    // ─────────────────────────────────────────────────────────────
+    let playbackSpeed = 1.0;
+    let isCinematicCamera = false;
+
+    // Seletor de velocidade
+    const sp05 = document.getElementById('speed-05');
+    const sp10 = document.getElementById('speed-10');
+    const sp20 = document.getElementById('speed-20');
+
+    function setSpeed(val, btnActive) {
+      playbackSpeed = val;
+      [sp05, sp10, sp20].forEach(b => {
+        b.className = 'px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition';
+      });
+      btnActive.className = 'px-2.5 py-1 rounded-lg bg-sky-500 text-slate-950 font-bold transition';
+    }
+    sp05.addEventListener('click', () => setSpeed(0.5, sp05));
+    sp10.addEventListener('click', () => setSpeed(1.0, sp10));
+    sp20.addEventListener('click', () => setSpeed(2.0, sp20));
+
+    // Slider de Scroll Manual
     const slider = document.getElementById('spiral-slider');
     slider.addEventListener('input', (e) => {
+      audio.init();
+      isAnimating = false;
       const val = parseFloat(e.target.value) / 100;
       updateSpiralAnimation(val);
     });
 
-    // Animação automática suave (Play)
+    // Play da Animação Automática
     let isAnimating = false;
     let animStartTime = 0;
-    const animDuration = 2800; // 2.8 segundos de espiral elegante
+    const baseDuration = 3200; // 3.2 segundos para espiral contemplativa épica
 
-    document.getElementById('btn-animate-spiral').addEventListener('click', () => {
+    const btnAnimate = document.getElementById('btn-animate-spiral');
+    btnAnimate.addEventListener('click', () => {
+      audio.init();
       isAnimating = true;
       animStartTime = performance.now();
       slider.value = 0;
+      updateSpiralAnimation(0, true);
     });
 
     document.getElementById('btn-reset-panel').addEventListener('click', () => {
+      audio.init();
       isAnimating = false;
       slider.value = 0;
       updateSpiralAnimation(0);
     });
 
     document.getElementById('btn-dock-panel').addEventListener('click', () => {
+      audio.init();
       isAnimating = false;
       slider.value = 100;
       updateSpiralAnimation(1.0);
     });
 
+    // Toggle Som
+    const btnSound = document.getElementById('btn-toggle-sound');
+    const soundIcon = document.getElementById('sound-icon');
+    const soundText = document.getElementById('sound-text');
+    btnSound.addEventListener('click', () => {
+      audio.init();
+      audio.enabled = !audio.enabled;
+      if (audio.enabled) {
+        soundIcon.className = 'fa-solid fa-volume-high text-sky-400';
+        soundText.textContent = 'Som Ativo';
+      } else {
+        soundIcon.className = 'fa-solid fa-volume-xmark text-slate-500';
+        soundText.textContent = 'Mudo';
+      }
+    });
+
+    // Toggle Câmera Cinemática
+    const btnCinematic = document.getElementById('btn-toggle-cinematic');
+    const cinematicText = document.getElementById('cinematic-text');
+    btnCinematic.addEventListener('click', () => {
+      isCinematicCamera = !isCinematicCamera;
+      if (isCinematicCamera) {
+        cinematicText.textContent = 'Modo Cinemático: ON';
+        btnCinematic.classList.add('bg-amber-500/20', 'border-amber-500/30');
+      } else {
+        cinematicText.textContent = 'Modo Cinemático: OFF';
+        btnCinematic.classList.remove('bg-amber-500/20', 'border-amber-500/30');
+        camera.position.copy(initialCamPos);
+        camera.lookAt(cameraLookTarget);
+        controls.target.copy(cameraLookTarget);
+      }
+    });
+
+    // Reset Câmera
     document.getElementById('btn-reset-cam').addEventListener('click', () => {
+      isCinematicCamera = false;
+      cinematicText.textContent = 'Modo Cinemático: OFF';
+      btnCinematic.classList.remove('bg-amber-500/20', 'border-amber-500/30');
       camera.position.copy(initialCamPos);
       camera.zoom = 1.0;
       camera.updateProjectionMatrix();
-      controls.target.set(0.2, 1.2, 0);
+      controls.target.copy(cameraLookTarget);
     });
 
-    // Modais
+    // Modal de Referência
     const refModal = document.getElementById('ref-modal');
     document.getElementById('btn-show-ref-modal').addEventListener('click', () => refModal.classList.remove('hidden'));
     document.getElementById('btn-close-ref-modal').addEventListener('click', () => refModal.classList.add('hidden'));
 
-    // 6. LOOP DE RENDERIZAÇÃO
-    function animate(now) {
-      requestAnimationFrame(animate);
+    // ─────────────────────────────────────────────────────────────
+    // 9. LOOP DE RENDERIZAÇÃO 60 FPS
+    // ─────────────────────────────────────────────────────────────
+    function renderLoop(now) {
+      requestAnimationFrame(renderLoop);
 
+      // Atualiza animação automática
       if (isAnimating) {
-        const elapsed = now - animStartTime;
-        let progress = elapsed / animDuration;
+        const elapsed = (now - animStartTime) * playbackSpeed;
+        let progress = elapsed / baseDuration;
+        
         if (progress >= 1.0) {
           progress = 1.0;
           isAnimating = false;
         }
-        // Curva de desaceleração suave (Ease Out Quad)
-        const easeOutProgress = 1 - Math.pow(1 - progress, 2.5);
-        slider.value = (easeOutProgress * 100).toFixed(1);
-        updateSpiralAnimation(easeOutProgress);
+
+        // Curva de desaceleração suave (Ease Out Quartic)
+        const easeProgress = 1.0 - Math.pow(1.0 - progress, 3.2);
+        slider.value = (easeProgress * 100).toFixed(1);
+        updateSpiralAnimation(easeProgress);
+
+        // Coreografia da Câmera Cinemática
+        if (isCinematicCamera && solarPanelAssembly) {
+          const camRadius = 14 - (easeProgress * 3.5);
+          const camAngle = Math.PI * 0.25 + (1.0 - easeProgress) * 0.65;
+          camera.position.x = THREE.MathUtils.lerp(camera.position.x, Math.cos(camAngle) * camRadius, 0.05);
+          camera.position.z = THREE.MathUtils.lerp(camera.position.z, Math.sin(camAngle) * camRadius, 0.05);
+          camera.position.y = THREE.MathUtils.lerp(camera.position.y, 11 + (1.0 - easeProgress) * 4, 0.05);
+          controls.target.lerp(new THREE.Vector3(0.2, 1.2 + (1.0 - easeProgress) * 1.5, 0), 0.05);
+        }
       }
+
+      // Atualiza partículas ativas (queda suave e dissipação)
+      const posAttr = particleGeo.attributes.position;
+      for (let i = 0; i < particleCount; i++) {
+        const cy = posAttr.getY(i);
+        if (cy > -50) {
+          posAttr.setXYZ(
+            i,
+            posAttr.getX(i) + particleVelocities[i].x,
+            cy - 0.015,
+            posAttr.getZ(i) + particleVelocities[i].z
+          );
+          if (cy < 0.2) {
+            posAttr.setY(i, -100); // Dissipa abaixo do solo
+          }
+        }
+      }
+      posAttr.needsUpdate = true;
 
       controls.update();
       renderer.render(scene, camera);
     }
-    requestAnimationFrame(animate);
+    requestAnimationFrame(renderLoop);
 
-    // Responsividade
+    // Responsividade da Janela
     window.addEventListener('resize', () => {
       const newAspect = window.innerWidth / window.innerHeight;
       camera.left = frustumSize * newAspect / -2;
@@ -504,4 +916,3 @@
 
 </body>
 </html>
-
