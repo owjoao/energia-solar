@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preview 3D: Casa Isométrica Estilizada & Animação Solar Espiral</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #1e2025;
+      color: #f5f5f7;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    .font-outfit {
+      font-family: 'Outfit', sans-serif;
+    }
+    #webgl-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      outline: none;
+    }
+    .glass-panel {
+      background: rgba(30, 32, 37, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    /* Custom Range Slider */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #2d3039;
+      border-radius: 9999px;
+      height: 8px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #38bdf8;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+      border: 2px solid #ffffff;
+      transition: transform 0.1s;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+  </style>
+
+  <!-- Import Three.js e Addons via ES Module Shims -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body class="relative w-screen h-screen select-none">
+
+  <!-- Canvas WebGL 3D -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Top Header Navigation & Status -->
+  <header class="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
+    <div class="glass-panel px-4 py-2.5 rounded-2xl flex items-center gap-3 shadow-2xl pointer-events-auto">
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-400 flex items-center justify-center text-white shadow-md">
+        <i class="fa-solid fa-cube text-sm"></i>
+      </div>
+      <div>
+        <h1 class="text-xs sm:text-sm font-outfit font-bold text-white tracking-wide">
+          Casa Isométrica Estilizada <span class="text-amber-400 font-normal">• Estilo Clay / Toy</span>
+        </h1>
+        <p class="text-[10px] text-slate-400">Modelado no Blender 5.2 • Renderizado em tempo real com Three.js PBR</p>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="glass-panel px-3 py-1.5 rounded-2xl flex items-center gap-2 shadow-2xl pointer-events-auto">
+      <button id="btn-reset-cam" title="Resetar Câmera Isométrica" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-200 transition flex items-center gap-1.5 border border-white/5">
+        <i class="fa-solid fa-camera-rotate text-sky-400"></i>
+        <span class="hidden sm:inline">Câmera Isométrica</span>
+      </button>
+      <button id="btn-toggle-grid" title="Alternar Guias" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-slate-200 transition flex items-center gap-1.5 border border-white/5">
+        <i class="fa-solid fa-border-all text-emerald-400"></i>
+        <span class="hidden sm:inline">Trilhos</span>
+      </button>
+      <a href="index.html" class="px-3 py-1.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition flex items-center gap-1.5 shadow-lg shadow-sky-500/20">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Voltar ao Site</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Interactive Solar Assembly Control Dock (Bottom Center) -->
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 w-full max-w-xl px-4 pointer-events-auto">
+    <div class="glass-panel p-4 sm:p-5 rounded-3xl shadow-2xl border border-white/10 space-y-3.5">
+      
+      <!-- Title & Percentage Display -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span>
+          <span class="text-xs font-outfit font-bold uppercase tracking-wider text-slate-200">
+            Efeito Painel Solar: Descida em Espiral
+          </span>
+        </div>
+        <span id="spiral-progress-text" class="text-xs font-mono font-bold text-sky-400 bg-sky-950/60 border border-sky-500/30 px-2.5 py-0.5 rounded-full">
+          0% (No Ar)
+        </span>
+      </div>
+
+      <!-- Scroll Simulation Slider -->
+      <div class="space-y-1.5">
+        <div class="flex justify-between text-[11px] text-slate-400">
+          <span>Topo da Página (Painel Flutuando no Ar)</span>
+          <span>Final do Scroll (Encaixe no Telhado)</span>
+        </div>
+        <input type="range" id="spiral-slider" min="0" max="100" value="0" step="0.1" class="w-full cursor-pointer">
+      </div>
+
+      <!-- Quick Play Buttons -->
+      <div class="flex items-center justify-between gap-3 pt-1">
+        <button id="btn-animate-spiral" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-slate-950 font-outfit font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-play"></i>
+          <span>Executar Espiral Automática</span>
+        </button>
+        <button id="btn-reset-panel" class="py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-medium text-xs transition border border-white/10 flex items-center gap-1.5">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span>Subir ao Ar</span>
+        </button>
+        <button id="btn-dock-panel" class="py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-400 font-medium text-xs transition border border-emerald-500/20 flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Encaixar</span>
+        </button>
+      </div>
+
+      <div class="text-[10px] text-slate-400 text-center flex items-center justify-center gap-2">
+        <i class="fa-solid fa-mouse text-sky-400"></i>
+        <span>Use o botão esquerdo para girar 360°, botão direito para arrastar e a roda do mouse para zoom.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Left Info Card: Especificações de Estilo & Referência -->
+  <aside class="hidden lg:block absolute left-4 top-24 z-20 w-80 pointer-events-auto">
+    <div class="glass-panel p-4 rounded-3xl shadow-2xl border border-white/10 space-y-3 text-xs">
+      
+      <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <span class="font-outfit font-bold text-white uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+          <i class="fa-solid fa-palette text-amber-400"></i> Linguagem de Estilo
+        </span>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+          Referência Cozy
+        </span>
+      </div>
+
+      <p class="text-slate-300 text-[11px] leading-relaxed">
+        Criada com os mesmos princípios da referência: cantos arredondados com chanfro (bevel), materiais quentes de madeira natural, acabamento fosco acetinado (matte clay) e iluminação com sombra suave e aconchegante.
+      </p>
+
+      <!-- Details List -->
+      <div class="space-y-2 pt-1 text-[11px]">
+        <div class="flex items-center justify-between text-slate-400 bg-white/5 px-2.5 py-1.5 rounded-xl">
+          <span>Telhado Escandinavo:</span>
+          <span class="text-slate-200 font-semibold">28° de Inclinação</span>
+        </div>
+        <div class="flex items-center justify-between text-slate-400 bg-white/5 px-2.5 py-1.5 rounded-xl">
+          <span>Fixação Fotovoltaica:</span>
+          <span class="text-slate-200 font-semibold">3 Trilhos de Alumínio</span>
+        </div>
+        <div class="flex items-center justify-between text-slate-400 bg-white/5 px-2.5 py-1.5 rounded-xl">
+          <span>Módulos Solares:</span>
+          <span class="text-slate-200 font-semibold">2x N-Type TOPCon</span>
+        </div>
+        <div class="flex items-center justify-between text-slate-400 bg-white/5 px-2.5 py-1.5 rounded-xl">
+          <span>Inversor de Parede:</span>
+          <span class="text-emerald-400 font-semibold flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+            LED Ativo
+          </span>
+        </div>
+      </div>
+
+      <!-- Reference Mini-Thumbnail Toggle -->
+      <div class="pt-2 border-t border-white/10">
+        <button id="btn-show-ref-modal" class="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-medium text-[11px] transition flex items-center justify-center gap-2 border border-white/10">
+          <i class="fa-solid fa-image text-amber-400"></i>
+          <span>Ver Imagem de Referência</span>
+        </button>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- Reference Modal -->
+  <div id="ref-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden pointer-events-auto">
+    <div class="glass-panel p-5 rounded-3xl max-w-lg w-full shadow-2xl border border-white/20 relative space-y-3">
+      <button id="btn-close-ref-modal" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3 class="font-outfit font-bold text-white text-sm">Imagem de Referência (Quarto Isométrico)</h3>
+      <p class="text-xs text-slate-400">Estilo de modelagem clay/toy com iluminação quente e paleta pastel:</p>
+      <div class="rounded-2xl overflow-hidden border border-white/10 aspect-square max-h-[380px] mx-auto bg-black flex items-center justify-center">
+        <img src="assets/3d/casa_isometrica_preview.png" alt="Render Casa Isométrica" class="w-full h-full object-contain">
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="absolute inset-0 z-30 bg-[#1e2025] flex flex-col items-center justify-center gap-4 transition-opacity duration-500">
+    <div class="w-12 h-12 rounded-full border-4 border-sky-500/20 border-t-sky-400 animate-spin"></div>
+    <span class="text-xs font-outfit uppercase tracking-widest text-slate-300">Carregando Cena 3D PBR...</span>
+  </div>
+
+  <!-- Three.js Interactive Script -->
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    // 1. SETUP DE CENA, RENDERER E CÂMERA
+    const canvas = document.getElementById('webgl-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x282b33); // Fundo igual à referência
+
+    // Câmera Ortográfica Isométrica
+    const aspect = window.innerWidth / window.innerHeight;
+    const frustumSize = 8.5;
+    const camera = new THREE.OrthographicCamera(
+      frustumSize * aspect / -2,
+      frustumSize * aspect / 2,
+      frustumSize / 2,
+      frustumSize / -2,
+      0.1,
+      100
+    );
+
+    // Posição canônica de câmera isométrica militar (45° yaw, ~35.264° pitch)
+    const initialCamPos = new THREE.Vector3(14, 13.5, 14);
+    camera.position.copy(initialCamPos);
+    camera.lookAt(0.2, 1.2, 0);
+
+    // Controles de Órbita
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.target.set(0.2, 1.2, 0);
+    controls.maxPolarAngle = Math.PI / 2 + 0.1; // não passar do chão
+    controls.minZoom = 0.5;
+    controls.maxZoom = 2.5;
+
+    // 2. ILUMINAÇÃO ESTÚDIO QUENTE (PBR)
+    const ambientLight = new THREE.AmbientLight(0xfff5ea, 0.9);
+    scene.add(ambientLight);
+
+    // Luz do Sol Quente
+    const sunLight = new THREE.DirectionalLight(0xffedd5, 2.8);
+    sunLight.position.set(12, 18, 10);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.bias = -0.0005;
+    scene.add(sunLight);
+
+    // Luz de preenchimento azul suave
+    const fillLight = new THREE.DirectionalLight(0xc7d2fe, 1.0);
+    fillLight.position.set(-10, 12, -8);
+    scene.add(fillLight);
+
+    // Luz de borda suave (rim light)
+    const rimLight = new THREE.DirectionalLight(0xfff7ed, 0.8);
+    rimLight.position.set(0, -10, -10);
+    scene.add(rimLight);
+
+    // 3. CARREGAMENTO DO MODELO GLB GERADO NO BLENDER
+    const loader = new GLTFLoader();
+    let houseScene = null;
+    let solarPanelAssembly = null;
+
+    // Posições e rotações da animação em espiral
+    // Posição final travada no telhado (Target):
+    const targetPos = new THREE.Vector3(0.4, 2.97, -0.38);
+    const roofAngleRad = THREE.MathUtils.degToRad(28); // 28 graus do telhado
+
+    // Carrega o GLB gerado pelo Blender
+    loader.load('assets/3d/casa_isometrica.glb', (gltf) => {
+      houseScene = gltf.scene;
+      houseScene.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+          if (child.material) {
+            child.material.roughness = Math.max(child.material.roughness, 0.25);
+          }
+        }
+        // Identifica o grupo do painel solar montado
+        if (child.name.includes('Solar_Panel_Assembly') || child.name.includes('Panel_Frame')) {
+          if (!solarPanelAssembly && child.name.includes('Solar_Panel_Assembly')) {
+            solarPanelAssembly = child;
+          }
+        }
+      });
+
+      // Se não encontrou o empty pai pelo nome exato, agrupa os painéis
+      if (!solarPanelAssembly) {
+        const group = new THREE.Group();
+        group.name = "Dynamic_Solar_Group";
+        const toGroup = [];
+        houseScene.traverse((child) => {
+          if (child.name.includes('Panel_') || child.name.includes('Solar_')) {
+            if (!child.name.includes('Rail') && !child.name.includes('Inverter')) {
+              toGroup.push(child);
+            }
+          }
+        });
+        toGroup.forEach(c => group.add(c));
+        houseScene.add(group);
+        solarPanelAssembly = group;
+      }
+
+      scene.add(houseScene);
+
+      // Desaparece tela de loading
+      const overlay = document.getElementById('loading-overlay');
+      if (overlay) {
+        overlay.classList.add('opacity-0');
+        setTimeout(() => overlay.style.display = 'none', 500);
+      }
+
+      // Inicializa na posição do slider (0 = flutuando no ar)
+      updateSpiralAnimation(0);
+    }, undefined, (err) => {
+      console.error('Erro ao carregar GLB:', err);
+    });
+
+    // 4. MATEMÁTICA DA DESCIDA EM ESPIRAL
+    // t varia de 0 (topo, flutuando alto no ar) até 1 (100% encaixado no telhado)
+    function calculateSpiralTransform(t) {
+      // Invertemos para que t=0 seja no ar e t=1 seja no telhado
+      const progress = Math.min(Math.max(t, 0), 1);
+      const remaining = 1 - progress; // 1 no ar, 0 no telhado
+
+      // Raio da espiral: começa em 2.8 metros e vai a 0 no encaixe
+      const radius = 2.8 * Math.pow(remaining, 1.2);
+      
+      // Ângulo de rotação na espiral: 3 voltas completas (6 * PI) durante a descida
+      const spiralAngle = remaining * (Math.PI * 4.5);
+
+      // Altura: flutua até +4.5m acima do telhado
+      const heightOffset = remaining * 4.8;
+
+      // Deslocamento helicoidal
+      const currentX = targetPos.x + Math.cos(spiralAngle) * radius;
+      const currentZ = targetPos.z + Math.sin(spiralAngle) * radius;
+      const currentY = targetPos.y + heightOffset;
+
+      // Rotação: inclina livremente enquanto voa e alinha exatamente aos 28° do telhado no final
+      const rotX = roofAngleRad + (remaining * Math.sin(spiralAngle * 0.5) * 0.8);
+      const rotY = remaining * spiralAngle * 0.6;
+      const rotZ = remaining * Math.cos(spiralAngle * 0.5) * 0.5;
+
+      return {
+        pos: new THREE.Vector3(currentX, currentY, currentZ),
+        rot: new THREE.Euler(rotX, rotY, rotZ, 'XYZ')
+      };
+    }
+
+    function updateSpiralAnimation(progressNormalized) {
+      if (!solarPanelAssembly) return;
+
+      const transform = calculateSpiralTransform(progressNormalized);
+      solarPanelAssembly.position.copy(transform.pos);
+      solarPanelAssembly.rotation.copy(transform.rot);
+
+      // Atualiza textos na interface
+      const percent = Math.round(progressNormalized * 100);
+      const textElem = document.getElementById('spiral-progress-text');
+      if (textElem) {
+        if (percent === 100) {
+          textElem.textContent = '100% (Encaixado no Telhado)';
+          textElem.className = 'text-xs font-mono font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-0.5 rounded-full';
+        } else if (percent === 0) {
+          textElem.textContent = '0% (Flutuando no Ar)';
+          textElem.className = 'text-xs font-mono font-bold text-sky-400 bg-sky-950/60 border border-sky-500/30 px-2.5 py-0.5 rounded-full';
+        } else {
+          textElem.textContent = `${percent}% (Descendo em Espiral)`;
+          textElem.className = 'text-xs font-mono font-bold text-amber-400 bg-amber-950/60 border border-amber-500/30 px-2.5 py-0.5 rounded-full';
+        }
+      }
+    }
+
+    // 5. INTERATIVIDADE DA UI
+    const slider = document.getElementById('spiral-slider');
+    slider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value) / 100;
+      updateSpiralAnimation(val);
+    });
+
+    // Animação automática suave (Play)
+    let isAnimating = false;
+    let animStartTime = 0;
+    const animDuration = 2800; // 2.8 segundos de espiral elegante
+
+    document.getElementById('btn-animate-spiral').addEventListener('click', () => {
+      isAnimating = true;
+      animStartTime = performance.now();
+      slider.value = 0;
+    });
+
+    document.getElementById('btn-reset-panel').addEventListener('click', () => {
+      isAnimating = false;
+      slider.value = 0;
+      updateSpiralAnimation(0);
+    });
+
+    document.getElementById('btn-dock-panel').addEventListener('click', () => {
+      isAnimating = false;
+      slider.value = 100;
+      updateSpiralAnimation(1.0);
+    });
+
+    document.getElementById('btn-reset-cam').addEventListener('click', () => {
+      camera.position.copy(initialCamPos);
+      camera.zoom = 1.0;
+      camera.updateProjectionMatrix();
+      controls.target.set(0.2, 1.2, 0);
+    });
+
+    // Modais
+    const refModal = document.getElementById('ref-modal');
+    document.getElementById('btn-show-ref-modal').addEventListener('click', () => refModal.classList.remove('hidden'));
+    document.getElementById('btn-close-ref-modal').addEventListener('click', () => refModal.classList.add('hidden'));
+
+    // 6. LOOP DE RENDERIZAÇÃO
+    function animate(now) {
+      requestAnimationFrame(animate);
+
+      if (isAnimating) {
+        const elapsed = now - animStartTime;
+        let progress = elapsed / animDuration;
+        if (progress >= 1.0) {
+          progress = 1.0;
+          isAnimating = false;
+        }
+        // Curva de desaceleração suave (Ease Out Quad)
+        const easeOutProgress = 1 - Math.pow(1 - progress, 2.5);
+        slider.value = (easeOutProgress * 100).toFixed(1);
+        updateSpiralAnimation(easeOutProgress);
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(animate);
+
+    // Responsividade
+    window.addEventListener('resize', () => {
+      const newAspect = window.innerWidth / window.innerHeight;
+      camera.left = frustumSize * newAspect / -2;
+      camera.right = frustumSize * newAspect / 2;
+      camera.top = frustumSize / 2;
+      camera.bottom = frustumSize / -2;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+
+</body>
+</html>
