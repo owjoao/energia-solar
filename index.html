@@ -68,9 +68,10 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Three.js & OrbitControls for Real 3D WebGL Diorama -->
+  <!-- Three.js, OrbitControls & GLTFLoader for Real 3D WebGL Diorama -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
   
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -238,14 +239,43 @@
       margin-top: 12px !important;
     }
   </style>
-  <link rel="stylesheet" href="../assets/css/motion-core.css">
 
   <!-- GSAP & ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-
   <style>
+    /* Glass Panel Styling para Seção 3D da Jornada Solar */
+    .glass-panel {
+      background: rgba(22, 24, 31, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .narrative-card {
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .step-dot .dot-circle {
+      transition: all 0.3s ease;
+    }
+    .step-dot.active .dot-circle {
+      border-color: #38bdf8 !important;
+      background-color: #38bdf8 !important;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.8) !important;
+      transform: scale(1.15);
+    }
+    .step-dot.active .dot-label {
+      color: #ffffff !important;
+      opacity: 1 !important;
+    }
+
+    /* Motion Reveal Scroll Effects */
+    .motion-reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      will-change: opacity, transform;
+    }
+
     /* Cult UI Shimmer Microinteraction */
     .shimmer-btn {
       position: relative;
@@ -403,77 +433,69 @@
 
         </div>
 
-        <!-- Right Column: CLEAN STATIC 3D SOLAR HOUSE DIORAMA WITH GENTLE AMBIENT SUN -->
+        <!-- Right Column: CLEAN APPLE SOLAR ARCHITECTURE HUB (Sem a casa no Hero) -->
         <div class="lg:col-span-6 relative flex justify-center items-center">
           
-          <!-- Stage Wrapper (100% natural transparent blend) -->
-          <div id="hero-solar-stage" class="relative w-full max-w-[560px] flex items-center justify-center select-none">
+          <div class="w-full max-w-[500px] bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-2xl relative space-y-6">
             
-            <!-- Animated Gentle Sun Aura & Soft Solar Beams Canvas (Placed behind and around house) -->
-            <canvas id="solar-sun-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
-
-            <!-- Floating Top-Left Status Badge -->
-            <div class="absolute top-2 left-2 sm:left-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-200/80 shadow-sm flex items-center gap-2 z-30 pointer-events-none">
-              <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-              <span class="text-xs font-bold text-slate-800 font-outfit tracking-wide">Placas 580W N-Type • Ativas</span>
-            </div>
-
-            <!-- Floating Top-Right Metric Card (Energia Gerada 1.4 MW) -->
-            <div id="floating-metric-card" class="absolute top-2 right-2 sm:-right-2 bg-white/95 backdrop-blur-md text-slate-900 rounded-2xl p-3.5 sm:p-4 shadow-floating-badge border border-slate-200/80 animate-float z-30 pointer-events-none">
+            <!-- Header Card Status -->
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
               <div class="flex items-center gap-3">
-                <div class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#E2F7E9] flex items-center justify-center text-green-600 text-lg sm:text-xl font-bold">
-                  <i class="fa-solid fa-bolt"></i>
-                  <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-green-500 animate-ping"></span>
-                  <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-white"></span>
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#0066cc] to-[#2997ff] flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+                  <i class="fa-solid fa-solar-panel text-lg"></i>
                 </div>
                 <div>
-                  <span class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Geração em Tempo Real</span>
-                  <div class="flex items-baseline gap-2">
-                    <span id="live-power-watts" class="font-outfit font-extrabold text-lg sm:text-xl text-slate-900">1.4 MW</span>
-                    <span class="text-[10px] sm:text-[11px] font-bold text-green-600 flex items-center">
-                      <i class="fa-solid fa-arrow-trend-up mr-0.5 text-[10px]"></i> +18% este mês
-                    </span>
-                  </div>
+                  <h3 class="font-display font-bold text-sm text-slate-900">Arquitetura Solar SunEco</h3>
+                  <span class="text-[11px] text-slate-500">Módulos TOPCon N-Type • 580W</span>
                 </div>
+              </div>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Ativo
+              </span>
+            </div>
+
+            <!-- Technical Spec Grid -->
+            <div class="grid grid-cols-2 gap-3.5">
+              <div class="p-4 rounded-2xl bg-[#f5f5f7] border border-slate-200/60">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Geração Instantânea</span>
+                <span class="font-display font-extrabold text-2xl text-slate-900 block" id="hero-live-watts">1.4 MW</span>
+                <span class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5">
+                  <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> Alta irradiação
+                </span>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-[#f5f5f7] border border-slate-200/60">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Eficiência de Célula</span>
+                <span class="font-display font-extrabold text-2xl text-[#0066cc] block">23.4%</span>
+                <span class="text-[11px] text-slate-500 font-medium block mt-0.5">
+                  Tecnologia N-Type
+                </span>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-[#f5f5f7] border border-slate-200/60">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Economia Anual Média</span>
+                <span class="font-display font-extrabold text-xl text-slate-900 block">R$ 9.120</span>
+                <span class="text-[11px] text-slate-500 font-medium block mt-0.5">
+                  Redução até 95%
+                </span>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-[#f5f5f7] border border-slate-200/60">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Garantia Linear</span>
+                <span class="font-display font-extrabold text-xl text-amber-600 block">25 Anos</span>
+                <span class="text-[11px] text-slate-500 font-medium block mt-0.5">
+                  Proteção Tier-1
+                </span>
               </div>
             </div>
 
-            <!-- Interactive 3D Solar House Diorama (Blender PBR + Google Model-Viewer) -->
-            <div id="hero-solar-card" class="relative z-10 w-full flex flex-col items-center justify-center">
-              <model-viewer 
-                id="hero-solar-3d"
-                src="assets/solar-house-diorama.glb" 
-                poster="assets/solar-house-diorama-preview.png" 
-                alt="Maquete 3D Interativa SunEco • Casa Sustentável com Painéis Solares" 
-                auto-rotate 
-                rotation-per-second="14deg"
-                camera-controls 
-                touch-action="pan-y"
-                shadow-intensity="1.5"
-                shadow-softness="0.7"
-                exposure="1.0"
-                camera-orbit="30deg 64deg 105%"
-                min-camera-orbit="auto auto 70%"
-                max-camera-orbit="auto auto 150%"
-                ar
-                ar-modes="webxr scene-viewer quick-look"
-                class="w-full max-w-[560px] h-[360px] sm:h-[450px] md:h-[500px] outline-none cursor-grab active:cursor-grabbing select-none"
-                loading="eager"
-              >
-              </model-viewer>
-
-              <!-- Dica visual interativa 3D & Alternância para Scroll-World -->
-              <div class="mt-2 flex flex-wrap items-center justify-center gap-2">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-sm text-[11px] font-semibold text-slate-700 select-none">
-                  <i class="fa-solid fa-arrows-rotate text-emerald-600 text-xs animate-spin" style="animation-duration: 4s;"></i>
-                  <span>Modelo 3D • Arraste 360°</span>
-                </div>
-                <a href="scroll-world.html" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-emerald-600 text-white transition-all text-[11px] font-bold shadow-sm hover:scale-105">
-                  <i class="fa-solid fa-film text-emerald-400"></i>
-                  <span>Modo Voo de Câmera (Scroll-World) ✨</span>
-                </a>
-              </div>
-            </div>
+            <!-- Callout: Link para a Apresentação 3D na Rolagem -->
+            <a href="#jornada-solar-3d" class="block w-full text-center py-3.5 px-4 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 hover:from-black hover:to-slate-900 text-white font-display font-semibold text-xs tracking-wide transition shadow-lg flex items-center justify-center gap-2 group">
+              <i class="fa-solid fa-cube text-sky-400 group-hover:rotate-12 transition-transform"></i>
+              <span>Ver Instalação e Efeito 3D na Rolagem</span>
+              <i class="fa-solid fa-arrow-down text-[10px] text-sky-400 group-hover:translate-y-0.5 transition-transform"></i>
+            </a>
 
           </div>
 
@@ -482,15 +504,139 @@
       </div>
 
       <!-- Brand Logos Bar (TESLA, SolarEdge, LG, Schneider, LONGi, Growatt) -->
-      <div class="mt-16 pt-8 border-t border-slate-200 flex flex-wrap items-center justify-center sm:justify-between gap-6 opacity-75 grayscale hover:grayscale-0 transition-all duration-500">
+      <div class="mt-16 pt-8 border-t border-slate-200 flex flex-wrap items-center justify-center sm:justify-between gap-6 opacity-75 grayscale hover:grayscale-0 transition-all duration-500 motion-reveal">
         <div class="font-outfit font-black text-sm tracking-widest text-slate-800 flex items-center gap-1.5">
           <i class="fa-solid fa-bolt text-xs"></i> TESLA
         </div>
         <div class="font-outfit font-bold text-sm tracking-widest text-slate-800">solar<span class="font-black">edge</span></div>
         <div class="font-outfit font-black text-sm tracking-widest text-slate-800">LG SOLAR</div>
-        <div class="font-outfit font-bold text-sm tracking-widest text-slate-800">Schneider Electric</div>
+        <div class="font-outfit font-black text-sm tracking-widest text-slate-800">Schneider Electric</div>
         <div class="font-outfit font-black text-sm tracking-widest text-slate-800">LONGi</div>
         <div class="font-outfit font-bold text-sm tracking-widest text-slate-800">GROWATT</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SEÇÃO 3D INTERATIVA NA ROLAGEM: A JORNADA DO PAINEL SOLAR AO TELHADO        -->
+  <!-- ========================================================================= -->
+  <section id="jornada-solar-3d" class="relative bg-[#16181f] text-[#f5f5f7] border-y border-white/10" style="height: 300vh;">
+    
+    <!-- Container Fixo em Tela Cheia durante o Scroll dos 300vh -->
+    <div class="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+      
+      <!-- Canvas WebGL Three.js -->
+      <canvas id="scroll-solar-canvas" class="absolute inset-0 w-full h-full z-0 outline-none"></canvas>
+      
+      <!-- Vinheta Sutil de Ambientação -->
+      <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#16181f] via-transparent to-[#16181f]/80 z-10"></div>
+      
+      <!-- Top HUD / Status Bar da Rolagem -->
+      <div class="absolute top-5 left-4 sm:left-8 right-4 sm:right-8 z-20 flex items-center justify-between pointer-events-none">
+        
+        <div class="glass-panel px-4 py-2 rounded-2xl flex items-center gap-3 border border-white/10 pointer-events-auto shadow-2xl">
+          <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span>
+          <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+            <span class="text-xs font-display font-bold text-white tracking-wide uppercase">Engenharia em Rolagem</span>
+            <span class="text-[10px] text-slate-400 hidden sm:inline">• Desça a página para ver a placa assentar no telhado</span>
+          </div>
+        </div>
+
+        <div class="glass-panel px-3.5 py-1.5 rounded-2xl flex items-center gap-2 border border-white/10 pointer-events-auto text-xs font-mono font-bold text-sky-400 shadow-2xl">
+          <i class="fa-solid fa-arrows-up-down text-[10px]"></i>
+          <span id="scroll-hud-status">0% • No Ar (Em Espiral)</span>
+        </div>
+
+      </div>
+
+      <!-- Left Narrative Story Cards (Alternam e animam com a rolagem) -->
+      <div class="absolute left-4 sm:left-10 lg:left-16 bottom-8 sm:bottom-12 z-20 max-w-lg w-full pointer-events-auto">
+        
+        <!-- Step 1 Card: 0% - 33% -->
+        <div id="narrative-step-1" class="narrative-card glass-panel p-6 sm:p-7 rounded-3xl border border-white/15 shadow-2xl space-y-3 transition-all duration-500">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-sky-400 uppercase tracking-widest bg-sky-500/20 px-3 py-1 rounded-full border border-sky-500/30">
+              01 • Captação Fotovoltaica
+            </span>
+            <span class="text-xs font-mono text-slate-400">Passo 1 de 3</span>
+          </div>
+          <h3 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            Módulos TOPCon N-Type de 580W
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+            Células fotovoltaicas de silício monocristalino com eficiência de 23.4% e barramentos prateados antirreflexo. Captação de fótons mesmo em dias nublados ou com luz difusa.
+          </p>
+          <div class="pt-2 flex items-center gap-4 text-xs font-semibold text-slate-300">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-sky-400"></i> 25 Anos de Garantia</span>
+            <span class="text-slate-600">|</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-sun text-amber-400"></i> +22% Eficiência</span>
+          </div>
+        </div>
+
+        <!-- Step 2 Card: 34% - 70% -->
+        <div id="narrative-step-2" class="narrative-card hidden glass-panel p-6 sm:p-7 rounded-3xl border border-white/15 shadow-2xl space-y-3 transition-all duration-500">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-amber-400 uppercase tracking-widest bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/30">
+              02 • Engenharia & Trajetória
+            </span>
+            <span class="text-xs font-mono text-slate-400">Passo 2 de 3</span>
+          </div>
+          <h3 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+            Dimensionamento Perpendicular 28°
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+            Nossos engenheiros calculam a inclinação angular ideal do seu telhado para orientação ao norte solar, otimizando a geração durante todas as 4 estações do ano.
+          </p>
+          <div class="pt-2 flex items-center gap-4 text-xs font-semibold text-slate-300">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-compass text-amber-400"></i> Norte Solar Exato</span>
+            <span class="text-slate-600">|</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-angle-up text-sky-400"></i> 28° Perpendicular</span>
+          </div>
+        </div>
+
+        <!-- Step 3 Card: 71% - 100% -->
+        <div id="narrative-step-3" class="narrative-card hidden glass-panel p-6 sm:p-7 rounded-3xl border border-emerald-500/40 shadow-2xl space-y-3 transition-all duration-500">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30">
+              03 • Assentamento 100% Colado
+            </span>
+            <span class="text-xs font-mono text-emerald-400 font-bold">Instalação Concluída</span>
+          </div>
+          <h3 class="font-display font-bold text-xl sm:text-2xl text-white tracking-tight flex items-center gap-2">
+            <span>Fixação Mecânica & Ativação</span>
+            <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+            Os módulos descansam 100% colados sobre trilhos de alumínio aeroespacial sem perfurações destrutivas. O inversor de parede sincroniza e inicia a economia de até 95%.
+          </p>
+          <div class="pt-3 flex flex-wrap items-center gap-3">
+            <a href="#simulador" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-outfit font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl shadow-lg shadow-emerald-500/25 transition">
+              Calcular Potência do Meu Telhado
+            </a>
+            <span class="text-xs text-emerald-400 font-mono font-bold flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              Geração: 1.4 MW Ativa
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Step Timeline Indicators (01, 02, 03) -->
+      <div class="absolute right-6 sm:right-10 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-4 pointer-events-auto">
+        <div id="step-dot-1" class="step-dot active flex items-center gap-2 cursor-pointer group" onclick="scrollToSpiralStep(0.05)" title="Passo 1: Captação Fotovoltaica">
+          <span class="dot-label text-[10px] font-mono font-bold text-white uppercase hidden sm:inline opacity-80 group-hover:opacity-100">01. Silício</span>
+          <div class="dot-circle w-3.5 h-3.5 rounded-full border-2 border-sky-400 bg-sky-400 shadow-lg shadow-sky-400/50"></div>
+        </div>
+        <div id="step-dot-2" class="step-dot flex items-center gap-2 cursor-pointer group" onclick="scrollToSpiralStep(0.50)" title="Passo 2: Engenharia 28°">
+          <span class="dot-label text-[10px] font-mono font-bold text-slate-400 uppercase hidden sm:inline opacity-60 group-hover:opacity-100">02. Ângulo</span>
+          <div class="dot-circle w-3.5 h-3.5 rounded-full border-2 border-slate-600 bg-transparent"></div>
+        </div>
+        <div id="step-dot-3" class="step-dot flex items-center gap-2 cursor-pointer group" onclick="scrollToSpiralStep(0.98)" title="Passo 3: Assentamento Colado">
+          <span class="dot-label text-[10px] font-mono font-bold text-slate-400 uppercase hidden sm:inline opacity-60 group-hover:opacity-100">03. Colado</span>
+          <div class="dot-circle w-3.5 h-3.5 rounded-full border-2 border-slate-600 bg-transparent"></div>
+        </div>
       </div>
 
     </div>
@@ -507,7 +653,7 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
       <!-- Section Title & Arrows (Apple Typography) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16 motion-reveal">
         <div class="lg:col-span-8 space-y-3">
           <span class="text-[#2997ff] font-semibold text-xs uppercase tracking-wider block">
             Engenharia & Conectividade
@@ -531,7 +677,7 @@
       </div>
 
       <!-- 3 Apple Tile Cards + Lateral Keypoints Panel Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start motion-reveal">
         
         <!-- 3 Interactive Cards Container -->
         <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -632,7 +778,7 @@
   <section id="simulador" class="py-24 bg-[#ffffff] relative border-b border-[#e0e0e0]">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="text-center max-w-2xl mx-auto mb-14 motion-reveal">
         <span class="text-[#0066cc] font-semibold text-xs uppercase tracking-wider block mb-2">
           Estudo de Retorno & Dimensionamento
         </span>
@@ -644,7 +790,7 @@
         </p>
       </div>
 
-      <div class="bg-[#f5f5f7] border border-[#e0e0e0] rounded-3xl p-6 sm:p-10 shadow-apple-card relative overflow-hidden">
+      <div class="bg-[#f5f5f7] border border-[#e0e0e0] rounded-3xl p-6 sm:p-10 shadow-apple-card relative overflow-hidden motion-reveal">
         
         <!-- Slider Section Apple Style -->
         <div class="space-y-4 bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e0e0] mb-8">
@@ -716,7 +862,7 @@
   <section id="segmentos" class="py-24 bg-[#f5f5f7] relative border-b border-[#e0e0e0]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="text-center max-w-2xl mx-auto mb-14 motion-reveal">
         <span class="text-[#0066cc] font-semibold text-xs uppercase tracking-wider block mb-2">
           Aplicações
         </span>
@@ -726,7 +872,7 @@
       </div>
 
       <!-- Segment Tabs Selector (Apple Capsule Buttons) -->
-      <div class="flex flex-wrap justify-center gap-2 mb-12">
+      <div class="flex flex-wrap justify-center gap-2 mb-12 motion-reveal">
         <button type="button" class="seg-tab active px-5 py-2 rounded-full text-xs font-medium bg-[#1d1d1f] text-white transition-all cursor-pointer" data-target="seg-res">
           Residencial
         </button>
@@ -2018,6 +2164,436 @@
     }
   </script>
 
+
+  <!-- ========================================================================= -->
+  <!-- THREE.JS SCROLL ENGINE & GSAP MOTION REVEAL ORCHESTRATION                 -->
+  <!-- ========================================================================= -->
+  <script>
+    // 1. SCROLL HELPER PARA OS STEP DOTS DA TIMELINE 3D
+    window.scrollToSpiralStep = function(targetProgress) {
+      const section = document.getElementById('jornada-solar-3d');
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const sectionTop = rect.top + currentScrollY;
+      const totalScrollableDistance = section.offsetHeight - window.innerHeight;
+      const targetY = sectionTop + (targetProgress * totalScrollableDistance);
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+    };
+
+    // 2. THREE.JS SCENE SETUP NO CANVAS #scroll-solar-canvas
+    (function initSolarScrollExperience() {
+      const canvas = document.getElementById('scroll-solar-canvas');
+      const sectionContainer = document.getElementById('jornada-solar-3d');
+      if (!canvas || !sectionContainer || typeof THREE === 'undefined') return;
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance"
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.25;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      const scene = new THREE.Scene();
+
+      // Câmera Ortográfica Isométrica Calibrada
+      let aspect = window.innerWidth / window.innerHeight;
+      let frustumSize = window.innerWidth < 768 ? 11.5 : 8.8;
+      const camera = new THREE.OrthographicCamera(
+        -frustumSize * aspect / 2,
+        frustumSize * aspect / 2,
+        frustumSize / 2,
+        -frustumSize / 2,
+        0.1,
+        150
+      );
+
+      const initialCamPos = new THREE.Vector3(14, 13.5, 14);
+      const cameraLookTarget = new THREE.Vector3(0.2, 1.2, 0);
+      camera.position.copy(initialCamPos);
+      camera.lookAt(cameraLookTarget);
+
+      // Iluminação Estúdio PBR de Alto Contraste
+      const ambientLight = new THREE.AmbientLight(0xfff7ed, 0.9);
+      scene.add(ambientLight);
+
+      const sunLight = new THREE.DirectionalLight(0xffedd5, 3.6);
+      sunLight.position.set(12, 18, 10);
+      sunLight.castShadow = true;
+      sunLight.shadow.mapSize.width = 2048;
+      sunLight.shadow.mapSize.height = 2048;
+      sunLight.shadow.bias = -0.00008;
+      sunLight.shadow.normalBias = 0.03;
+      sunLight.shadow.camera.near = 0.5;
+      sunLight.shadow.camera.far = 45;
+      sunLight.shadow.camera.left = -6;
+      sunLight.shadow.camera.right = 6;
+      sunLight.shadow.camera.top = 6;
+      sunLight.shadow.camera.bottom = -6;
+      scene.add(sunLight);
+
+      const fillLight = new THREE.DirectionalLight(0x93c5fd, 1.4);
+      fillLight.position.set(-10, 12, -8);
+      scene.add(fillLight);
+
+      const rimLight = new THREE.DirectionalLight(0xfde68a, 1.2);
+      rimLight.position.set(0, -8, -10);
+      scene.add(rimLight);
+
+      // Guia Holográfico Laser no Telhado
+      const holographicTargetGroup = new THREE.Group();
+      const holoGeo = new THREE.PlaneGeometry(2.35, 1.6);
+      const holoWireframe = new THREE.WireframeGeometry(holoGeo);
+      const holoMat = new THREE.LineBasicMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.6
+      });
+      const holoLines = new THREE.LineSegments(holoWireframe, holoMat);
+      holoLines.position.set(0, 0, 0.01);
+      holographicTargetGroup.add(holoLines);
+
+      const cornerMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.85, side: THREE.DoubleSide });
+      const cornerGeo = new THREE.PlaneGeometry(0.18, 0.18);
+      [
+        [-1.15, -0.78], [1.15, -0.78], [-1.15, 0.78], [1.15, 0.78]
+      ].forEach(([cx, cy]) => {
+        const cMesh = new THREE.Mesh(cornerGeo, cornerMat);
+        cMesh.position.set(cx, cy, 0.02);
+        holographicTargetGroup.add(cMesh);
+      });
+      scene.add(holographicTargetGroup);
+
+      // Sistema de Partículas (Rastro de Fótons)
+      const particleCount = 50;
+      const particleGeo = new THREE.BufferGeometry();
+      const particlePositions = new Float32Array(particleCount * 3);
+      for (let i = 0; i < particleCount; i++) {
+        particlePositions[i * 3 + 1] = -100;
+      }
+      particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+      const particleMat = new THREE.PointsMaterial({
+        color: 0x38bdf8,
+        size: 0.12,
+        transparent: true,
+        opacity: 0.75,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      const particleSystem = new THREE.Points(particleGeo, particleMat);
+      scene.add(particleSystem);
+
+      let particleHead = 0;
+      function emitTrailParticles(origin, speedRatio) {
+        if (speedRatio < 0.05) return;
+        const countToEmit = Math.min(2, Math.ceil(speedRatio * 3));
+        const posAttr = particleGeo.attributes.position;
+        for (let k = 0; k < countToEmit; k++) {
+          const idx = (particleHead + k) % particleCount;
+          posAttr.setXYZ(
+            idx,
+            origin.x + (Math.random() - 0.5) * 0.5,
+            origin.y + (Math.random() - 0.5) * 0.2,
+            origin.z + (Math.random() - 0.5) * 0.5
+          );
+        }
+        particleHead = (particleHead + countToEmit) % particleCount;
+        posAttr.needsUpdate = true;
+      }
+
+      // Variáveis do Modelo 3D
+      let houseScene = null;
+      let solarPanelAssembly = null;
+      const targetPos = new THREE.Vector3();
+      const targetRot = new THREE.Euler();
+      let isModelLoaded = false;
+      let currentProgress = 0.0;
+
+      // Carregamento do GLB
+      const loader = new THREE.GLTFLoader();
+      loader.load('assets/3d/casa_isometrica.glb', function(gltf) {
+        houseScene = gltf.scene;
+
+        houseScene.traverse(function(child) {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+            if (child.material) {
+              child.material.roughness = Math.max(child.material.roughness || 0.4, 0.22);
+            }
+          }
+          if (child.name.includes('Solar_Panel_Assembly')) {
+            solarPanelAssembly = child;
+          }
+        });
+
+        if (!solarPanelAssembly) {
+          const group = new THREE.Group();
+          group.name = "Dynamic_Solar_Group";
+          const toGroup = [];
+          houseScene.traverse(function(child) {
+            if (child.name.includes('Panel_') || child.name.includes('Solar_')) {
+              if (!child.name.includes('Rail') && !child.name.includes('Inverter')) {
+                toGroup.push(child);
+              }
+            }
+          });
+          toGroup.forEach(function(c) { group.add(c); });
+          houseScene.add(group);
+          solarPanelAssembly = group;
+        }
+
+        // Posição de repouso gravada (100% colado ao telhado)
+        targetPos.copy(solarPanelAssembly.position);
+        targetRot.copy(solarPanelAssembly.rotation);
+
+        // Alinha o guia holográfico com os trilhos
+        holographicTargetGroup.position.set(targetPos.x, targetPos.y - 0.015, targetPos.z);
+        holographicTargetGroup.rotation.copy(targetRot);
+        holographicTargetGroup.rotateX(Math.PI / 2);
+
+        scene.add(houseScene);
+        isModelLoaded = true;
+
+        // Atualiza a posição inicial de acordo com a posição atual de rolagem da página
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.refresh();
+        }
+      }, undefined, function(err) {
+        console.warn('Modelo casa_isometrica.glb não carregado no momento:', err);
+      });
+
+      // Cálculo de Cinemática da Espiral (Raio exponencial + Banking + Spring Damp)
+      function calculateSpiralTransform(t) {
+        const progress = Math.min(Math.max(t, 0), 1);
+        const remaining = 1.0 - progress;
+
+        if (remaining <= 0.0001) {
+          return {
+            pos: targetPos.clone(),
+            rot: targetRot.clone(),
+            speedRatio: 0
+          };
+        }
+
+        const radius = 2.65 * Math.pow(remaining, 1.35);
+        const turns = 2.8;
+        const spiralAngle = remaining * (Math.PI * 2.0 * turns);
+        const heightOffset = Math.pow(remaining, 1.1) * 4.3;
+
+        const currentX = targetPos.x + Math.cos(spiralAngle) * radius;
+        const currentZ = targetPos.z + Math.sin(spiralAngle) * radius;
+        let currentY = targetPos.y + heightOffset;
+
+        // Banking & Pitch aerodinâmico
+        const dAngle_dt = -(Math.PI * 2.0 * turns);
+        const vx = -Math.sin(spiralAngle) * dAngle_dt * radius;
+        const vz = Math.cos(spiralAngle) * dAngle_dt * radius;
+        const planarSpeed = Math.sqrt(vx * vx + vz * vz);
+
+        const bankAmount = Math.min(0.48, planarSpeed * 0.04) * remaining;
+        const bankRoll = -Math.sin(spiralAngle) * bankAmount;
+        const pitchAmount = Math.min(0.35, remaining * 0.4);
+        const lockFactor = Math.min(1.0, remaining / 0.08);
+
+        let rotX = targetRot.x + (pitchAmount * Math.cos(spiralAngle * 0.6) * 0.35) * lockFactor;
+        let rotY = targetRot.y + (remaining * spiralAngle * 0.18) * lockFactor;
+        let rotZ = targetRot.z + bankRoll * lockFactor;
+
+        // Mola mecânica nos últimos 4%
+        if (remaining < 0.04 && remaining > 0.0001) {
+          const tau = (0.04 - remaining) / 0.04;
+          const springDamp = -0.014 * Math.exp(-6.0 * tau) * Math.sin(Math.PI * 2.0 * tau);
+          currentY += springDamp;
+        }
+
+        return {
+          pos: new THREE.Vector3(currentX, currentY, currentZ),
+          rot: new THREE.Euler(rotX, rotY, rotZ, 'XYZ'),
+          speedRatio: planarSpeed / 12.0
+        };
+      }
+
+      // Função de Atualização da Animação
+      function updateSpiralAnimation(progress) {
+        currentProgress = progress;
+        if (!solarPanelAssembly || !isModelLoaded) return;
+
+        const transform = calculateSpiralTransform(progress);
+        solarPanelAssembly.position.copy(transform.pos);
+        solarPanelAssembly.rotation.copy(transform.rot);
+
+        emitTrailParticles(transform.pos, transform.speedRatio);
+
+        const remaining = 1.0 - progress;
+        if (holographicTargetGroup) {
+          if (remaining <= 0.015) {
+            holographicTargetGroup.visible = false;
+          } else {
+            holographicTargetGroup.visible = true;
+            holoMat.opacity = Math.max(0.15, 0.7 - remaining * 0.5);
+          }
+        }
+
+        // Atualização dos Cards Narrativos & Timeline Dots
+        updateStoryUI(progress);
+      }
+
+      function updateStoryUI(p) {
+        const percent = Math.round(p * 100);
+        const hudStatus = document.getElementById('scroll-hud-status');
+        const card1 = document.getElementById('narrative-step-1');
+        const card2 = document.getElementById('narrative-step-2');
+        const card3 = document.getElementById('narrative-step-3');
+
+        const dot1 = document.getElementById('step-dot-1');
+        const dot2 = document.getElementById('step-dot-2');
+        const dot3 = document.getElementById('step-dot-3');
+
+        // Atualização do HUD Top Status
+        if (hudStatus) {
+          if (p >= 0.98) {
+            hudStatus.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i> 100% • Colado no Telhado (1.4 MW Ativo)';
+            hudStatus.className = 'glass-panel px-3.5 py-1.5 rounded-2xl flex items-center gap-2 border border-emerald-500/40 pointer-events-auto text-xs font-mono font-bold text-emerald-400 shadow-2xl';
+          } else if (p > 0.70) {
+            hudStatus.innerHTML = '<i class="fa-solid fa-arrows-to-dot text-emerald-400"></i> ' + percent + '% • Fixando nos Trilhos';
+            hudStatus.className = 'glass-panel px-3.5 py-1.5 rounded-2xl flex items-center gap-2 border border-emerald-500/30 pointer-events-auto text-xs font-mono font-bold text-emerald-400 shadow-2xl';
+          } else if (p > 0.33) {
+            hudStatus.innerHTML = '<i class="fa-solid fa-compass text-amber-400"></i> ' + percent + '% • Em Trajetória 28° (Norte Solar)';
+            hudStatus.className = 'glass-panel px-3.5 py-1.5 rounded-2xl flex items-center gap-2 border border-amber-500/30 pointer-events-auto text-xs font-mono font-bold text-amber-400 shadow-2xl';
+          } else {
+            hudStatus.innerHTML = '<i class="fa-solid fa-cloud text-sky-400"></i> ' + percent + '% • No Ar (Em Espiral)';
+            hudStatus.className = 'glass-panel px-3.5 py-1.5 rounded-2xl flex items-center gap-2 border border-white/10 pointer-events-auto text-xs font-mono font-bold text-sky-400 shadow-2xl';
+          }
+        }
+
+        // Alternância dos 3 Cards Narrativos de Serviços
+        if (p <= 0.33) {
+          if (card1) card1.classList.remove('hidden');
+          if (card2) card2.classList.add('hidden');
+          if (card3) card3.classList.add('hidden');
+
+          if (dot1) dot1.classList.add('active');
+          if (dot2) dot2.classList.remove('active');
+          if (dot3) dot3.classList.remove('active');
+        } else if (p <= 0.70) {
+          if (card1) card1.classList.add('hidden');
+          if (card2) card2.classList.remove('hidden');
+          if (card3) card3.classList.add('hidden');
+
+          if (dot1) dot1.classList.remove('active');
+          if (dot2) dot2.classList.add('active');
+          if (dot3) dot3.classList.remove('active');
+        } else {
+          if (card1) card1.classList.add('hidden');
+          if (card2) card2.classList.add('hidden');
+          if (card3) card3.classList.remove('hidden');
+
+          if (dot1) dot1.classList.remove('active');
+          if (dot2) dot2.classList.remove('active');
+          if (dot3) dot3.classList.add('active');
+        }
+      }
+
+      // Loop de Renderização com Otimização de GPU
+      let isRendering = false;
+      function animate() {
+        if (!isRendering) return;
+        requestAnimationFrame(animate);
+
+        // Suave rotação do sistema de partículas
+        if (particleSystem) {
+          particleSystem.rotation.y += 0.002;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      // Conexão com GSAP ScrollTrigger
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ScrollTrigger da Espiral
+        ScrollTrigger.create({
+          trigger: "#jornada-solar-3d",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.5,
+          onUpdate: function(self) {
+            updateSpiralAnimation(self.progress);
+          }
+        });
+
+        // Otimização: ativa loop apenas quando no viewport
+        ScrollTrigger.create({
+          trigger: "#jornada-solar-3d",
+          start: "top bottom",
+          end: "bottom top",
+          onEnter: function() {
+            if (!isRendering) {
+              isRendering = true;
+              animate();
+            }
+          },
+          onLeave: function() {
+            isRendering = false;
+          },
+          onEnterBack: function() {
+            if (!isRendering) {
+              isRendering = true;
+              animate();
+            }
+          },
+          onLeaveBack: function() {
+            isRendering = false;
+          }
+        });
+
+        // 3. GSAP MOTION REVEAL PARA ELEMENTOS AO DESCER A PÁGINA
+        gsap.utils.toArray('.motion-reveal, .reveal').forEach(function(el) {
+          gsap.fromTo(el, 
+            { opacity: 0, y: 35 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.85,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: el,
+                start: "top 88%",
+                toggleActions: "play none none none"
+              }
+            }
+          );
+        });
+      } else {
+        // Fallback se ScrollTrigger não estiver disponível
+        isRendering = true;
+        animate();
+      }
+
+      // Suporte a Redimensionamento de Janela
+      window.addEventListener('resize', function() {
+        aspect = window.innerWidth / window.innerHeight;
+        frustumSize = window.innerWidth < 768 ? 11.5 : 8.8;
+
+        camera.left = -frustumSize * aspect / 2;
+        camera.right = frustumSize * aspect / 2;
+        camera.top = frustumSize / 2;
+        camera.bottom = -frustumSize / 2;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+    })();
+  </script>
 
   <!-- ========================================================================= -->
   <!-- ADR-002: MOBILE CONVERSION DOCK (1-TOQUE NO WHATSAPP)                     -->
