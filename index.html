@@ -90,32 +90,50 @@
       theme: {
         extend: {
           colors: {
+            apple: {
+              blue: '#0066cc',
+              blueHover: '#0071e3',
+              blueLight: '#2997ff',
+              ink: '#1d1d1f',
+              inkMuted: '#6e6e73',
+              inkLight: '#86868b',
+              canvas: '#ffffff',
+              parchment: '#f5f5f7',
+              pearl: '#fafafc',
+              dark: '#000000',
+              tileDark: '#161617',
+              hairline: '#e0e0e0'
+            },
             suneco: {
-              green: '#16A34A',
-              greenDark: '#15803D',
-              greenLight: '#22C55E',
-              greenSoft: '#DCFCE7',
-              dark: '#0F172A',
-              darker: '#0A0F1D',
-              cardDark: '#111C2E',
-              forestDark: '#051814',
-              forestCard: '#0A261F',
-              forestCardHover: '#133D32',
-              grayBg: '#F8FAFC',
-              borderLight: '#E2E8F0',
+              green: '#0066cc',
+              greenDark: '#0055b3',
+              greenLight: '#2997ff',
+              greenSoft: '#f5f5f7',
+              dark: '#1d1d1f',
+              darker: '#000000',
+              cardDark: '#161617',
+              forestDark: '#000000',
+              forestCard: '#161617',
+              forestCardHover: '#1d1d1f',
+              grayBg: '#f5f5f7',
+              borderLight: '#e0e0e0',
               sun: '#FBBF24',
               gold: '#F59E0B'
             }
           },
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-            outfit: ['"Outfit"', 'sans-serif']
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+            display: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+            outfit: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'sans-serif']
           },
           boxShadow: {
-            'suneco-card': '0 20px 45px -15px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(0, 0, 0, 0.04)',
-            'suneco-glow': '0 10px 30px -5px rgba(22, 163, 74, 0.3)',
-            'floating-badge': '0 20px 35px -10px rgba(0, 0, 0, 0.12), 0 0 1px 1px rgba(0, 0, 0, 0.06)',
-            'forest-card': '0 20px 40px -15px rgba(5, 24, 20, 0.6)'
+            'apple-card': '0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02)',
+            'apple-hover': '0 12px 32px rgba(0, 0, 0, 0.08)',
+            'apple-float': '0 20px 40px rgba(0, 0, 0, 0.12)',
+            'suneco-card': '0 4px 20px rgba(0, 0, 0, 0.04)',
+            'suneco-glow': '0 10px 30px -5px rgba(0, 102, 204, 0.25)',
+            'floating-badge': '0 10px 25px rgba(0, 0, 0, 0.06)',
+            'forest-card': '0 20px 40px -15px rgba(0, 0, 0, 0.7)'
           }
         }
       }
@@ -123,15 +141,18 @@
   </script>
 
   <style>
-    /* CSS Base & Reset */
+    /* CSS Base & Reset (Apple Design System) */
     html, body {
-      background-color: #F8FAFC;
-      color: #0F172A;
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: #f5f5f7;
+      color: #1d1d1f;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: -0.015em;
       margin: 0;
       padding: 0;
       min-height: 100vh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* Custom Scrollbar */
@@ -249,143 +270,135 @@
   </style>
 
 </head>
-<body class="bg-[#F8FAFC] text-slate-900 antialiased selection:bg-green-600 selection:text-white">
+<body class="bg-[#f5f5f7] text-[#1d1d1f] antialiased selection:bg-[#0066cc] selection:text-white">
 
   <!-- ========================================================================= -->
-  <!-- TOP ANNOUNCEMENT BAR (URGÊNCIA & VALOR)                                   -->
+  <!-- TOP ANNOUNCEMENT BAR (ESTILO APPLE KEYNOTE BANNER)                         -->
   <!-- ========================================================================= -->
-  <div class="bg-[#0F172A] text-white py-2 px-4 text-center text-xs sm:text-sm font-semibold tracking-wide flex items-center justify-center gap-2">
-    <span class="inline-flex items-center justify-center bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider">
-      <i class="fa-solid fa-bolt-lightning mr-1"></i> AVISO TARIFÁRIO 2026
+  <div class="bg-[#1d1d1f] text-[#f5f5f7] py-2 px-4 text-center text-xs sm:text-[13px] font-normal tracking-tight flex items-center justify-center gap-2 border-b border-white/10">
+    <span class="inline-flex items-center justify-center bg-[#2997ff]/20 text-[#2997ff] px-2 py-0.5 rounded-full text-[11px] font-medium tracking-normal">
+      Inovação Fotovoltaica 2026
     </span>
-    <span>A conta de luz vai subir! Congele seus custos e <strong>economize até 95%</strong> com a SunEco.</span>
-    <a href="#simulador" class="hidden sm:inline-flex items-center gap-1 text-green-400 hover:text-green-300 font-bold ml-1 underline">
-      Simule Agora <i class="fa-solid fa-arrow-right text-xs"></i>
+    <span>Congele suas tarifas de energia e economize até 95% com a tecnologia N-Type.</span>
+    <a href="#simulador" class="text-[#2997ff] hover:text-[#0071e3] hover:underline font-normal ml-1 inline-flex items-center gap-1">
+      Simular economia <span class="text-xs">&gt;</span>
     </a>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- HEADER / NAVBAR (ESTILO SUNECO 100% FIEL AO DESIGN)                       -->
+  <!-- HEADER / NAVBAR (APPLE GLASSMORPHISM FROSTED BAR - 48PX)                 -->
   <!-- ========================================================================= -->
-  <header id="main-header" class="sticky top-0 z-50 bg-[#F8FAFC]/95 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
+  <header id="main-header" class="sticky top-0 z-50 bg-[#f5f5f7]/80 backdrop-blur-xl backdrop-saturate-150 border-b border-[#e0e0e0] transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-12">
         
-        <!-- Logo SunEco (Símbolo Verde de Sol + Tipografia SunEco) -->
-        <a href="#inicio" class="flex items-center gap-2.5 group">
-          <div class="w-8 h-8 rounded-full flex items-center justify-center text-green-600 group-hover:scale-105 transition-transform duration-300">
-            <svg class="w-8 h-8 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4" fill="#16A34A" stroke="none" />
-              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke="#16A34A" />
-            </svg>
-          </div>
-          <span class="company-name font-outfit font-extrabold text-2xl tracking-tight text-slate-900 block leading-none">
-            Sun<span class="text-green-600 font-black">Eco</span>
+        <!-- Logo Apple-Inspired (Sol Minimalista + Tipografia Nobre) -->
+        <a href="#inicio" class="flex items-center gap-2 group">
+          <svg class="w-5 h-5 text-[#1d1d1f] group-hover:text-[#0066cc] transition-colors duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+          </svg>
+          <span class="font-display font-semibold text-lg tracking-tight text-[#1d1d1f]">
+            Lumina <span class="text-[#0066cc] font-normal">Solar</span>
           </span>
         </a>
 
-        <!-- Desktop Navigation Links (Home, Solutions, Services, How we work, Contact) -->
-        <nav class="hidden lg:flex items-center gap-9 text-sm font-semibold text-slate-600">
-          <a href="#inicio" class="text-slate-900 font-bold hover:text-green-600 transition-colors">Início</a>
-          <a href="#simulador" class="hover:text-green-600 transition-colors flex items-center gap-1">
-            <span>Simulador</span>
-            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+        <!-- Desktop Navigation Links (Apple Typography 12px) -->
+        <nav class="hidden lg:flex items-center gap-8 text-xs font-normal text-[#1d1d1f]/80">
+          <a href="#inicio" class="text-[#1d1d1f] font-medium hover:text-[#0066cc] transition-colors">Visão Geral</a>
+          <a href="#simulador" class="hover:text-[#0066cc] transition-colors">Simulador</a>
+          <a href="#segmentos" class="hover:text-[#0066cc] transition-colors">Aplicações</a>
+          <a href="#poweris-pillars" class="hover:text-[#0066cc] transition-colors">Engenharia</a>
+          <a href="#objecoes" class="hover:text-[#0066cc] transition-colors">Especificações</a>
+          <a href="scroll-world.html" class="hover:text-[#0066cc] text-[#0066cc] font-medium transition-colors flex items-center gap-1">
+            <span>Scroll-World</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-[#0066cc]"></span>
           </a>
-          <a href="#segmentos" class="hover:text-green-600 transition-colors">Soluções</a>
-          <a href="#poweris-pillars" class="hover:text-green-600 transition-colors">Como Funciona</a>
-          <a href="#objecoes" class="hover:text-green-600 transition-colors">Mitos & Fatos</a>
-          <a href="#contato" class="hover:text-green-600 transition-colors">Contato</a>
+          <a href="#contato" class="hover:text-[#0066cc] transition-colors">Contato</a>
         </nav>
 
-        <!-- Right Button: Black Pill with Arrow (Get Started ↗) -->
-        <div class="hidden sm:flex items-center gap-4">
-          <a href="#simulador" class="bg-[#0F172A] hover:bg-black text-white font-outfit font-bold text-sm px-6 py-2.5 rounded-full shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2">
-            <span>Começar Agora</span>
-            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-green-400"></i>
+        <!-- Right Action: Apple Pill Button (Action Blue #0071e3) -->
+        <div class="hidden sm:flex items-center gap-3">
+          <a href="#simulador" class="bg-[#0071e3] hover:bg-[#0077ed] text-white font-normal text-xs px-3.5 py-1 rounded-full transition-all duration-200">
+            Comprar Sistema
           </a>
         </div>
 
         <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="lg:hidden text-slate-700 hover:text-slate-900 p-2 text-xl focus:outline-none" aria-label="Abrir Menu">
-          <i class="fa-solid fa-bars-staggered"></i>
+        <button id="mobile-menu-btn" class="lg:hidden text-[#1d1d1f] hover:text-[#0066cc] p-1.5 text-lg focus:outline-none" aria-label="Abrir Menu">
+          <i class="fa-solid fa-bars"></i>
         </button>
 
       </div>
     </div>
 
     <!-- Mobile Dropdown -->
-    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-6 py-6 space-y-4 shadow-xl">
-      <a href="#inicio" class="mobile-link block text-base font-bold text-slate-900 hover:text-green-600">Início</a>
-      <a href="#simulador" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Simulador de Economia</a>
-      <a href="#segmentos" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Soluções (Residencial, Comercial, Agro)</a>
-      <a href="#poweris-pillars" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Como Funciona & Pilares</a>
-      <a href="#objecoes" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Mitos vs Fatos</a>
-      <a href="#contato" class="mobile-link block text-base font-semibold text-slate-700 hover:text-green-600">Contato & Showroom</a>
+    <div id="mobile-menu" class="hidden lg:hidden bg-[#f5f5f7] border-b border-[#e0e0e0] px-6 py-5 space-y-3.5">
+      <a href="#inicio" class="mobile-link block text-sm font-medium text-[#1d1d1f] hover:text-[#0066cc]">Visão Geral</a>
+      <a href="#simulador" class="mobile-link block text-sm font-normal text-[#1d1d1f]/80 hover:text-[#0066cc]">Simulador de Economia</a>
+      <a href="#segmentos" class="mobile-link block text-sm font-normal text-[#1d1d1f]/80 hover:text-[#0066cc]">Aplicações (Residencial, Comercial, Agro)</a>
+      <a href="#poweris-pillars" class="mobile-link block text-sm font-normal text-[#1d1d1f]/80 hover:text-[#0066cc]">Engenharia & Pilares</a>
+      <a href="scroll-world.html" class="mobile-link block text-sm font-medium text-[#0066cc]">Modo Scroll-World (Voo 3D) ✨</a>
+      <a href="#contato" class="mobile-link block text-sm font-normal text-[#1d1d1f]/80 hover:text-[#0066cc]">Atendimento Especializado</a>
       
-      <div class="pt-4 border-t border-slate-100">
-        <a href="#simulador" class="w-full text-center bg-[#0F172A] hover:bg-black text-white font-outfit font-extrabold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2">
-          <span>Começar Agora</span>
-          <i class="fa-solid fa-arrow-up-right-from-square text-xs text-green-400"></i>
+      <div class="pt-3 border-t border-[#e0e0e0]">
+        <a href="#simulador" class="w-full text-center bg-[#0071e3] hover:bg-[#0077ed] text-white text-sm font-normal py-2 rounded-full flex items-center justify-center gap-2">
+          <span>Configurar Projeto</span>
         </a>
       </div>
     </div>
   </header>
 
   <!-- ========================================================================= -->
-  <!-- HERO SECTION (3D INTERATIVO: DIORAMA COM PARALLAX, TURBINAS E MÉTRICAS)  -->
+  <!-- HERO SECTION (APPLE MUSEUM GALLERY STYLE: 3D DIORAMA CENTRAL)             -->
   <!-- ========================================================================= -->
-  <section id="inicio" class="relative pt-8 pb-16 lg:pt-12 lg:pb-24 overflow-hidden bg-[#F8FAFC]">
+  <section id="inicio" class="relative pt-12 pb-20 lg:pt-16 lg:pb-28 overflow-hidden bg-[#f5f5f7]">
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
-        <!-- Left Column: Headline, Copy, Action Buttons & Ratings -->
-        <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+        <!-- Left Column: Apple Typography (SF Pro Display, High Elegance, Action Blue) -->
+        <div class="lg:col-span-6 space-y-5 text-center lg:text-left">
           
-          <!-- Badge Verde: 🟢 10K+ Installations Completed -->
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E2F7E9] border border-green-200 text-green-800 text-xs sm:text-sm font-bold tracking-wide">
-            <span class="w-2.5 h-2.5 rounded-full bg-green-600 animate-pulse"></span>
-            <span>+10.000 Instalações Concluídas com Sucesso</span>
+          <!-- Apple Eyebrow Tagline -->
+          <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#6e6e73]">
+            <span>Energia Residencial Inteligente</span>
           </div>
 
-          <!-- Main Title: Your Energy. Your Control. Your Clean Future. -->
-          <h1 class="font-outfit font-black text-4xl sm:text-5xl xl:text-[3.5rem] text-slate-900 tracking-tight leading-[1.08]">
-            Sua Energia.<br />
-            Seu Controle.<br />
-            <span class="text-green-600">Seu Futuro Limpo.</span>
+          <!-- Main Title: Apple Display Large (-0.025em tracking, compact lineHeight) -->
+          <h1 class="font-display font-semibold text-4xl sm:text-5xl xl:text-[3.5rem] text-[#1d1d1f] tracking-[-0.025em] leading-[1.06]">
+            Sua energia.<br />
+            Seu controle.<br />
+            <span class="text-[#0066cc]">Sustentabilidade pura.</span>
           </h1>
 
-          <!-- Subtitle -->
-          <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-lg mx-auto lg:mx-0 font-normal">
-            Mude para soluções de energia sustentável e inteligente que reduzem até 95% da sua conta de luz, protegem o planeta e garantem o futuro da sua casa ou empresa.
+          <!-- Subtitle (Apple Body Text, ink-muted) -->
+          <p class="text-[#424245] text-base sm:text-lg leading-[1.47] max-w-lg mx-auto lg:mx-0 font-normal tracking-[-0.015em]">
+            Engenharia fotovoltaica de precisão que reduz até 95% da sua fatura elétrica, valoriza a arquitetura do seu imóvel e garante autonomia por mais de 25 anos.
           </p>
 
-          <!-- CTAs: Começar Agora ↗ & Como Funciona -->
-          <div class="flex flex-col sm:flex-row items-center gap-4 pt-2 justify-center lg:justify-start">
-            <a href="#simulador" class="w-full sm:w-auto text-center bg-[#0F172A] hover:bg-black text-white font-outfit font-bold text-base px-8 py-3.5 rounded-full shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
-              <span>Começar Agora</span>
-              <i class="fa-solid fa-arrow-up-right-from-square text-xs text-green-400"></i>
+          <!-- CTAs Apple: Primary Pill (Blue #0071e3) + Secondary Text Link with Arrow -->
+          <div class="flex flex-col sm:flex-row items-center gap-4 pt-3 justify-center lg:justify-start">
+            <a href="#simulador" class="w-full sm:w-auto text-center bg-[#0071e3] hover:bg-[#0077ed] text-white font-normal text-[15px] px-6 py-2.5 rounded-full transition-all duration-200">
+              Calcular Economia
             </a>
 
-            <a href="#poweris-pillars" class="w-full sm:w-auto text-center bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-outfit font-bold text-base px-6 py-3.5 rounded-full transition-all duration-300 flex items-center justify-center gap-2.5 shadow-sm">
-              <i class="fa-solid fa-circle-play text-slate-900 text-lg"></i>
-              <span>Ver Demonstração</span>
+            <a href="scroll-world.html" class="w-full sm:w-auto text-center text-[#0066cc] hover:underline font-normal text-[15px] px-4 py-2.5 transition-all flex items-center justify-center gap-1.5">
+              <span>Fazer voo 3D imersivo</span>
+              <span class="text-sm">&gt;</span>
             </a>
           </div>
 
-          <!-- Rating Stars & Trust Proof -->
-          <div class="flex items-center gap-3 pt-3 justify-center lg:justify-start">
-            <div class="flex items-center gap-1 text-yellow-400 text-sm">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <span class="font-outfit font-black text-slate-900 text-base">4.9</span>
-            <span class="text-xs text-slate-500 border-l border-slate-300 pl-3">
-              Confiado por mais de <strong>10.000 proprietários</strong>
+          <!-- Trust Badges Apple Style (Discreto, minimalista) -->
+          <div class="pt-4 flex items-center gap-4 justify-center lg:justify-start text-xs text-[#6e6e73]">
+            <span class="flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#34c759]"></span>
+              Homologação Aprovada
             </span>
+            <span class="text-[#e0e0e0]">|</span>
+            <span>25 anos de garantia</span>
+            <span class="text-[#e0e0e0]">|</span>
+            <span>+10.000 projetos entregues</span>
           </div>
 
         </div>
@@ -484,127 +497,126 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SECTION: POWERIS INTERACTIVE EXPANDABLE PILLARS ("O QUE É A SUNECO?")     -->
+  <!-- SECTION: ENGENHARIA DE PRECISÃO (APPLE PRO DARK CANVAS - #161617)          -->
   <!-- ========================================================================= -->
-  <section id="poweris-pillars" class="py-24 bg-[#051814] text-white relative border-y border-emerald-900/40 overflow-hidden">
+  <section id="poweris-pillars" class="py-24 bg-[#161617] text-[#f5f5f7] relative border-y border-white/10 overflow-hidden">
     
-    <!-- Ambient Forest Orbs -->
-    <div class="absolute top-10 right-10 w-96 h-96 bg-green-500/10 blur-[140px] rounded-full pointer-events-none"></div>
-    <div class="absolute bottom-10 left-10 w-96 h-96 bg-emerald-600/10 blur-[140px] rounded-full pointer-events-none"></div>
+    <!-- Apple Subtle Dark Glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#0066cc]/10 blur-[160px] rounded-full pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
-      <!-- Section Title & Arrows -->
+      <!-- Section Title & Arrows (Apple Typography) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16">
         <div class="lg:col-span-8 space-y-3">
-          <span class="text-green-400 font-bold text-xs uppercase tracking-widest bg-green-500/20 border border-green-500/30 px-3.5 py-1.5 rounded-full inline-block">
-            Tecnologia Sustentável
+          <span class="text-[#2997ff] font-semibold text-xs uppercase tracking-wider block">
+            Engenharia & Conectividade
           </span>
-          <h2 class="font-outfit font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
-            O que é a Plataforma SunEco?
+          <h2 class="font-display font-semibold text-3xl sm:text-4xl lg:text-5xl text-white tracking-[-0.025em] leading-[1.08]">
+            Arquitetura fotovoltaica avançada.
           </h2>
-          <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
-            A SunEco é uma solução revolucionária de produção e gestão ecológica de energia fotovoltaica. Baseada em um sistema descentralizado e inteligente, adaptado para máxima economia e autonomia da sua comunidade ou empresa.
+          <p class="text-[#a1a1a6] text-base sm:text-lg leading-[1.47] max-w-2xl font-normal tracking-[-0.015em]">
+            Um ecossistema descentralizado de geração, conversão e monitoramento. Concebido para entregar o máximo rendimento em cada metro quadrado do seu telhado.
           </p>
         </div>
 
-        <div class="lg:col-span-4 flex justify-start lg:justify-end gap-2">
-          <button id="pillar-prev-btn" class="w-10 h-10 rounded-full bg-white/10 hover:bg-green-600 text-white flex items-center justify-center transition border border-white/10" aria-label="Anterior">
-            <i class="fa-solid fa-arrow-left text-xs"></i>
+        <div class="lg:col-span-4 flex justify-start lg:justify-end gap-2.5">
+          <button id="pillar-prev-btn" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#0071e3] text-white flex items-center justify-center transition border border-white/15" aria-label="Anterior">
+            <i class="fa-solid fa-chevron-left text-xs"></i>
           </button>
-          <button id="pillar-next-btn" class="w-10 h-10 rounded-full bg-white/10 hover:bg-green-600 text-white flex items-center justify-center transition border border-white/10" aria-label="Próximo">
-            <i class="fa-solid fa-arrow-right text-xs"></i>
+          <button id="pillar-next-btn" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#0071e3] text-white flex items-center justify-center transition border border-white/15" aria-label="Próximo">
+            <i class="fa-solid fa-chevron-right text-xs"></i>
           </button>
         </div>
       </div>
 
-      <!-- 3 Expandable Cards + Lateral Keypoints Panel Grid (Poweris Motion UI) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- 3 Apple Tile Cards + Lateral Keypoints Panel Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         <!-- 3 Interactive Cards Container -->
-        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
           
           <!-- Pillar 1: Energy Decentralization -->
-          <div class="pillar-card active bg-[#0A261F] border border-emerald-800/40 rounded-3xl p-6 cursor-pointer flex flex-col justify-between min-h-[290px]" data-pillar="1">
+          <div class="pillar-card active bg-[#242426] border border-white/10 rounded-2xl p-6 cursor-pointer flex flex-col justify-between min-h-[300px] transition-all hover:border-[#2997ff]/50" data-pillar="1">
             <div>
-              <div class="card-lift w-14 h-14 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-yellow-400 text-2xl mb-6 shadow-inner">
-                <i class="fa-solid fa-diagram-project"></i>
+              <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#2997ff] text-xl mb-6">
+                <i class="fa-solid fa-microchip"></i>
               </div>
-              <h3 class="font-outfit font-bold text-xl text-white">Descentralização Energética</h3>
-              <p class="pillar-desc text-slate-200 text-xs sm:text-sm leading-relaxed transition-all duration-300">
-                Uma abordagem inovadora de produção no próprio imóvel, armazenamento e independência da rede convencional da concessionária.
+              <h3 class="font-display font-semibold text-lg text-white mb-2 tracking-tight">Descentralização</h3>
+              <p class="pillar-desc text-[#a1a1a6] text-xs sm:text-[13px] leading-relaxed transition-all duration-300">
+                Geração limpa no próprio imóvel, reduzindo a dependência da rede das concessionárias e eliminando perdas de transmissão.
               </p>
             </div>
-            <div class="pillar-link text-xs font-black uppercase tracking-wider text-yellow-300 flex items-center gap-1.5 pt-2">
+            <div class="pillar-link text-xs font-normal text-[#2997ff] flex items-center gap-1 pt-3">
               <span>Saiba mais</span>
-              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              <span class="text-xs">&gt;</span>
             </div>
           </div>
 
           <!-- Pillar 2: Eco-Friendly Sustainability -->
-          <div class="pillar-card bg-[#0A261F] border border-emerald-800/40 rounded-3xl p-6 cursor-pointer flex flex-col justify-between min-h-[290px]" data-pillar="2">
+          <div class="pillar-card bg-[#242426] border border-white/10 rounded-2xl p-6 cursor-pointer flex flex-col justify-between min-h-[300px] transition-all hover:border-[#2997ff]/50" data-pillar="2">
             <div>
-              <div class="card-lift w-14 h-14 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-green-400 text-2xl mb-6 shadow-inner">
-                <i class="fa-solid fa-seedling"></i>
+              <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#34c759] text-xl mb-6">
+                <i class="fa-solid fa-leaf"></i>
               </div>
-              <h3 class="font-outfit font-bold text-xl text-white">Sustentabilidade Eco-Friendly</h3>
-              <p class="pillar-desc text-slate-200 text-xs sm:text-sm leading-relaxed transition-all duration-300 max-h-0 opacity-0 overflow-hidden">
-                100% livre de emissões de carbono. Produza eletricidade limpa por mais de 25 anos preservando o meio ambiente e valorizando seu imóvel.
+              <h3 class="font-display font-semibold text-lg text-white mb-2 tracking-tight">Sustentabilidade</h3>
+              <p class="pillar-desc text-[#a1a1a6] text-xs sm:text-[13px] leading-relaxed transition-all duration-300 max-h-0 opacity-0 overflow-hidden">
+                Zero emissões de CO₂. Geração 100% limpa projetada para operar com alta eficiência por mais de duas décadas e meia.
               </p>
             </div>
-            <div class="pillar-link text-xs font-black uppercase tracking-wider text-yellow-300 flex items-center gap-1.5 pt-2 max-h-0 opacity-0 overflow-hidden">
+            <div class="pillar-link text-xs font-normal text-[#2997ff] flex items-center gap-1 pt-3 max-h-0 opacity-0 overflow-hidden">
               <span>Saiba mais</span>
-              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              <span class="text-xs">&gt;</span>
             </div>
           </div>
 
           <!-- Pillar 3: Power Exchange -->
-          <div class="pillar-card bg-[#0A261F] border border-emerald-800/40 rounded-3xl p-6 cursor-pointer flex flex-col justify-between min-h-[290px]" data-pillar="3">
+          <div class="pillar-card bg-[#242426] border border-white/10 rounded-2xl p-6 cursor-pointer flex flex-col justify-between min-h-[300px] transition-all hover:border-[#2997ff]/50" data-pillar="3">
             <div>
-              <div class="card-lift w-14 h-14 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-yellow-400 text-2xl mb-6 shadow-inner">
-                <i class="fa-solid fa-arrows-rotate"></i>
+              <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#ffd60a] text-xl mb-6">
+                <i class="fa-solid fa-bolt"></i>
               </div>
-              <h3 class="font-outfit font-bold text-xl text-white">Compensação de Energia</h3>
-              <p class="pillar-desc text-slate-200 text-xs sm:text-sm leading-relaxed transition-all duration-300 max-h-0 opacity-0 overflow-hidden">
+              <h3 class="font-display font-semibold text-lg text-white mb-2 tracking-tight">Compensação Bidirecional</h3>
+              <p class="pillar-desc text-[#a1a1a6] text-xs sm:text-[13px] leading-relaxed transition-all duration-300 max-h-0 opacity-0 overflow-hidden">
                 O excedente solar gerado durante o dia é injetado na rede e vira créditos automáticos para você usar à noite ou em meses chuvosos.
               </p>
             </div>
-            <div class="pillar-link text-xs font-black uppercase tracking-wider text-yellow-300 flex items-center gap-1.5 pt-2 max-h-0 opacity-0 overflow-hidden">
+            <div class="pillar-link text-xs font-normal text-[#2997ff] flex items-center gap-1 pt-3 max-h-0 opacity-0 overflow-hidden">
               <span>Saiba mais</span>
-              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              <span class="text-xs">&gt;</span>
             </div>
           </div>
 
         </div>
 
-        <!-- Lateral Keypoints Panel (Estilo Poweris) -->
-        <div class="lg:col-span-4 bg-[#0A261F] border border-emerald-800/40 rounded-3xl p-8 space-y-6 shadow-forest-card">
-          <h4 class="font-outfit font-black text-2xl text-white">
-            Destaques da Plataforma
+        <!-- Lateral Keypoints Panel (Apple Style Card) -->
+        <div class="lg:col-span-4 bg-[#242426] border border-white/10 rounded-2xl p-7 space-y-5">
+          <h4 class="font-display font-semibold text-xl text-white tracking-tight">
+            Especificações de Engenharia
           </h4>
           
-          <ul class="space-y-3.5 text-sm text-slate-300">
+          <ul class="space-y-3.5 text-xs sm:text-[13px] text-[#a1a1a6]">
             <li class="flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-green-400"></span>
-              <span>Monitoramento digital via app no celular</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#2997ff]"></span>
+              <span>Monitoramento digital via app no iPhone e Android</span>
             </li>
             <li class="flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-green-400"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#2997ff]"></span>
               <span>Homologação 100% aprovada na concessionária</span>
             </li>
             <li class="flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-green-400"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#2997ff]"></span>
               <span>Equipamentos Tier-1 com 25 anos de garantia</span>
             </li>
             <li class="flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-green-400"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#2997ff]"></span>
               <span>Financiamento sem entrada em até 84 parcelas</span>
             </li>
           </ul>
 
-          <div class="pt-4 border-t border-white/10">
-            <a href="#simulador" class="w-full block text-center border-2 border-white/20 hover:border-green-400 hover:bg-green-600/20 text-white font-outfit font-bold text-sm py-3.5 rounded-full transition-all duration-300">
-              <i class="fa-solid fa-calculator mr-2 text-green-400"></i> Simular Minha Economia
+          <div class="pt-3 border-t border-white/10">
+            <a href="#simulador" class="w-full block text-center bg-[#0071e3] hover:bg-[#0077ed] text-white font-normal text-xs py-2.5 rounded-full transition-all duration-200">
+              Calcular Potência Necessária
             </a>
           </div>
         </div>
@@ -615,86 +627,82 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SIMULADOR SOLAR INTELIGENTE (LIGHT MODERN CARD UI)                         -->
+  <!-- SIMULADOR SOLAR INTELIGENTE (APPLE STORE CONFIGURATOR STYLE)              -->
   <!-- ========================================================================= -->
-  <section id="simulador" class="py-24 bg-[#F8FAFC] relative border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="simulador" class="py-24 bg-[#ffffff] relative border-b border-[#e0e0e0]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto mb-14">
-        <span class="text-green-700 font-bold text-xs uppercase tracking-widest bg-green-100 border border-green-200 px-3.5 py-1.5 rounded-full inline-block mb-3">
-          Estudo Financeiro Instantâneo
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-[#0066cc] font-semibold text-xs uppercase tracking-wider block mb-2">
+          Estudo de Retorno & Dimensionamento
         </span>
-        <h2 class="font-outfit font-black text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight">
-          Simule a Economia do Seu Imóvel
+        <h2 class="font-display font-semibold text-3xl sm:text-4xl text-[#1d1d1f] tracking-[-0.025em] leading-[1.1]">
+          Simule a economia do seu imóvel.
         </h2>
-        <p class="text-slate-600 text-sm sm:text-base mt-3">
-          Selecione o valor médio da sua conta de luz mensal e veja a potência sugerida, número de painéis e estimativa de economia em 25 anos:
+        <p class="text-[#6e6e73] text-base mt-2 font-normal">
+          Selecione o valor médio da sua conta de luz e descubra a potência, número de painéis e o payback estimado:
         </p>
       </div>
 
-      <div class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-suneco-card relative overflow-hidden">
+      <div class="bg-[#f5f5f7] border border-[#e0e0e0] rounded-3xl p-6 sm:p-10 shadow-apple-card relative overflow-hidden">
         
-        <!-- Slider Section -->
-        <div class="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-200/80 mb-8">
+        <!-- Slider Section Apple Style -->
+        <div class="space-y-4 bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e0e0] mb-8">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-baseline gap-2">
-            <label for="bill-range-input" class="text-xs font-bold text-slate-700 uppercase tracking-wider">
-              Sua conta de luz mensal atual:
+            <label for="bill-range-input" class="text-xs font-semibold text-[#1d1d1f] uppercase tracking-wider">
+              Sua conta de luz mensal atual
             </label>
             <div class="text-left sm:text-right">
-              <span id="bill-display-val" class="font-outfit font-black text-3xl sm:text-4xl text-green-600">
+              <span id="bill-display-val" class="font-display font-semibold text-3xl sm:text-4xl text-[#0066cc]">
                 R$ 800
               </span>
-              <span class="text-xs text-slate-500">/mês</span>
+              <span class="text-xs text-[#6e6e73]">/mês</span>
             </div>
           </div>
 
-          <input id="bill-range-input" type="range" min="250" max="8000" step="50" value="800" class="w-full cursor-pointer py-2" />
+          <input id="bill-range-input" type="range" min="250" max="8000" step="50" value="800" class="w-full cursor-pointer py-2 accent-[#0066cc]" />
 
-          <!-- Quick Preset Pills -->
+          <!-- Quick Preset Pills (Apple Chips) -->
           <div class="flex flex-wrap gap-2 pt-2">
-            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-white hover:bg-green-50 border border-slate-200 text-slate-700 font-semibold" data-val="350">R$ 350</button>
-            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-green-100 border border-green-500 text-green-900 font-bold active" data-val="800">R$ 800</button>
-            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-white hover:bg-green-50 border border-slate-200 text-slate-700 font-semibold" data-val="1500">R$ 1.500</button>
-            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-white hover:bg-green-50 border border-slate-200 text-slate-700 font-semibold" data-val="3000">R$ 3.000</button>
-            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-xl bg-white hover:bg-green-50 border border-slate-200 text-slate-700 font-semibold" data-val="6000">R$ 6.000+</button>
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-full bg-[#f5f5f7] hover:bg-[#e8e8ed] border border-[#e0e0e0] text-[#1d1d1f] font-normal transition-all" data-val="350">R$ 350</button>
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-full bg-[#0071e3] text-white font-medium active shadow-sm" data-val="800">R$ 800</button>
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-full bg-[#f5f5f7] hover:bg-[#e8e8ed] border border-[#e0e0e0] text-[#1d1d1f] font-normal transition-all" data-val="1500">R$ 1.500</button>
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-full bg-[#f5f5f7] hover:bg-[#e8e8ed] border border-[#e0e0e0] text-[#1d1d1f] font-normal transition-all" data-val="3000">R$ 3.000</button>
+            <button type="button" class="sim-pill px-3.5 py-1.5 text-xs rounded-full bg-[#f5f5f7] hover:bg-[#e8e8ed] border border-[#e0e0e0] text-[#1d1d1f] font-normal transition-all" data-val="6000">R$ 6.000+</button>
           </div>
         </div>
 
-        <!-- 4 Metrics Dashboard Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <!-- 4 Metrics Dashboard Grid (Apple White Cards) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-8">
           
-          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
-            <span class="text-xs font-bold text-slate-500 block mb-1">
-              <i class="fa-solid fa-piggy-bank text-green-600 mr-1"></i> Economia em 1 Ano
-            </span>
-            <span id="res-annual-save" class="font-outfit font-black text-2xl text-green-600 block">R$ 9.120</span>
+          <div class="bg-white border border-[#e0e0e0] rounded-2xl p-4 text-center">
+            <span class="text-xs text-[#6e6e73] block mb-1">Economia em 1 Ano</span>
+            <span id="res-annual-save" class="font-display font-semibold text-2xl text-[#1d1d1f] block">R$ 9.120</span>
           </div>
 
-          <div class="bg-green-50 border border-green-300 rounded-2xl p-4 text-center">
-            <span class="text-xs font-bold text-green-800 block mb-1">
-              <i class="fa-solid fa-coins text-amber-500 mr-1"></i> Economia em 25 Anos
-            </span>
-            <span id="res-25y-save" class="font-outfit font-black text-2xl text-green-700 block">R$ 228.000</span>
+          <div class="bg-white border border-[#0066cc]/30 rounded-2xl p-4 text-center shadow-sm">
+            <span class="text-xs text-[#0066cc] font-medium block mb-1">Economia em 25 Anos</span>
+            <span id="res-25y-save" class="font-display font-semibold text-2xl text-[#0066cc] block">R$ 228.000</span>
           </div>
 
-          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
-            <span class="text-xs font-semibold text-slate-500 block mb-1">Potência Estimada</span>
-            <span id="res-power-kwp" class="font-outfit font-bold text-xl text-slate-900 block">5.8 kWp</span>
-            <span id="res-panels-count" class="text-[10px] text-slate-500 block mt-0.5">~10 painéis</span>
+          <div class="bg-white border border-[#e0e0e0] rounded-2xl p-4 text-center">
+            <span class="text-xs text-[#6e6e73] block mb-1">Potência Sugerida</span>
+            <span id="res-power-kwp" class="font-display font-semibold text-xl text-[#1d1d1f] block">5.8 kWp</span>
+            <span id="res-panels-count" class="text-[11px] text-[#86868b] block mt-0.5">~10 painéis</span>
           </div>
 
-          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
-            <span class="text-xs font-semibold text-slate-500 block mb-1">Payback Estimado</span>
-            <span id="res-payback" class="font-outfit font-bold text-xl text-amber-600 block">~3.2 Anos</span>
-            <span class="text-[10px] text-green-600 block mt-0.5 font-bold">Após isso, 100% lucro</span>
+          <div class="bg-white border border-[#e0e0e0] rounded-2xl p-4 text-center">
+            <span class="text-xs text-[#6e6e73] block mb-1">Payback Estimado</span>
+            <span id="res-payback" class="font-display font-semibold text-xl text-[#34c759] block">~3.2 Anos</span>
+            <span class="text-[11px] text-[#6e6e73] block mt-0.5">Após isso, 100% economia</span>
           </div>
 
         </div>
 
-        <!-- WhatsApp Instant CTA Button -->
-        <button id="sim-whatsapp-btn" type="button" onclick="openSolarBookingModal()" class="w-full text-center bg-green-600 hover:bg-green-500 text-white font-outfit font-extrabold text-base sm:text-lg py-4 rounded-2xl shadow-suneco-glow hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer">
-          <i class="fa-solid fa-calendar-check text-2xl"></i>
-          <span>AGENDAR ESTUDO DO MEU TELHADO & ECONOMIA NO WHATSAPP</span>
+        <!-- Apple Instant CTA Button -->
+        <button id="sim-whatsapp-btn" type="button" onclick="openSolarBookingModal()" class="w-full text-center bg-[#0071e3] hover:bg-[#0077ed] text-white font-normal text-sm sm:text-base py-3.5 rounded-full transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+          <span>Solicitar Estudo de Engenharia Gratuito</span>
+          <span class="text-sm">&gt;</span>
         </button>
 
       </div>
@@ -703,33 +711,33 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SECTION: SOLUÇÕES POR SEGMENTO (RESIDENCIAL / COMERCIAL / AGRO / IND)     -->
+  <!-- SECTION: SOLUÇÕES POR SEGMENTO (APPLE CARD TABS)                          -->
   <!-- ========================================================================= -->
-  <section id="segmentos" class="py-24 bg-white relative border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="segmentos" class="py-24 bg-[#f5f5f7] relative border-b border-[#e0e0e0]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto mb-14">
-        <span class="text-green-700 font-bold text-xs uppercase tracking-widest bg-green-100 border border-green-200 px-3.5 py-1.5 rounded-full inline-block mb-3">
-          Projetos Especializados
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-[#0066cc] font-semibold text-xs uppercase tracking-wider block mb-2">
+          Aplicações
         </span>
-        <h2 class="font-outfit font-black text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight">
-          Soluções para Cada Tipo de Imóvel
+        <h2 class="font-display font-semibold text-3xl sm:text-4xl text-[#1d1d1f] tracking-[-0.025em]">
+          Projetos concebidos para cada escala.
         </h2>
       </div>
 
-      <!-- Segment Tabs Selector -->
-      <div class="flex flex-wrap justify-center gap-3 mb-12">
-        <button type="button" class="seg-tab active px-6 py-3 rounded-full font-outfit font-bold text-sm bg-green-600 text-white shadow-md transition-all flex items-center gap-2" data-target="seg-res">
-          <i class="fa-solid fa-house"></i> Residencial
+      <!-- Segment Tabs Selector (Apple Capsule Buttons) -->
+      <div class="flex flex-wrap justify-center gap-2 mb-12">
+        <button type="button" class="seg-tab active px-5 py-2 rounded-full text-xs font-medium bg-[#1d1d1f] text-white transition-all cursor-pointer" data-target="seg-res">
+          Residencial
         </button>
-        <button type="button" class="seg-tab px-6 py-3 rounded-full font-outfit font-bold text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all flex items-center gap-2" data-target="seg-com">
-          <i class="fa-solid fa-store"></i> Comercial & Serviços
+        <button type="button" class="seg-tab px-5 py-2 rounded-full text-xs font-normal bg-white hover:bg-[#e8e8ed] text-[#1d1d1f] border border-[#e0e0e0] transition-all cursor-pointer" data-target="seg-com">
+          Comercial & Serviços
         </button>
-        <button type="button" class="seg-tab px-6 py-3 rounded-full font-outfit font-bold text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all flex items-center gap-2" data-target="seg-agro">
-          <i class="fa-solid fa-wheat-awn"></i> Agro & Rural
+        <button type="button" class="seg-tab px-5 py-2 rounded-full text-xs font-normal bg-white hover:bg-[#e8e8ed] text-[#1d1d1f] border border-[#e0e0e0] transition-all cursor-pointer" data-target="seg-agro">
+          Agronegócio & Campo
         </button>
-        <button type="button" class="seg-tab px-6 py-3 rounded-full font-outfit font-bold text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all flex items-center gap-2" data-target="seg-ind">
-          <i class="fa-solid fa-industry"></i> Indústria & Usinas
+        <button type="button" class="seg-tab px-5 py-2 rounded-full text-xs font-normal bg-white hover:bg-[#e8e8ed] text-[#1d1d1f] border border-[#e0e0e0] transition-all cursor-pointer" data-target="seg-ind">
+          Indústria & Usinas
         </button>
       </div>
 
@@ -1683,11 +1691,11 @@
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           tabs.forEach(t => {
-            t.classList.remove('active', 'bg-green-600', 'text-white', 'shadow-md');
-            t.classList.add('bg-slate-100', 'text-slate-700', 'border', 'border-slate-200');
+            t.classList.remove('active', 'bg-[#1d1d1f]', 'text-white');
+            t.classList.add('bg-white', 'text-[#1d1d1f]', 'border', 'border-[#e0e0e0]');
           });
-          tab.classList.add('active', 'bg-green-600', 'text-white', 'shadow-md');
-          tab.classList.remove('bg-slate-100', 'text-slate-700', 'border', 'border-slate-200');
+          tab.classList.add('active', 'bg-[#1d1d1f]', 'text-white');
+          tab.classList.remove('bg-white', 'text-[#1d1d1f]', 'border', 'border-[#e0e0e0]');
 
           const target = tab.getAttribute('data-target');
           contents.forEach(c => {
