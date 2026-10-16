@@ -449,10 +449,16 @@
               >
               </model-viewer>
 
-              <!-- Dica visual interativa 3D -->
-              <div class="mt-2 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-sm text-[11px] font-semibold text-slate-700 select-none transition-all hover:bg-white hover:scale-105">
-                <i class="fa-solid fa-arrows-rotate text-emerald-600 text-xs animate-spin" style="animation-duration: 4s;"></i>
-                <span>Modelo 3D Interativo • Arraste para girar 360°</span>
+              <!-- Dica visual interativa 3D & Alternância para Scroll-World -->
+              <div class="mt-2 flex flex-wrap items-center justify-center gap-2">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-sm text-[11px] font-semibold text-slate-700 select-none">
+                  <i class="fa-solid fa-arrows-rotate text-emerald-600 text-xs animate-spin" style="animation-duration: 4s;"></i>
+                  <span>Modelo 3D • Arraste 360°</span>
+                </div>
+                <a href="scroll-world.html" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-emerald-600 text-white transition-all text-[11px] font-bold shadow-sm hover:scale-105">
+                  <i class="fa-solid fa-film text-emerald-400"></i>
+                  <span>Modo Voo de Câmera (Scroll-World) ✨</span>
+                </a>
               </div>
             </div>
 

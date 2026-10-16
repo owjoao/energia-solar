@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Lumina Solar — O Mundo da Energia Sustentável (Scroll-World)</title>
+  <meta name="description" content="Voe através do mundo 3D da energia solar residencial. Role para controlar a câmera." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root, .sw-root {
+      --sw-bg: #EBF3FA;
+      --sw-ink: #0F172A;
+      --sw-ink-soft: #475569;
+      --sw-accent: #0284C7;
+      --sw-font-display: 'Space Grotesk', sans-serif;
+      --sw-font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: var(--sw-bg);
+      font-family: var(--sw-font-body);
+      overflow-x: hidden;
+    }
+    .sw-floating-badge {
+      position: fixed;
+      top: 1.25rem;
+      left: 1.5rem;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #0F172A;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .sw-floating-badge:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    }
+    .sw-floating-badge span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #10B981;
+      box-shadow: 0 0 10px #10B981;
+    }
+    .sw-mode-toggle {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 9999;
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+      transition: all 0.2s ease;
+    }
+    .sw-mode-toggle:hover {
+      background: #0284C7;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="sw-floating-badge">
+    <span></span>
+    ← Voltar para Versão Interativa 3D
+  </a>
+
+  <a href="index.html" class="sw-mode-toggle">
+    Ver Modo Model-Viewer 360° →
+  </a>
+
+  <div id="top"></div>
+  <div id="world"></div>
+
+  <script src="js/scrub-engine.js"></script>
+  <script>
+    mountScrollWorld(document.getElementById('world'), {
+      brand: { name: 'LUMINA SOLAR', href: '#top' },
+      cta: { label: 'Simular Economia', href: '#contato' },
+      hint: 'role para sobrevoar o diorama',
+      diveScroll: 1.5,
+      connScroll: 1.0,
+      sections: [
+        {
+          id: 'visao-geral',
+          label: 'Diorama Sustentável',
+          still: 'assets/solar-house-diorama-preview.png',
+          clip: 'assets/solar-flight.mp4',
+          accent: '#0284C7',
+          scroll: 1.8,
+          linger: 0.45,
+          eyebrow: 'Arquitetura & Engenharia Fotovoltaica',
+          title: 'A casa do futuro que gera a própria energia.',
+          body: 'Conheça o ecossistema autossuficiente com micro-usina fotovoltaica integrada ao design arquitetônico contemporâneo.',
+          tags: ['Geração Limpa', 'Autonomia 100%', 'Zero Emissões'],
+        },
+        {
+          id: 'tecnologia-painel',
+          label: 'Células N-Type',
+          still: 'assets/solar-house-diorama-preview.png',
+          clip: 'assets/solar-flight.mp4',
+          accent: '#10B981',
+          scroll: 2.0,
+          linger: 0.5,
+          eyebrow: 'Eficiência de Ponta',
+          title: 'Placas 580W N-Type com reflexo de céu límpido.',
+          body: 'Módulos bifaciais de alta performance instalados com inclinação perfeita de 33 graus para máxima captação solar durante todo o ano.',
+          tags: ['580W Monocristalino', 'Vidro Antirreflexo', '25 Anos Garantia'],
+        },
+        {
+          id: 'acolhimento-economia',
+          label: 'Acolhimento & Payoff',
+          still: 'assets/solar-house-diorama-preview.png',
+          clip: 'assets/solar-flight.mp4',
+          accent: '#F59E0B',
+          eyebrow: 'Retorno Garantido',
+          title: 'Conforto total com até 95% de economia na conta.',
+          body: 'Iluminação interna aconchegante, climatização contínua e recarga veicular na garagem alimentadas diretamente pelo sol.',
+          tags: ['Payback 3 Anos', 'Retorno de Investimento', 'Valorização Imóvel'],
+          cta: {
+            primary: { label: 'Solicitar Projeto 3D Gratuito', href: 'https://wa.me/5511999999999' },
+            secondary: { label: 'Falar com Engenheiro', href: '#contato' }
+          }
+        }
+      ],
+      connectors: []
+    });
+  </script>
+</body>
+</html>
