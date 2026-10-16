@@ -80,6 +80,9 @@
   <!-- FontAwesome 6 Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+  <!-- Google Model-Viewer (Renderização 3D PBR WebGL & AR em Tempo Real) -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
   <!-- Tailwind Configuração SunEco (Cores e Estilos Exatos do Design) -->
   <script>
     tailwind.config = {
@@ -422,14 +425,35 @@
               </div>
             </div>
 
-            <!-- Completely Static 3D Solar House Diorama (Zero Tilt / Zero Floating Animation / Pure Base) -->
-            <div id="hero-solar-card" class="relative z-10 w-full flex items-center justify-center">
-              <img 
-                id="hero-solar-img"
-                src="assets/solar-house-diorama.png" 
-                alt="Casa Sustentável SunEco com Placas Solares e Vegetação" 
-                class="w-full max-w-[540px] h-auto object-contain pointer-events-none select-none"
-              />
+            <!-- Interactive 3D Solar House Diorama (Blender PBR + Google Model-Viewer) -->
+            <div id="hero-solar-card" class="relative z-10 w-full flex flex-col items-center justify-center">
+              <model-viewer 
+                id="hero-solar-3d"
+                src="assets/solar-house-diorama.glb" 
+                poster="assets/solar-house-diorama-preview.png" 
+                alt="Maquete 3D Interativa SunEco • Casa Sustentável com Painéis Solares" 
+                auto-rotate 
+                rotation-per-second="14deg"
+                camera-controls 
+                touch-action="pan-y"
+                shadow-intensity="1.5"
+                shadow-softness="0.7"
+                exposure="1.0"
+                camera-orbit="30deg 64deg 105%"
+                min-camera-orbit="auto auto 70%"
+                max-camera-orbit="auto auto 150%"
+                ar
+                ar-modes="webxr scene-viewer quick-look"
+                class="w-full max-w-[560px] h-[360px] sm:h-[450px] md:h-[500px] outline-none cursor-grab active:cursor-grabbing select-none"
+                loading="eager"
+              >
+              </model-viewer>
+
+              <!-- Dica visual interativa 3D -->
+              <div class="mt-2 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-sm text-[11px] font-semibold text-slate-700 select-none transition-all hover:bg-white hover:scale-105">
+                <i class="fa-solid fa-arrows-rotate text-emerald-600 text-xs animate-spin" style="animation-duration: 4s;"></i>
+                <span>Modelo 3D Interativo • Arraste para girar 360°</span>
+              </div>
             </div>
 
           </div>
